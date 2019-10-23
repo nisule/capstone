@@ -16,30 +16,32 @@ export default class loginView extends Component {
       flexDirection: 'column',
       justifyContent: 'center',
       padding: '5%',
-      
+
       //alignItems: 'stretch',
     }}>
         <TextInput
-          style={{height: 40, fontSize: 20}}
+          style={{height: 40, fontSize: 20, backgroundColor: 'gray', color:'white'}}
           placeholder="Email"
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
           emailInput={this.state.text}
-          
+
         />
+        <View style={{flex:0.025}}/>
         <TextInput
-          style={{height: 40, fontSize: 20}}
+          style={{height: 40, fontSize: 20, backgroundColor: 'gray', color:'white'}}
           placeholder="Password"
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
           passwordInput={this.state.text}
+          secureTextEntry
         />
 
 
         <View style={styles.bottom}>
 
             <Button
-                
+
             color='#d4af37'
             onPress={() => {
             alert('ayy you logged in');
