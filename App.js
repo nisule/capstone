@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import { Button, Text, StyleSheet, TextInput, View , 
+  TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class loginView extends Component {
@@ -12,7 +13,7 @@ export default class loginView extends Component {
     return (
     <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="padding" >
 
-      <View style={{padding: '5%', flex: 1, justifyContent: 'center' }}>
+      <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end' }}>
         <TextInput
           style={styles.loginBoxes}
           placeholder="Email"
@@ -34,7 +35,7 @@ export default class loginView extends Component {
 
       <View style={styles.bottom}>
 
-        <TouchableOpacity style={styles.loginButtons}>
+        <TouchableOpacity style={styles.loginButtons} onPress={() => {alert('ayy you logged in');}}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
 
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
       borderRadius: 6,
     },
     loginButtonText: {
-      color: 'white'
+      color: 'white',
+      fontSize: 30
     }
 
 })
