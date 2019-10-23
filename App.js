@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Text, StyleSheet, TextInput, View } from 'react-native';
+import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class loginView extends Component {
@@ -10,17 +10,11 @@ export default class loginView extends Component {
 
   render() {
     return (
-     <View style={{
-      backgroundColor: 'black',
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '5%',
+    <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="padding" >
 
-      //alignItems: 'stretch',
-    }}>
+      <View style={{padding: '5%', flex: 1, justifyContent: 'center' }}>
         <TextInput
-          style={{height: 40, fontSize: 20, backgroundColor: 'gray', color:'white'}}
+          style={styles.loginBoxes}
           placeholder="Email"
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
@@ -29,52 +23,57 @@ export default class loginView extends Component {
         />
         <View style={{flex:0.025}}/>
         <TextInput
-          style={{height: 40, fontSize: 20, backgroundColor: 'gray', color:'white'}}
+          style={styles.loginBoxes}
           placeholder="Password"
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
           passwordInput={this.state.text}
           secureTextEntry
         />
+      </View>
 
+      <View style={styles.bottom}>
 
-        <View style={styles.bottom}>
+        <TouchableOpacity style={styles.loginButtons}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
 
-            <Button
-
-            color='#d4af37'
-            onPress={() => {
-            alert('ayy you logged in');
-            }}
-            title="Login"
-            />
-
-            <Button
-            color='#d4af37'
-            onPress={() => {
-            alert('need to go to sign up page now');
-            }}
-            title="Signup"
-            />
-
-        </View>
-    </View>
+        <TouchableOpacity style={styles.loginButtons}>
+          <Text style={styles.loginButtonText}>Signup</Text>
+        </TouchableOpacity>         
+          
+      </View>
+    </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
     bottom: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 0
+      justifyContent: 'flex-end',
+      marginBottom: 0
     },
-    container: {
-        flex: 1,
-        alignItems: 'center'
+    loginBoxes: { 
+      flex: 0.15, 
+      fontSize: 22, 
+      backgroundColor: '#303030', 
+      color:'white',
+      borderRadius: 6,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
-    image: {
-        marginTop: 50
+    loginButtons: {
+      justifyContent: "center",
+      backgroundColor: '#d4af37',
+      alignItems: 'center',
+      fontSize: 30,
+      height: '20.5%',
+      borderWidth: 1,
+      borderColor: '#404040',
+      borderRadius: 6,
     },
+    loginButtonText: {
+      color: 'white'
+    }
 
 })
