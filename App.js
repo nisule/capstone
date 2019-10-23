@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
+import { Button, Text, StyleSheet, TextInput, View } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class loginView extends Component {
   constructor(props) {
@@ -33,20 +34,45 @@ export default class loginView extends Component {
           onChangeText={(text) => this.setState({text})}
           passwordInput={this.state.text}
         />
-      
-      <Button
-      onPress={() => {
-        alert('ayy you logged in');
-      }}
-      title="Login"
-      />
-       <Button
-      onPress={() => {
-        alert('need to go to sign up page now');
-      }}
-      title="Signup"
-      />
+
+
+        <View style={styles.bottom}>
+
+            <Button
+                
+            color='#d4af37'
+            onPress={() => {
+            alert('ayy you logged in');
+            }}
+            title="Login"
+            />
+
+            <Button
+            color='#d4af37'
+            onPress={() => {
+            alert('need to go to sign up page now');
+            }}
+            title="Signup"
+            />
+
+        </View>
     </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 0
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    image: {
+        marginTop: 50
+    },
+
+})
