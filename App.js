@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import  signupView  from './additionalPages/createAccount.js';
+import menuView from './additionalPages/MainMenu.js';
 
 class loginView extends Component {
   constructor(props) {
@@ -15,14 +16,22 @@ class loginView extends Component {
 
     return (
     <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
-      <View style={{flex: .08, alignItems:'center', justifyContent: 'center'}}> 
-        <Text style={{color: 'white', fontSize: 21}}>
-          Cunning Coder's Cafe
-        </Text>
-      </View>
+      
+      <View style={{flex:0.025}}/>
+
+
+      <TouchableOpacity style={{
+        backgroundColor: '#505050', 
+        alignItems: 'center', 
+        borderRadius: 20,}} 
+        onPress={() => navigate('Menu')}>
+          <Text style={styles.loginButtonText}>Cafe Home</Text>
+      </TouchableOpacity> 
+
     
 
       <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
+        
         <View style={{flex: .5, alignItems:'center', justifyContent: 'center'}}>
           <Image
             style={{flex: 1, resizeMode: 'stretch', width: '100%'}} 
@@ -86,7 +95,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#d4af37',
       alignItems: 'center',
       fontSize: 30,
-      // height: '20.5%',
       borderWidth: 1,
       borderColor: '#404040',
       borderRadius: 6,
@@ -106,6 +114,12 @@ const AppNavigator = createStackNavigator({
   },
   Signup: {
     screen: signupView,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  Menu: {
+    screen: menuView,
     navigationOptions: {
       header: null,
     }

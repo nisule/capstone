@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 
 
 class signupView extends Component{
@@ -12,7 +12,15 @@ class signupView extends Component{
     return (
     <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="padding" >
 
-      <View style={{padding: '5%', flex: 1, justifyContent: 'center' }}>
+      <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
+
+      <View style={{flex: .5, alignItems:'center'}}>
+          <Image
+            style={{flex: 1, resizeMode: 'cover', width: '60%'}} 
+            source={require('./img/addUser.png')} />    
+        </View>
+        <View style={{flex:0.025}}/>
+
         <TextInput
           style={styles.signupBoxes}
           placeholder="Username"
@@ -56,6 +64,7 @@ class signupView extends Component{
           <Text style={styles.loginButtonText}>Create Account</Text>
         </TouchableOpacity>
       </View>
+
     </KeyboardAvoidingView>
     );
   }
@@ -63,11 +72,12 @@ class signupView extends Component{
 
 const styles = StyleSheet.create({
   bottom: {
-    justifyContent: 'flex-end',
-    marginBottom: 0
+    flex: 0.135,
+      justifyContent: 'flex-end',
+      marginBottom: 0,
   },
     signupBoxes: {
-      flex: 0.15,
+      flex: 0.045,
       fontSize: 18,
       backgroundColor: '#303030',
       color:'white',
@@ -80,7 +90,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#d4af37',
       alignItems: 'center',
       fontSize: 50,
-      height: '32%',
+      flex: 1,
       borderWidth: 1,
       borderColor: '#404040',
       borderRadius: 6
