@@ -14,37 +14,39 @@ class loginView extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-    <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="padding" >
-      
- 
+    <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
+      <View style={{flex: .08, alignItems:'center', justifyContent: 'center'}}> 
+        <Text style={{color: 'white', fontSize: 21}}>
+          Cunning Coder's Cafe
+        </Text>
+      </View>
+    
 
       <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
-
-      <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
-        <Image 
-          style={{flex: 1, resizeMode: 'stretch', height: '60%', width: '100%'}} 
-          source={require('./additionalPages/img/leaves.png')} />    
-      </View>
-      <View style={{flex:0.025}}/>
-
-        <TextInput
-          style={styles.loginBoxes}
-          placeholder="Email"
-          placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
-          emailInput={this.state.text}
-        />
-
+        <View style={{flex: .5, alignItems:'center', justifyContent: 'center'}}>
+          <Image
+            style={{flex: 1, resizeMode: 'stretch', width: '100%'}} 
+            source={require('./additionalPages/img/saucer.png')} />    
+        </View>
         <View style={{flex:0.025}}/>
-        <TextInput
-          style={styles.loginBoxes}
-          placeholder="Password"
-          placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
-          passwordInput={this.state.text}
-          secureTextEntry
-        />
 
+          <TextInput
+            style={styles.loginBoxes}
+            placeholder="Email"
+            placeholderTextColor='white'
+            onChangeText={(text) => this.setState({text})}
+            emailInput={this.state.text}
+          />
+
+          <View style={{flex:0.025}}/>
+          <TextInput
+            style={styles.loginBoxes}
+            placeholder="Password"
+            placeholderTextColor='white'
+            onChangeText={(text) => this.setState({text})}
+            passwordInput={this.state.text}
+            secureTextEntry
+          />
       </View>
 
       <View style={styles.bottom}>
@@ -58,7 +60,7 @@ class loginView extends Component {
         </TouchableOpacity>         
       </View>
 
-    </KeyboardAvoidingView>
+     </KeyboardAvoidingView>
     );
   }
 }
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
       marginBottom: 0,
     },
     loginBoxes: {
-      flex: 0.15,
+      flex: 0.09,
       fontSize: 18,
       backgroundColor: '#303030',
       color:'white',
