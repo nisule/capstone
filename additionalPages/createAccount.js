@@ -27,6 +27,10 @@ class signupView extends Component{
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
           emailInput={this.state.text}
+
+          returnKeyType = { "next" }
+          onSubmitEditing={() => { this.Email.focus(); }}
+          blurOnSubmit={false}
         />
 
       <View style={{flex:0.025}}/>
@@ -36,6 +40,11 @@ class signupView extends Component{
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
           emailInput={this.state.text}
+
+          returnKeyType = { "next" }
+          onSubmitEditing={() => { this.Password.focus(); }}
+          blurOnSubmit={false}
+          ref={(input) => { this.Email = input; }}
         />
 
       <View style={{flex:0.025}}/>
@@ -46,6 +55,11 @@ class signupView extends Component{
           onChangeText={(text) => this.setState({text})}
           passwordInput={this.state.text}
           secureTextEntry
+
+          returnKeyType = { "next" }
+          onSubmitEditing={() => { this.confirmPassword.focus(); }}
+          blurOnSubmit={false}
+          ref={(input) => { this.Password = input; }}
         />
 
         <View style={{flex:0.025}}/>
@@ -56,6 +70,8 @@ class signupView extends Component{
           onChangeText={(text) => this.setState({text})}
           passwordInput={this.state.text}
           secureTextEntry
+          ref={(input) => { this.confirmPassword = input; }}
+          // make onSubmitEditing hit 'create account'
         />
       </View>
 
