@@ -9,37 +9,36 @@ export default class FooterView extends Component {
     return (
         <View style={styles.Footer}>
 
-        <TouchableOpacity style={styles.FooterButton} >
-        <Image
-            style={{flex: 1, resizeMode: 'center'}} 
-            source={require('./img/coffeeFooter.png')} />  
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.FooterButton} >
-        <Image
+            <TouchableOpacity style={styles.FooterButton} >
+                <Image
                 style={{flex: 1, resizeMode: 'center'}} 
-                source={require('./img/sandwich.png')} />  
-        </TouchableOpacity>
+                source={require('./img/coffeeFooter.png')} />  
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.FooterButton} >
-        <Image
-            style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-            source={require('./img/search.png')} />  
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.FooterButton} >
+                <Image
+                    style={{flex: 1, resizeMode: 'center'}} 
+                    source={require('./img/sandwich.png')} />  
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.FooterButton} >
-            <Image
+            <TouchableOpacity style={styles.FooterButton} >
+                <Image
                 style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-                source={require('./img/accountFooter.png')} />     
-        </TouchableOpacity>
+                source={require('./img/search.png')} />  
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.FooterButton} >
-            <Image
-                style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-                source={require('./img/gear.png')} />     
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.FooterButton} >
+                <Image
+                    style={{flex: 1, resizeMode: 'center', width: '50%'}} 
+                    source={require('./img/accountFooter.png')} />     
+            </TouchableOpacity>
 
-        
+            <TouchableOpacity style={styles.FooterButton} >
+                <Image
+                    style={{flex: 1, resizeMode: 'center', width: '50%'}} 
+                    source={require('./img/gear.png')} />     
+            </TouchableOpacity>
+   
         </View>
 
     );
