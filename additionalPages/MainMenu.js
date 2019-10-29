@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import FooterView from './Footer.js';
 
 
 class menuView extends Component {
@@ -11,8 +12,17 @@ class menuView extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-        <View style={{backgroundColor: 'green'}}>
-            <Text>Menu</Text>
+        <View style={{flex: 1, backgroundColor: 'blue'}}>
+            <View style={{flex: 1, backgroundColor: 'green'}}>
+                <Text>Menu</Text>
+            </View>
+
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+
+            <FooterView/>
+
+            </View>
+
         </View>
 
     );

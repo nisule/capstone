@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 import  signupView  from './additionalPages/createAccount.js';
 import menuView from './additionalPages/MainMenu.js';
 
@@ -17,18 +16,7 @@ class loginView extends Component {
     return (
     <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
       
-      <View style={{flex:0.025}}/>
-
-
-      <TouchableOpacity style={{
-        backgroundColor: '#505050', 
-        alignItems: 'center', 
-        borderRadius: 20,}} 
-        onPress={() => navigate('Menu')}>
-          <Text style={styles.loginButtonText}>Cafe Home</Text>
-      </TouchableOpacity> 
-
-    
+      <View style={{flex:0.025}}/>    
 
       <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
         
@@ -58,9 +46,12 @@ class loginView extends Component {
           />
       </View>
 
+      
+
       <View style={styles.bottom}>
 
-        <TouchableOpacity style={styles.loginButtons} onPress={() => {alert('ayy you logged in');}}>
+        <TouchableOpacity style={styles.loginButtons} onPress={() => {alert('ayy you logged in');
+          navigate('Menu');}}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
 
@@ -125,6 +116,5 @@ const AppNavigator = createStackNavigator({
     }
   }
 });
-
 
 export default createAppContainer(AppNavigator);
