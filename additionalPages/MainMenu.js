@@ -12,17 +12,18 @@ class menuView extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-        <View style={{flex: 1, backgroundColor: 'blue'}}>
-            <View style={{flex: 1, backgroundColor: 'green'}}>
-                <Text>Menu</Text>
+        <View style={{flex: 1, backgroundColor: '#181818'}}>
+
+            <View style={{flex: 1, alignItems: 'center'}}>
+                <Text style={{fontSize: 30, color: 'white'}}>Cafe Menu</Text>
             </View>
+
+
+
 
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-
-            <FooterView/>
-
+                <FooterView/>
             </View>
-
         </View>
 
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 
 
 export default class FooterView extends Component {
@@ -8,7 +8,38 @@ export default class FooterView extends Component {
 
     return (
         <View style={styles.Footer}>
-            <Text>Navigation Buttons</Text>
+
+        <TouchableOpacity style={styles.FooterButton} >
+        <Image
+            style={{flex: 1, resizeMode: 'center'}} 
+            source={require('./img/coffeeFooter.png')} />  
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.FooterButton} >
+        <Image
+                style={{flex: 1, resizeMode: 'center'}} 
+                source={require('./img/sandwich.png')} />  
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.FooterButton} >
+        <Image
+            style={{flex: 1, resizeMode: 'center', width: '50%'}} 
+            source={require('./img/search.png')} />  
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.FooterButton} >
+            <Image
+                style={{flex: 1, resizeMode: 'center', width: '50%'}} 
+                source={require('./img/accountFooter.png')} />     
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.FooterButton} >
+            <Image
+                style={{flex: 1, resizeMode: 'center', width: '50%'}} 
+                source={require('./img/gear.png')} />     
+        </TouchableOpacity>
+
+        
         </View>
 
     );
@@ -18,11 +49,18 @@ export default class FooterView extends Component {
 const styles = StyleSheet.create({
     Footer: {
         flex: 0.16,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        flexDirection: 'row',
+        alignItems: 'stretch',
         marginBottom: 0,
         backgroundColor: 'rgba(52, 52, 52, 0.3)'
       },
+    FooterButton: {
+        flex: 0.25,
+        alignItems: 'center',
+        borderWidth: .3,
+        borderColor: '#404040',
+        borderRadius: 3,
 
+    },
 })
 

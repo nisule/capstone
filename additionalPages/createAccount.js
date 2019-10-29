@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
       marginBottom: 0,
   },
     signupBoxes: {
-      flex: 0.045,
+      flex: 0.09,
       fontSize: 18,
       backgroundColor: '#303030',
       color:'white',
