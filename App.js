@@ -33,6 +33,10 @@ class loginView extends Component {
             placeholderTextColor='white'
             onChangeText={(text) => this.setState({text})}
             emailInput={this.state.text}
+            keyboardType={"email-address"}
+            returnKeyType = { "next" }
+            onSubmitEditing={() => { this.Password.focus(); }}
+            blurOnSubmit={false}
           />
 
           <View style={{flex:0.025}}/>
@@ -43,6 +47,10 @@ class loginView extends Component {
             onChangeText={(text) => this.setState({text})}
             passwordInput={this.state.text}
             secureTextEntry
+            ref={(input) => { this.Password = input; }}
+
+            // check to make sure login is valid later before navigating
+            onSubmitEditing={() => { navigate('Menu') }} 
           />
       </View>
 
@@ -50,8 +58,7 @@ class loginView extends Component {
 
       <View style={styles.bottom}>
 
-        <TouchableOpacity style={styles.loginButtons} onPress={() => {alert('ayy you logged in');
-          navigate('Menu');}}>
+        <TouchableOpacity style={styles.loginButtons} onPress={() => {navigate('Menu')}}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
 
