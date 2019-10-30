@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import { Text, StyleSheet, View} from 'react-native';
 import FooterView from './Footer.js';
-
 
 class menuView extends Component {
   constructor(props) {
@@ -17,15 +16,16 @@ class menuView extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Cafe Menu</Text>
             </View>
+          
 
+            {/* Dynamically create list of items based off of database  */}
 
-
-
+ 
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
             </View>
-        </View>
 
+        </View>
     );
   }
 }
@@ -33,5 +33,6 @@ class menuView extends Component {
 const styles = StyleSheet.create({
 
 })
+
 
 module.exports = menuView
