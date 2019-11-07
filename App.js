@@ -130,38 +130,14 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       header: null,
     }
-  },
-  DrinkMenu: {
-    screen: DrinkMenu,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  FoodMenu: {
-    screen: FoodMenu,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  Search: {
-    screen: Search,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  AccountSettings: {
-    screen: AccountSettings,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  AppSettings: {
-    screen: AppSettings,
-    navigationOptions: {
-      header: null,
-    }
   }
-
 });
 
-export default createAppContainer(AppNavigator);
+const TabNavigator = createBottomTabNavigator({
+  DrinkMenuView: DrinkMenu,
+  FoodMenuView: FoodMenu,
+});
+
+
+module.exports =  createAppContainer(TabNavigator);
+module.exports = createAppContainer(AppNavigator);

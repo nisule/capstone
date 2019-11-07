@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
 import FooterView from './Footer.js';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createAppContainer } from 'react-navigation';
+
+
+import DrinkMenu from './DrinkMenu.js';
+import FoodMenu from './FoodMenu.js';
+import Search from './Search.js';
+import AccountSettings from './Account.js';
+import AppSettings from './AppSettings.js'
 
 export default class menuView extends Component {
   constructor(props) {
@@ -24,6 +33,14 @@ export default class menuView extends Component {
     );
   }
 }
+
+const TabNavigator = createBottomTabNavigator({
+  DrinkMenuView: DrinkMenu,
+  FoodMenuView: FoodMenu,
+});
+
+
+module.exports =  createAppContainer(TabNavigator);
 
 const styles = StyleSheet.create({
 

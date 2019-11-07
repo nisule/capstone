@@ -9,13 +9,13 @@ export class FooterView extends React.Component {
     return (
         <View style={styles.Footer}>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenu')} >                
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
                 <Image
                 style={{flex: 1, resizeMode: 'center'}} 
                 source={require('./img/coffeeFooter.png')} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenu')}>
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenuView')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center'}} 
                     source={require('./img/sandwich.png')} />  
