@@ -1,39 +1,39 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import { StyleSheet, View , TouchableOpacity, Image} from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 
-export default class FooterView extends Component {
- 
-  render() {
+export class FooterView extends React.Component {
 
+  render(){
     return (
         <View style={styles.Footer}>
 
-            <TouchableOpacity style={styles.FooterButton} >
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenu')} >                
                 <Image
                 style={{flex: 1, resizeMode: 'center'}} 
-                source={require('./img/coffeeFooter.png')} />  
+                source={require('./img/coffeeFooter.png')} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} >
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenu')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center'}} 
                     source={require('./img/sandwich.png')} />  
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} >
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('Search')}>
                 <Image
                 style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                 source={require('./img/search.png')} />  
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} >
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AccountSettings')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                     source={require('./img/accountFooter.png')} />     
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} >
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AppSettings')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                     source={require('./img/gear.png')} />     
@@ -63,3 +63,4 @@ const styles = StyleSheet.create({
     },
 })
 
+  export default withNavigation(FooterView);

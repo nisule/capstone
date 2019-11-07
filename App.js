@@ -2,8 +2,17 @@ import React, {Component} from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+
 import  signupView  from './additionalPages/createAccount.js';
 import menuView from './additionalPages/MainMenu.js';
+
+import DrinkMenu from './additionalPages/DrinkMenu.js';
+import FoodMenu from './additionalPages/FoodMenu.js';
+import Search from './additionalPages/Search.js';
+import AccountSettings from './additionalPages/Account.js';
+import AppSettings from './additionalPages/AppSettings.js'
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
 
 class loginView extends Component {
   constructor(props) {
@@ -121,7 +130,38 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       header: null,
     }
+  },
+  DrinkMenu: {
+    screen: DrinkMenu,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  FoodMenu: {
+    screen: FoodMenu,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  Search: {
+    screen: Search,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  AccountSettings: {
+    screen: AccountSettings,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  AppSettings: {
+    screen: AppSettings,
+    navigationOptions: {
+      header: null,
+    }
   }
+
 });
 
 export default createAppContainer(AppNavigator);

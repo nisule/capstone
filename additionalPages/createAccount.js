@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 
 
-class signupView extends Component{
+export default class signupView extends Component{
   constructor(props) {
     super(props);
     this.state = {text: ''};  
@@ -116,5 +116,3 @@ const styles = StyleSheet.create({
       fontSize: 29
     },
 })
-
-module.exports = signupView;
