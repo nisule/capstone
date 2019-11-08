@@ -14,15 +14,15 @@ class AccountSettings extends Component {
         <View style={{flex: 1, backgroundColor: '#181818'}}>
 
             <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={{fontSize: 30, color: 'white'}}>Drinks</Text>
+                <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
             </View>
           
 
 
  
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
-            </View>
+            </View> */}
 
         </View>
     );

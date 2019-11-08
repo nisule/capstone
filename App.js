@@ -5,13 +5,13 @@ import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingV
 
 import  signupView  from './additionalPages/createAccount.js';
 import menuView from './additionalPages/MainMenu.js';
+import EmployeeHome from './employeePages/EmployeeHome.js'
 
 import DrinkMenu from './additionalPages/DrinkMenu.js';
 import FoodMenu from './additionalPages/FoodMenu.js';
 import Search from './additionalPages/Search.js';
 import AccountSettings from './additionalPages/Account.js';
 import AppSettings from './additionalPages/AppSettings.js'
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 
 class loginView extends Component {
@@ -133,11 +133,5 @@ const AppNavigator = createStackNavigator({
   }
 });
 
-const TabNavigator = createBottomTabNavigator({
-  DrinkMenuView: DrinkMenu,
-  FoodMenuView: FoodMenu,
-});
 
-
-module.exports =  createAppContainer(TabNavigator);
 module.exports = createAppContainer(AppNavigator);

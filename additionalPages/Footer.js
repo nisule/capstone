@@ -11,29 +11,29 @@ export class FooterView extends React.Component {
 
             <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
                 <Image
-                style={{flex: 1, resizeMode: 'center'}} 
+                style={{flex: 1, resizeMode: 'center', width: '90%'}} 
                 source={require('./img/coffeeFooter.png')} />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenuView')}>
                 <Image
-                    style={{flex: 1, resizeMode: 'center'}} 
+                    style={{flex: 1, resizeMode: 'center', width: '90%'}} 
                     source={require('./img/sandwich.png')} />  
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('Search')}>
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('SearchView')}>
                 <Image
                 style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                 source={require('./img/search.png')} />  
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AccountSettings')}>
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AccountSettingsView')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                     source={require('./img/accountFooter.png')} />     
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AppSettings')}>
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AppSettingsView')}>
                 <Image
                     style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                     source={require('./img/gear.png')} />     
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'stretch',
         marginBottom: 0,
-        backgroundColor: 'rgba(52, 52, 52, 0.3)'
+        backgroundColor: '#181818'
       },
     FooterButton: {
         flex: 0.25,
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         borderWidth: .3,
         borderColor: '#404040',
         borderRadius: 3,
+        backgroundColor: 'rgba(52, 52, 52, 0.2)',
 
     },
 })

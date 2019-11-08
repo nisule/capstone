@@ -18,9 +18,9 @@ export default class AppSettings extends Component {
 
 
  
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
-            </View>
+            </View> */}
 
         </View>
     );
