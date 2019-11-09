@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import FooterView from './Footer.js';
 
 export default class Search extends Component {
   state = {

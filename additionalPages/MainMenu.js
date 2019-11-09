@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import posed from "react-native-pose";
 
 import DrinkMenu from './DrinkMenu.js';
 import FoodMenu from './FoodMenu.js';
@@ -24,11 +23,6 @@ export default class menuView extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Cunning Coders' Cafe</Text>
             </View>
-
-            
-            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <FooterView navigation={this.props.navigation}/>
-            </View> */}
 
         </View>
     );

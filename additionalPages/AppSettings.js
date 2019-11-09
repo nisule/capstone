@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
-import FooterView from './Footer.js';
 
 export default class AppSettings extends Component {
   constructor(props) {
@@ -14,10 +13,6 @@ export default class AppSettings extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Settings</Text>
             </View>
-            
-            { /*<View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <FooterView/>
-              </View>*/ }
 
         </View>
     );

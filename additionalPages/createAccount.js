@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 
 
 export default class signupView extends Component{

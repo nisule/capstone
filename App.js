@@ -1,31 +1,14 @@
 import React, {Component} from 'react';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import {  View } from 'react-native';
 
-import  signupView  from './additionalPages/createAccount.js';
-import menuView from './additionalPages/MainMenu.js';
-import loginView from './additionalPages/Login.js';
+import DrawerNavigator from './navigation/Navigator'
 
-const AppNavigator = createStackNavigator({
-  Login: {
-    screen: loginView,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  Signup: {
-    screen: signupView,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  Menu: {
-    screen: menuView,
-    navigationOptions: {
-      header: null,
-    }
+export default class App extends Component {
+  render() {
+    return (
+      <View style={{flex:1}}>
+        <DrawerNavigator />
+      </View>
+    );
   }
-});
-
-module.exports = createAppContainer(AppNavigator);
+}
