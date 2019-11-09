@@ -7,6 +7,7 @@ export default class signupView extends Component{
     super(props);
     this.state = {text: ''};  
   }
+
   render() {
     const {navigate} = this.props.navigation;
     return (

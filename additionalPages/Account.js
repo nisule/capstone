@@ -7,6 +7,7 @@ class AccountSettings extends Component {
     super(props);
     this.state = {text: ''};
   }
+  
   render() {
     const {navigate} = this.props.navigation;
 
@@ -16,14 +17,11 @@ class AccountSettings extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
             </View>
-          
 
-
- 
-            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            { /*<View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
-            </View> */}
-
+              </View>*/ }
+              
         </View>
     );
   }
@@ -32,6 +30,5 @@ class AccountSettings extends Component {
 const styles = StyleSheet.create({
 
 })
-
 
 module.exports = AccountSettings

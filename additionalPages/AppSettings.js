@@ -14,13 +14,10 @@ export default class AppSettings extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Settings</Text>
             </View>
-          
-
-
- 
-            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            
+            { /*<View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
-            </View> */}
+              </View>*/ }
 
         </View>
     );
