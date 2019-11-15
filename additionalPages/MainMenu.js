@@ -31,6 +31,9 @@ export default class menuView extends Component {
 
 const TabNavigator = createBottomTabNavigator(
   {
+    MainMenuView: {
+      screen: menuView,
+    },
     DrinkMenuView: {
       screen: DrinkMenu,
     },
@@ -61,7 +64,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     tabBarComponent: props => (
-      <FooterView{...props} style={{backgroundColor: 'green'}} />
+      <FooterView{...props} />
       ),
   },
 
