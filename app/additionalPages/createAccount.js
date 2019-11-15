@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import { Button, Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 
 
 export default class signupView extends Component{
@@ -7,7 +7,6 @@ export default class signupView extends Component{
     super(props);
     this.state = {text: ''};  
   }
-
   render() {
     const {navigate} = this.props.navigation;
     return (

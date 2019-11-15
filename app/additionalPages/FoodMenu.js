@@ -1,25 +1,35 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
+import FooterView from './Footer.js';
 
-class AccountSettings extends Component {
+export default class FoodMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
   }
-  
   render() {
-    const {navigate} = this.props.navigation;
 
     return (
         <View style={{flex: 1, backgroundColor: '#181818'}}>
 
             <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
+                <Text style={{fontSize: 30, color: 'white'}}>Food</Text>
             </View>
-              
+
+          
+
+ 
+            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <FooterView/>
+            </View> */}
+
         </View>
     );
   }
 }
 
-module.exports = AccountSettings
+const styles = StyleSheet.create({
+
+})
+
+

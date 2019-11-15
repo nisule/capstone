@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View, TouchableHighlight, FlatList} from 'react-native';
-<<<<<<< HEAD
 import FooterView from './Footer.js';
-=======
->>>>>>> 7ca45e8ae943b4dbaace609d2a04671dd9adafac
 
 export default class DrinkMenu extends Component {
   constructor(props) {
@@ -49,13 +46,10 @@ export default class DrinkMenu extends Component {
                 }
               />
             </View>
-<<<<<<< HEAD
           
             {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <FooterView/>
             </View> */}
-=======
->>>>>>> 7ca45e8ae943b4dbaace609d2a04671dd9adafac
 
         </View>
     );
