@@ -1,27 +1,33 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View} from 'react-native';
-import FooterView from './Footer.js';
+import { SearchBar } from 'react-native-elements';
 
 export default class Search extends Component {
+  state = {
+    search: '',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
+
   constructor(props) {
     super(props);
     this.state = {text: ''};
   }
+
   render() {
+    const { search } = this.state;
+
     return (
         <View style={{flex: 1, backgroundColor: '#181818'}}>
 
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={{fontSize: 30, color: 'white'}}>Search</Text>
-            </View>
-          
-
-
- 
-            {/* <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <FooterView/>
-            </View> */}
-
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={search}
+        />
+        
         </View>
     );
   }

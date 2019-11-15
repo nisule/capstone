@@ -8,6 +8,11 @@ export class FooterView extends React.Component {
   render(){
     return (
         <View style={styles.Footer}>
+            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('MainMenuView')}>
+                <Image
+                    style={{flex: 1, resizeMode: 'center', width: '80%'}} 
+                    source={require('./img/home.png')} />     
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
                 <Image
@@ -33,11 +38,7 @@ export class FooterView extends React.Component {
                     source={require('./img/accountFooter.png')} />     
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AppSettingsView')}>
-                <Image
-                    style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-                    source={require('./img/gear.png')} />     
-            </TouchableOpacity>
+            
    
         </View>
 
