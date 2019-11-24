@@ -10,8 +10,6 @@ using System.Data;
 class DBAccess {
     static void Main(string[] args) {
 
-
-
         Console.WriteLine("Getting Connection ...");
         MySqlConnection conn = createConnection();
 
@@ -39,8 +37,14 @@ class DBAccess {
     }
 
     public static MySqlConnection createConnection() {
-        string host = "mal.cs.plu.edu";
-        int port = 3306;
+        // On-campus connection host & port variables:
+        //string host = "mal.cs.plu.edu";
+        //int port = 3306;
+
+        // Off-campus connection host & port variables:
+        string host = "localhost";
+        int port = 2000;
+
         string database = "kc499_2019";
         string username = "kc499";
         string password = "KelleyCafe";
