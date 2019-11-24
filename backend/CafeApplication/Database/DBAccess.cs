@@ -7,38 +7,12 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
 
-class DBAccess {
-    static void Main(string[] args) {
+public class DBAccess {
+
+    private static MySqlConnection connection;
 
 
-
-        Console.WriteLine("Getting Connection ...");
-        MySqlConnection conn = createConnection();
-
-        try {
-            Console.WriteLine("Opening Connection ...");
-
-            conn.Open();
-
-            Console.WriteLine("Connection successful!");
-            //String sql = "INSERT INTO Item(item_name, stock, price, is_drink, addition_date) VALUES('Cappuccino', 30, 3.99, true, '2019-11-20')";
-            String sql = "SELECT * FROM Item";
-
-            MySqlCommand command = new MySqlCommand(sql, conn);
-            //command.ExecuteReader();
-            var dataReader = command.ExecuteReader();
-            var dataTable = new DataTable();
-            dataTable.Load(dataReader);
-            conn.Close();
-        }
-        catch (Exception e) {
-            Console.WriteLine("Error: " + e.Message);
-        }
-
-        Console.Read();
-    }
-
-    public static MySqlConnection createConnection() {
+    public DBAccess() {
         string host = "mal.cs.plu.edu";
         int port = 3306;
         string database = "kc499_2019";
@@ -51,8 +25,56 @@ class DBAccess {
 
         MySqlConnection conn = new MySqlConnection(connString);
 
-        return conn;
+        connection = conn;
     }
+
+    public static void Main(string[] args) {
+        var db = new DBAccess();
+        var table = getAllDrinks();
+
+
+        Console.Read();
+    }
+
+    public static DataTable getAllItems() {
+        try {
+            connection.Open();
+            //String sql = "INSERT INTO Item(item_name, stock, price, is_drink, addition_date) VALUES('Cappuccino', 30, 3.99, true, '2019-11-20')";
+            String sql = "SELECT * FROM Item";
+
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            var dataReader = command.ExecuteReader();
+            var dataTable = new DataTable();
+            dataTable.Load(dataReader);
+            connection.Close();
+            return dataTable;
+        }
+        catch (Exception e) {
+            Console.WriteLine("Error: " + e.Message);
+            return null;
+        }
+    }
+    public static DataTable getAllDrinks() {
+        try {
+            connection.Open();
+            //String sql = "INSERT INTO Item(item_name, stock, price, is_drink, addition_date) VALUES('Cappuccino', 30, 3.99, true, '2019-11-20')";
+            String sql = "SELECT * FROM Item WHERE is_drink = true";
+
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            var dataReader = command.ExecuteReader();
+            var dataTable = new DataTable();
+            dataTable.Load(dataReader);
+            connection.Close();
+            return dataTable;
+        }
+        catch (Exception e) {
+            Console.WriteLine("Error: " + e.Message);
+            return null;
+        }
+    }
+
+
+
 }
 
 
