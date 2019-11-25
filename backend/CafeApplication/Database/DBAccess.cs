@@ -119,7 +119,7 @@ public static class DBAccess {
             connection.Open();
             String sql = "SELECT order_id " +
                          "FROM Orders " + 
-                         "WHERE user_id = 11111111 " +
+                         "WHERE user_id = " + userID + " " +
                          "ORDER BY order_id DESC LIMIT 1";
             MySqlCommand command = new MySqlCommand(sql, connection);
             var dataReader = command.ExecuteReader();
@@ -134,9 +134,4 @@ public static class DBAccess {
         }
     }
 
-
-
-
-
 }
-
