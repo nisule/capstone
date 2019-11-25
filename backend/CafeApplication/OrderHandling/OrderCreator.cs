@@ -55,7 +55,7 @@ namespace OrderHandling {
                 total += getItemPrice(itemId) * itemQuantity;
             }
             total += total * taxRate;
-            return total;
+            return Math.Round(total, 2);
         }
 
         private double getItemPrice(string itemID) {
