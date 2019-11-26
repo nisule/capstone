@@ -95,9 +95,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBCredentialsExample.cs" />
-    <Compile Include="DBAccess.cs" />
     <Compile Include="DBCredentials.cs" />
+    <Compile Include="DBAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
