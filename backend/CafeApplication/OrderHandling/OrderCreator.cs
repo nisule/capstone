@@ -12,13 +12,13 @@ namespace OrderHandling {
 
             //Test example
             string user_id = "11111111";
+
             // Dictionary with item_id and quantity.
             Dictionary<int, int> items = new Dictionary<int, int>();
 
-            items.Add(26, 2);
-            items.Add(1, 9);
-            items.Add(54, 1);
-            items.Add(19, 5);
+            items.Add(20, 1);
+            items.Add(31, 1);
+        
 
             o.ProcessOrder(user_id, items);
             
@@ -84,6 +84,8 @@ namespace OrderHandling {
                 return false;
 
 
+            double newBalance = userBalance - orderTotal;
+            DBAccess.updateBalance(userID, newBalance);
             return true;
         }
     }

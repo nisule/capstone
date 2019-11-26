@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
 using MySql.Data.MySqlClient;
 using System.Data;
 using Database;
@@ -68,6 +63,14 @@ public static class DBAccess {
     public static DataTable getUserBalance(string userID) {
         string sql = "SELECT balance FROM User WHERE user_id = " + userID;
         return issueQuery(sql);
+    }
+
+    public static void updateBalance(string userID, double newBalance) {
+        string sql = "UPDATE User " + 
+                     "SET balance = " + newBalance + " " + 
+                     "WHERE user_id = " + userID;
+
+        issueInsert(sql);
     }
 
     private static void issueInsert(string sql) {
