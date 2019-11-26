@@ -16,7 +16,7 @@ namespace OrderHandling {
             Dictionary<int, int> items = new Dictionary<int, int>();
 
             items.Add(26, 2);
-            items.Add(1, 6);
+            items.Add(1, 9);
             items.Add(54, 1);
             items.Add(19, 5);
 
@@ -29,18 +29,26 @@ namespace OrderHandling {
         * as value. It will then create the appropriate Orders and use the order_id of that entry to create 
         * the data in the Order_Items table.
         */
-        public void ProcessOrder(string user_id, Dictionary<int, int> items) {
+        public bool ProcessOrder(string user_id, Dictionary<int, int> items) {
             //Computer the total and insert it into the database
             double orderTotal = computeTotal(items, .102);
-            DBAccess.insertNewOrder(user_id, orderTotal);
-            
-            //Get the ID of the user's order they just placed
-            var table = DBAccess.getUserLatestOrder(user_id);
-            string orderID = table.Rows[0].ItemArray[0].ToString();
+            if (hasFunds(orderTotal, user_id)) {
+                DBAccess.insertNewOrder(user_id, orderTotal);
 
-            //Insert each item in the order into the database
-            foreach (KeyValuePair<int, int> entry in items) {
-                DBAccess.insertOrderWithItem(orderID, entry.Key, entry.Value);
+                //Get the ID of the user's order they just placed
+                var table = DBAccess.getUserLatestOrder(user_id);
+                string orderID = table.Rows[0].ItemArray[0].ToString();
+
+                //Insert each item in the order into the database
+                foreach (KeyValuePair<int, int> entry in items) {
+                    DBAccess.insertOrderWithItem(orderID, entry.Key, entry.Value);
+                }
+                return true;
+            }
+            else {
+                Console.WriteLine("Could not complete order");
+                Console.Read();
+                return false;
             }
 
         }
@@ -66,6 +74,17 @@ namespace OrderHandling {
 
             return double.Parse(dataTable.Rows[0].ItemArray[0].ToString());
 
+        }
+
+        private bool hasFunds(double orderTotal, string userID) {
+            var table = DBAccess.getUserBalance(userID);
+            double userBalance = double.Parse(table.Rows[0].ItemArray[0].ToString());
+
+            if (orderTotal > userBalance)
+                return false;
+
+
+            return true;
         }
     }
 }

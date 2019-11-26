@@ -65,6 +65,11 @@ public static class DBAccess {
         return issueQuery(sql);
     }
 
+    public static DataTable getUserBalance(string userID) {
+        string sql = "SELECT balance FROM User WHERE user_id = " + userID;
+        return issueQuery(sql);
+    }
+
     public static void issueInsert(string sql) {
         try {
             connection.Open();
