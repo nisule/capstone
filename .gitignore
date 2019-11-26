@@ -430,5 +430,3 @@ MigrationBackup/
 
 # credential file
 /backend/CafeApplication/Database/DBCredentials.cs
-/backend/CafeApplication/Database/DBCredentialsExample.cs
-/backend/CafeApplication/Database/DbCredentialsExample.cs
