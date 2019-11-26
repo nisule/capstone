@@ -7,24 +7,11 @@ using System.Threading.Tasks;
 using System.Globalization;
 using MySql.Data.MySqlClient;
 using System.Data;
+using Database;
 
 public static class DBAccess {
 
-    private static string database = "kc499_2019";
-    private static string username = "kc499";
-    private static string password = "newPasswordsBoysEsketit";
-
-    //On-campus host & port variables
-    private static string host = "mal.cs.plu.edu";
-    private static int port = 3306;
-
-
-    // Off-campus connection host & port variables:
-    //private static string host = "localhost";
-    //private static int port = 2000;
-
-    private static string connString = "Server=" + host + ";Database=" + database
-            + ";port=" + port + ";User Id=" + username + ";password=" + password;
+    private static string connString = DBCredentials.GetCredentials();
 
     private static MySqlConnection connection = new MySqlConnection(connString);
 
