@@ -10,11 +10,11 @@ namespace OrderHandling {
         public static void Main(string[] args) {
             OrderCreator o = new OrderCreator();
 
+            //Test example
             string user_id = "11111111";
             // Dictionary with item_id and quantity.
             Dictionary<int, int> items = new Dictionary<int, int>();
 
-            //Test example
             items.Add(26, 2);
             items.Add(1, 2);
             items.Add(54, 1);

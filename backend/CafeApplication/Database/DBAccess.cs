@@ -12,16 +12,16 @@ public static class DBAccess {
 
     private static string database = "kc499_2019";
     private static string username = "kc499";
-    private static string password = "KelleyCafe";
+    private static string password = "newPasswordsBoysEsketit";
 
     //On-campus host & port variables
-    //private static string host = "mal.cs.plu.edu";
-    //private static int port = 3306;
+    private static string host = "mal.cs.plu.edu";
+    private static int port = 3306;
 
 
     // Off-campus connection host & port variables:
-    private static string host = "localhost";
-    private static int port = 2000;
+    //private static string host = "localhost";
+    //private static int port = 2000;
 
     private static string connString = "Server=" + host + ";Database=" + database
             + ";port=" + port + ";User Id=" + username + ";password=" + password;
@@ -30,40 +30,14 @@ public static class DBAccess {
 
     //All items for main menu
     public static DataTable getAllItems() {
-        try {
-            connection.Open();
-            String sql = "SELECT * FROM Item";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            var dataTable = new DataTable();
-            dataTable.Load(dataReader);
-            connection.Close();
-            return dataTable;
-        }
-        catch (Exception e) {
-            Debug.WriteLine("Error in retrieving all items: " + e.Message);
-            return null;
-        }
+        string sql = "SELECT * FROM Item";
+        return issueQuery(sql);
     }
 
     //Only drinks filter
     public static DataTable getAllDrinks() {
-        try {
-            connection.Open();
-            String sql = "SELECT * FROM Item WHERE is_drink = true";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            var dataTable = new DataTable();
-            dataTable.Load(dataReader);
-            connection.Close();
-            return dataTable;
-        }
-        catch (Exception e) {
-            Debug.WriteLine("Error in retrieving drinks: " + e.Message);
-            return null;
-        }
+        string sql = "SELECT * FROM Item WHERE is_drink = true";
+        return issueQuery(sql);
     }
 
     public static DataTable getItemPrice(string itemID) {
@@ -85,42 +59,40 @@ public static class DBAccess {
     }
 
     public static void insertNewOrder(string userID, double total) {
-        try {
-            connection.Open();
-            String sql = "INSERT INTO Orders(user_id, total) " +
+        string sql = "INSERT INTO Orders(user_id, total) " +
                          "VALUES(" + userID + ", " + total + ")";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            connection.Close();
-        }
-        catch (Exception e) {
-            Debug.WriteLine("Error inserting order: " + e.Message);
-        }
+        issueInsert(sql);
     }
 
     public static void insertOrderWithItem(string orderID, int itemID, int itemQuantity) {
+        string sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
+                         "VALUES(" + orderID + ", " + itemID + ", " + itemQuantity + ")";
+        issueInsert(sql);
+    }
+
+    public static DataTable getUserLatestOrder(string userID) {
+        string sql = "SELECT order_id " +
+                         "FROM Orders " +
+                         "WHERE user_id = " + userID + " " +
+                         "ORDER BY order_id DESC LIMIT 1";
+        return issueQuery(sql);
+    }
+
+    public static void issueInsert(string sql) {
         try {
             connection.Open();
-            String sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
-                         "VALUES(" + orderID + ", " + itemID + ", " + itemQuantity + ")";
-
             MySqlCommand command = new MySqlCommand(sql, connection);
             var dataReader = command.ExecuteReader();
             connection.Close();
         }
         catch (Exception e) {
-            Debug.WriteLine("Error inserting order: " + e.Message);
+            Debug.WriteLine("Error inserting into database: " + e.Message);
         }
     }
 
-    public static DataTable getUserLatestOrder(string userID) {
+    public static DataTable issueQuery(string sql) {
         try {
             connection.Open();
-            String sql = "SELECT order_id " +
-                         "FROM Orders " + 
-                         "WHERE user_id = " + userID + " " +
-                         "ORDER BY order_id DESC LIMIT 1";
             MySqlCommand command = new MySqlCommand(sql, connection);
             var dataReader = command.ExecuteReader();
             var dataTable = new DataTable();
@@ -129,7 +101,7 @@ public static class DBAccess {
             return dataTable;
         }
         catch (Exception e) {
-            Debug.WriteLine("Error in retrieving single item price: " + e.Message);
+            Debug.WriteLine("Error in database query: " + e.Message);
             return null;
         }
     }
