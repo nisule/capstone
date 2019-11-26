@@ -70,7 +70,7 @@ public static class DBAccess {
         return issueQuery(sql);
     }
 
-    public static void issueInsert(string sql) {
+    private static void issueInsert(string sql) {
         try {
             connection.Open();
             MySqlCommand command = new MySqlCommand(sql, connection);
@@ -82,7 +82,7 @@ public static class DBAccess {
         }
     }
 
-    public static DataTable issueQuery(string sql) {
+    private static DataTable issueQuery(string sql) {
         try {
             connection.Open();
             MySqlCommand command = new MySqlCommand(sql, connection);
