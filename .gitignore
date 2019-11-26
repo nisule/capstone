@@ -427,3 +427,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# credential file
+/backend/CafeApplication/Database/DBCredentials.cs
