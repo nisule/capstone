@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 export default class Search extends Component {
@@ -20,7 +20,7 @@ export default class Search extends Component {
     const { search } = this.state;
 
     return (
-        <View style={{flex: 1, backgroundColor: '#181818'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
         <SearchBar
           placeholder="Type Here..."
@@ -28,7 +28,7 @@ export default class Search extends Component {
           value={search}
         />
         
-        </View>
+        </SafeAreaView>
     );
   }
 }

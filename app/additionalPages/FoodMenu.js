@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
 
 export default class FoodMenu extends Component {
   constructor(props) {
@@ -10,13 +10,13 @@ export default class FoodMenu extends Component {
 
     return (
       
-        <View style={{flex: 1, backgroundColor: '#181818'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Food</Text>
             </View>
 
-        </View>
+        </SafeAreaView>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, TouchableHighlight, FlatList} from 'react-native';
+import { Text, StyleSheet, View, TouchableHighlight, FlatList, SafeAreaView} from 'react-native';
 
 export default class DrinkMenu extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class DrinkMenu extends Component {
 
   render() {
     return (
-        <View style={{flex: 1, backgroundColor: '#181818'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Drinks</Text>
@@ -46,7 +46,7 @@ export default class DrinkMenu extends Component {
               />
             </View>
 
-        </View>
+        </SafeAreaView>
     );
   }
 }
