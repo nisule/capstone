@@ -23,12 +23,10 @@ export default class menuView extends Component {
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Cunning Coders' Cafe</Text>
             </View>
-
         </SafeAreaView>
     );
   }
 }
-
 const TabNavigator = createBottomTabNavigator(
   {
     MainMenuView: {
@@ -50,28 +48,21 @@ const TabNavigator = createBottomTabNavigator(
     AppSettingsView: { 
       screen: AppSettings, }
   },
-
   {
     tabBarOptions: {
       labelStyle: {
         fontSize: 20,
         alignContent: 'center',
-
       },
       style: {
         backgroundColor: 'rgba(52, 52, 52, .9)',
-
       },
     },
     tabBarComponent: props => (
       <FooterView{...props} />
       ),
   },
-
 );
-
 const styles = StyleSheet.create({
-
 })
-
 module.exports = createAppContainer(TabNavigator);

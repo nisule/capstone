@@ -1,65 +1,96 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, TouchableHighlight, FlatList, SafeAreaView} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, SectionList, TouchableOpacity} from 'react-native';
+import { Card } from 'react-native-elements';
+
+const data = [
+  {
+    title:"Your Favorites",
+    data:[
+      {key:1, name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
+    ]
+  },
+  {
+    title:"All Drinks",
+    data:[
+      {key:1, name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
+      {key:2, name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89"},
+    ]
+  }
+]
 
 export default class DrinkMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+
   }
-  
+
   addToOrder(){
-    alert("Added item to order")
+    alert("TODO: Add navigation to popup to look at nutrition and add to order.")
   }
 
   render() {
-    return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
+		return (
+      <SafeAreaView>
+        <SectionList
+            sections={data}
+            
+            // Generating section headers
+            renderSectionHeader={({section}) => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Text style={styles.title}>
+                    {section.title}
+                  </Text>
+                </View>
+              )
+            }}
 
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={{fontSize: 30, color: 'white'}}>Drinks</Text>
-            </View>
-
-            <View style={styles.container}>
-              <FlatList
-                data={[
-                  {key: 'Caramel Frap'},
-                  {key: 'Frap Mocha'},
-                  {key: 'Frap Vanilla'},
-                  {key: 'Frap Coffee'},
-                  {key: 'Raspberry Rockstar'},
-                  {key: 'Sweet Tea'},
-                  {key: 'Raspberry Tea'},
-                  {key: 'Cappuccino'},
-                  {key: 'Macchiato'},
-                  {key: 'Iced Coffee'},
-                  {key: 'Iced Americano'},
-                  {key: 'Hot Chocolate'}
-                ]}
-                renderItem={({item}) => {
-                  return(
-                    <TouchableHighlight onPress={() => this.addToOrder()}>
-                      <Text style={styles.item}>{item.key}</Text>
-                    </TouchableHighlight>
-                  )
-                  }
-                }
-              />
-            </View>
-
-        </SafeAreaView>
+            // Generating items for each section
+            renderItem={({item}) => {
+              return (
+                <TouchableOpacity  style={styles.cardBackground} onPress={() => this.addToOrder()}>
+                  <Card imageProps={styles.image} containerStyle={styles.cardContainer} titleStyle={styles.titleStyle}
+                  image={item.image}
+                  title={item.name}>
+                    <Text style={{textAlign: 'center', color:'#ffffff', fontSize: 20}}>
+                      Price: ${item.price}
+                    </Text>
+                  </Card>
+                </TouchableOpacity>
+              )
+            }}/>
+      </SafeAreaView>
     );
-  }
+
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-   flex: 25,
-   paddingTop: 10
+  cardBackground: { 
+    backgroundColor:'#1c1c1c'
   },
-  item: {
-    padding: 10,
-    fontSize: 26,
-    height: 60,
-    color: 'white'
+  cardContainer:{
+    backgroundColor:'#3d3d3d', 
+    borderColor:"#b3b3b3", 
+    borderRadius: 20, 
+    borderWidth: 2,
+    marginBottom: 20
   },
-})
+  titleContainer:{
+    backgroundColor:"#5c4646",
+    padding:10
+  },
+  titleStyle: {
+    color:"#ffffff", 
+    fontSize:20
+  },
+  title:{
+    fontSize:25,
+    color:"#ffffff"
+  },
+  image:{
+    resizeMode: 'contain',
+    borderRadius: 20,
+    marginLeft:20
+  }
+});
