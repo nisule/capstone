@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
+import FooterView from './Footer';
 
 export default class AppSettings extends Component {
   constructor(props) {
@@ -14,11 +15,9 @@ export default class AppSettings extends Component {
                 <Text style={{fontSize: 30, color: 'white'}}>Settings</Text>
             </View>
 
+            <FooterView></FooterView>
+
         </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-})

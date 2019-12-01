@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
+import { StyleSheet, SafeAreaView} from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 export default class Search extends Component {

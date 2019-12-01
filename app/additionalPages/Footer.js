@@ -31,14 +31,6 @@ export class FooterView extends React.Component {
                 style={{flex: 1, resizeMode: 'center', width: '50%'}} 
                 source={require('./img/search.png')} />  
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('AccountSettingsView')}>
-                <Image
-                    style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-                    source={require('./img/accountFooter.png')} />     
-            </TouchableOpacity>
-
-            
    
         </View>
 

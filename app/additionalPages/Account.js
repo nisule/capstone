@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
+import { Text, View, SafeAreaView} from 'react-native';
+import FooterView from './Footer';
 
 class AccountSettings extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class AccountSettings extends Component {
                 <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
             </View>
               
+            <FooterView></FooterView>
         </SafeAreaView>
     );
   }
