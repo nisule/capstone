@@ -73,7 +73,6 @@ namespace OrderHandling {
                 return -1;
 
             return double.Parse(dataTable.Rows[0].ItemArray[0].ToString());
-
         }
 
         private bool hasFunds(double orderTotal, string userID) {

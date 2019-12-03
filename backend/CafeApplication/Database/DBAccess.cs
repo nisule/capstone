@@ -23,21 +23,8 @@ public static class DBAccess {
     }
 
     public static DataTable getItemPrice(string itemID) {
-        try {
-            connection.Open();
-            String sql = "SELECT price FROM Item WHERE item_id = " + itemID;
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            var dataTable = new DataTable();
-            dataTable.Load(dataReader);
-            connection.Close();
-            return dataTable;
-        }
-        catch (Exception e) {
-            Debug.WriteLine("Error in retrieving single item price: " + e.Message);
-            return null;
-        }
+       string sql = "SELECT price FROM Item WHERE item_id = " + itemID;
+        return issueQuery(sql);
     }
 
     public static void insertNewOrder(string userID, double total) {
