@@ -31,7 +31,7 @@ export default class FoodMenu extends Component {
 
   render() {
 		return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: 'grey'}}>
         <SectionList
             sections={data}
             
