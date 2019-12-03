@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View} from 'react-native';
+import { Text, View, SafeAreaView} from 'react-native';
+import FooterView from './Footer';
 
 class AccountSettings extends Component {
   constructor(props) {
@@ -11,13 +12,14 @@ class AccountSettings extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-        <View style={{flex: 1, backgroundColor: '#181818'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
             <View style={{flex: 1, alignItems: 'center'}}>
                 <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
             </View>
               
-        </View>
+            <FooterView></FooterView>
+        </SafeAreaView>
     );
   }
 }
