@@ -11,17 +11,15 @@ export default class loginView extends Component {
   
       return (
       <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
-        
-        <View style={{flex:0.025}}/>    
-  
+
         <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
-          
+
           <View style={{flex: .5, alignItems:'center', justifyContent: 'center'}}>
             <Image
-              style={{flex: 1, resizeMode: 'stretch', width: '100%'}} 
+              style={{flex: 1, resizeMode: 'stretch', width: '100%'}}   
               source={require('./img/saucer.png')} />    
           </View>
-          <View style={{flex:0.025}}/>
+          <View style={{flex:0.025}}/>  
   
             <TextInput
               style={styles.loginBoxes}
@@ -49,6 +47,7 @@ export default class loginView extends Component {
               onSubmitEditing={() => { navigate('Menu') }} 
             />
         </View>
+        
   
         <View style={styles.bottom}>
   
@@ -60,7 +59,11 @@ export default class loginView extends Component {
             <Text style={styles.loginButtonText}>Signup</Text>
           </TouchableOpacity>         
         </View>
-  
+
+        <View style={{justifyContent:'center', alignItems:'center', alignSelf:'center',position: 'absolute', top: '5%'}}>
+          <Text style={{color:'white', fontSize: 30}}>Cunning Coder's Cafe</Text>
+        </View>
+
        </KeyboardAvoidingView>
       );
     }
