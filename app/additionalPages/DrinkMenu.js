@@ -30,7 +30,7 @@ export default class DrinkMenu extends Component {
 
   render() {
 		return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: 'grey'}}>
         <SectionList
             sections={data}
             
