@@ -17,7 +17,7 @@ namespace OrderHandling {
             Dictionary<int, int> items = new Dictionary<int, int>();
 
             items.Add(20, 1);
-            items.Add(31, 1);
+            items.Add(1, 1);
         
 
             o.ProcessOrder(user_id, items);
