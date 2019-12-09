@@ -61,7 +61,7 @@ export default class loginView extends Component {
         </View>
 
         <View style={{justifyContent:'center', alignItems:'center', alignSelf:'center',position: 'absolute', top: '5%'}}>
-          <Text style={{color:'white', fontSize: 30}}>Cunning Coder's Cafe</Text>
+          <Text style={{color:'white', fontSize: 30}}>Cunning Coders' Cafe</Text>
         </View>
 
        </KeyboardAvoidingView>

@@ -23,52 +23,120 @@ public static class DBAccess {
     }
 
     public static DataTable getItemPrice(string itemID) {
-       string sql = "SELECT price FROM Item WHERE item_id = " + itemID;
-        return issueQuery(sql);
+        string sql = "SELECT price FROM Item WHERE item_id = @itemID";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@itemID", itemID);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in item price query: " + e.Message);
+            return null;
+        }
     }
 
     public static void insertNewOrder(string userID, double total) {
         string sql = "INSERT INTO Orders(user_id, total) " +
-                         "VALUES(" + userID + ", " + total + ")";
-        issueInsert(sql);
+                                 "VALUES(@userID, @total)";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@userID", userID);
+                command.Parameters.AddWithValue("@total", total);
+
+                var dataReader = command.ExecuteReader();
+                connection.Close();
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error database inserting order: " + e.Message);
+        }
     }
 
     public static void insertOrderWithItem(string orderID, int itemID, int itemQuantity) {
-        string sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
-                         "VALUES(" + orderID + ", " + itemID + ", " + itemQuantity + ")";
-        issueInsert(sql);
+            string sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
+                         "VALUES(@orderID, @itemID, @itemQuantity)";
+
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@orderID", orderID);
+                command.Parameters.AddWithValue("@itemID", itemID);
+                command.Parameters.AddWithValue("@itemQuantity", itemQuantity);
+
+                var dataReader = command.ExecuteReader();
+                connection.Close();
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database query: " + e.Message);
+        }
+   
     }
 
     public static DataTable getUserLatestOrder(string userID) {
         string sql = "SELECT order_id " +
                          "FROM Orders " +
-                         "WHERE user_id = " + userID + " " +
+                         "WHERE user_id = @userID " +
                          "ORDER BY order_id DESC LIMIT 1";
-        return issueQuery(sql);
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@userID", userID);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in latest order query: " + e.Message);
+            return null;
+        }
     }
 
     public static DataTable getUserBalance(string userID) {
-        string sql = "SELECT balance FROM User WHERE user_id = " + userID;
-        return issueQuery(sql);
+        string sql = "SELECT balance FROM User WHERE user_id = @userID";
+
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@userID", userID);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database user balance query: " + e.Message);
+            return null;
+        }
     }
 
     public static void updateBalance(string userID, double newBalance) {
         string sql = "UPDATE User " + 
-                     "SET balance = " + newBalance + " " + 
-                     "WHERE user_id = " + userID;
-
-        issueInsert(sql);
-    }
-
-    private static void issueInsert(string sql) {
+                     "SET balance = @balance" + 
+                     "WHERE user_id = @userID";
         try {
             connection.Open();
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            connection.Close();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.Parameters.AddWithValue("@balance", newBalance);
+                command.Parameters.AddWithValue("@userID", userID);
+                var dataReader = command.ExecuteReader();
+                connection.Close();
+            }
         }
         catch (Exception e) {
-            Debug.WriteLine("Error inserting into database: " + e.Message);
+            Debug.WriteLine("Error in database query: " + e.Message);
         }
     }
 
