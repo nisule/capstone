@@ -27,6 +27,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@itemID", itemID);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
@@ -47,6 +48,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@userID", userID);
                 command.Parameters.AddWithValue("@total", total);
 
@@ -66,6 +68,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@orderID", orderID);
                 command.Parameters.AddWithValue("@itemID", itemID);
                 command.Parameters.AddWithValue("@itemQuantity", itemQuantity);
@@ -88,6 +91,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@userID", userID);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
@@ -108,6 +112,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@userID", userID);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
@@ -124,31 +129,35 @@ public static class DBAccess {
 
     public static void updateBalance(string userID, double newBalance) {
         string sql = "UPDATE User " + 
-                     "SET balance = @balance" + 
+                     "SET balance = @newBalance " + 
                      "WHERE user_id = @userID";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.Parameters.AddWithValue("@balance", newBalance);
+                command.CommandTimeout = 10000;
+                command.Parameters.AddWithValue("@newBalance", newBalance);
                 command.Parameters.AddWithValue("@userID", userID);
-                var dataReader = command.ExecuteReader();
+                command.ExecuteReader();
                 connection.Close();
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+
         }
     }
 
     private static DataTable issueQuery(string sql) {
         try {
             connection.Open();
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            var dataReader = command.ExecuteReader();
-            var dataTable = new DataTable();
-            dataTable.Load(dataReader);
-            connection.Close();
-            return dataTable;
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);

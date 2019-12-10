@@ -16,8 +16,8 @@ namespace OrderHandling {
             // Dictionary with item_id and quantity.
             Dictionary<int, int> items = new Dictionary<int, int>();
 
-            items.Add(4, 1);
-            items.Add(13, 23);
+            items.Add(5, 5);
+            items.Add(13, 2);
         
 
             o.ProcessOrder(user_id, items);
