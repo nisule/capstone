@@ -9,7 +9,8 @@ import AppSettings from '../additionalPages/AppSettings';
 
 const WIDTH = Dimensions.get("window").width;
 
-const DrawerNavigator = createDrawerNavigator({
+const DrawerNavigator = createDrawerNavigator(
+  {
       Menu: {
         screen: menuView,
       },
@@ -25,6 +26,13 @@ const DrawerNavigator = createDrawerNavigator({
           drawerLockMode: 'locked-closed'
         }
       },
-});
+    },
+    {
+      contentOptions: {
+        activeTintColor: '#fbba37',
+        activeBackgroundColor: '#303030'
+      }
+    }
+    );
 
 export default createAppContainer(DrawerNavigator);
