@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob'
 
 export default class loginView extends Component {
     constructor(props) {
@@ -51,7 +52,20 @@ export default class loginView extends Component {
   
         <View style={styles.bottom}>
   
-          <TouchableOpacity style={styles.loginButtons} onPress={() => {navigate('Menu')}}>
+          <TouchableOpacity style={styles.loginButtons} onPress={() => {
+            RNFetchBlob.config({
+              trusty : true
+            })
+            .fetch('GET', 'https://10.0.2.2:5001/KelleyCafe')       
+              .then((response) => response.text())
+              .then((responseJson) => {
+                alert(responseJson);
+              })
+            .catch((error) => {
+              console.error(error);
+            }),
+            navigate('Menu')
+          }}>
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
   

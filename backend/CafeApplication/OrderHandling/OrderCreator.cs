@@ -16,8 +16,8 @@ namespace OrderHandling {
             // Dictionary with item_id and quantity.
             Dictionary<int, int> items = new Dictionary<int, int>();
 
-            items.Add(5, 5);
-            items.Add(13, 2);
+            items.Add(1, 1);
+            items.Add(4, 2);
         
 
             o.ProcessOrder(user_id, items);
@@ -69,23 +69,35 @@ namespace OrderHandling {
         private double getItemPrice(string itemID) {
             var dataTable = DBAccess.getItemPrice(itemID);
 
-            if (dataTable.Rows.Count != 1)
-                return -1;
+            try{
+                if (dataTable.Rows.Count != 1)
+                    return -1;
+            
 
-            return double.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+                return double.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+            }
+            catch (Exception e) {
+                Console.WriteLine("Database retrieval error" + e);
+            }
+            return -1;
         }
 
         private bool hasFunds(double orderTotal, string userID) {
-            var table = DBAccess.getUserBalance(userID);
-            double userBalance = double.Parse(table.Rows[0].ItemArray[0].ToString());
+            try {
+                var table = DBAccess.getUserBalance(userID);
+                double userBalance = double.Parse(table.Rows[0].ItemArray[0].ToString());
 
-            if (orderTotal > userBalance)
-                return false;
+                if (orderTotal > userBalance)
+                    return false;
 
 
-            double newBalance = userBalance - orderTotal;
-            DBAccess.updateBalance(userID, newBalance);
-            return true;
+                double newBalance = userBalance - orderTotal;
+                DBAccess.updateBalance(userID, newBalance);
+                return true;
+            }catch(Exception e) {
+                Console.WriteLine("Database retrieval error" + e);
+            }
+            return false;
         }
     }
 }

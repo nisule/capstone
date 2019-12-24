@@ -134,7 +134,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 10000;
+                command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@newBalance", newBalance);
                 command.Parameters.AddWithValue("@userID", userID);
                 command.ExecuteReader();
