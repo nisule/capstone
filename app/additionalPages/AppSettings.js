@@ -15,8 +15,6 @@ export default class AppSettings extends Component {
                 <Text style={{fontSize: 30, color: 'white'}}>Settings</Text>
             </View>
 
-            <FooterView></FooterView>
-
         </SafeAreaView>
     );
   }

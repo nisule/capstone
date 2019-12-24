@@ -18,7 +18,6 @@ class AccountSettings extends Component {
                 <Text style={{fontSize: 30, color: 'white'}}>Your Account</Text>
             </View>
               
-            <FooterView></FooterView>
         </SafeAreaView>
     );
   }
