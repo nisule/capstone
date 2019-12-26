@@ -127,6 +127,28 @@ public static class DBAccess {
         }
     }
 
+    public static DataTable getAllAccountCredentials(string email, string pword) {
+        string sql = "SELECT email, password, salt FROM User WHERE email = @email AND password = @password";
+
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@password", pword);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database user balance query: " + e.Message);
+            return null;
+        }
+    }
+
     public static void updateBalance(string userID, double newBalance) {
         string sql = "UPDATE User " + 
                      "SET balance = @newBalance " + 

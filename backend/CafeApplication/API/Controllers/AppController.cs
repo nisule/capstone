@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -10,16 +11,19 @@ namespace API.Controllers
     [ApiController]
     public class AppController : ControllerBase
     {
-        [Route("KelleyCafe")]
-        public string[] GetHelloWorld() {
+        [HttpPost]
+        [Route("Login")]
+        public string[] ValidateCredentials([FromBody]AccountCredentials data) {
+            Debug.WriteLine(data.email + " " + data.password);
             return new string[]
             {
-                "Hello",
-                "World"
+                data.email,
+                data.password
             };
         }
 
-        [Route("Test")]
+        [HttpGet]
+        [Route("CreateAccount")]
         public string[] GetTest() {
             return new string[]
             {
@@ -28,5 +32,10 @@ namespace API.Controllers
             };
         }
 
+    }
+
+    public class AccountCredentials {
+        public string email { get; set; }
+        public string password { get; set; }
     }
 }
