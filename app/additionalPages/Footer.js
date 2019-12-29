@@ -40,7 +40,7 @@ export class FooterView extends React.Component {
 
 const styles = StyleSheet.create({
     Footer: {
-        flex: 0.16,
+        flex: 0.11,
         flexDirection: 'row',
         alignItems: 'stretch',
         marginBottom: 0,
