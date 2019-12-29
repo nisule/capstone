@@ -20,8 +20,8 @@ export default class menuView extends Component {
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={{fontSize: 30, color: 'white'}}>Cunning Coders' Cafe</Text>
+            <View style={styles.titleStyle}>
+                <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
             </View>
         </SafeAreaView>
     );
@@ -64,5 +64,14 @@ const TabNavigator = createBottomTabNavigator(
   },
 );
 const styles = StyleSheet.create({
+  titleText:{
+    fontSize: 30, 
+    color: 'white'
+  },
+  titleStyle:{
+    marginBottom: 15,
+    backgroundColor:'grey',
+    alignItems:'center'
+  },
 })
 module.exports = createAppContainer(TabNavigator);
