@@ -119,7 +119,10 @@ export default class FoodMenu extends Component {
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem
-              leftAvatar={{ source: item.image}}
+              leftAvatar={{ 
+                source: item.image,
+                size: "large"
+              }}
               title={`${item.name}`}
               subtitle={`$${item.price}`}
               containerStyle={styles.itemContainer}
@@ -143,7 +146,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#181818"
   },
   itemText:{
-    color: "white"
+    color: "white",
+    fontSize: 18
   },
   loading: { 
     backgroundColor: "#1c1c1c", 
