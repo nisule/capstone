@@ -1,6 +1,9 @@
 import React, {Component} from "react";
-import {FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
+import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
+
+var viewWidth = Dimensions.get('window').width;
+var viewHeight = Dimensions.get('window').height;  
 
 export default class DrinkMenu extends Component {
   constructor(props) {
@@ -10,6 +13,7 @@ export default class DrinkMenu extends Component {
       loading: false,
       data: [],
       error: null,
+      modalVisible: false,
     };
 
     // Delete this after API is working, just have this data to demonstrate how the views are working.
@@ -33,12 +37,15 @@ export default class DrinkMenu extends Component {
     ];
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   // This method is invoked once after the native UI for this component has finished rendering. This will
   // automatically load all the drinks from the API once the screen is loaded.
   componentDidMount(){
     this.makeRemoteRequest();
   }
-
 
   makeRemoteRequest = () => {
     this.setState({loading: true});
@@ -115,6 +122,30 @@ export default class DrinkMenu extends Component {
     }
 		return (
       <SafeAreaView>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={styles.modal}>
+            <Text style={styles.modalNutritionalText}>Fat: 0g</Text>
+            <Text style={styles.modalNutritionalText}>Carbs: 0g</Text>
+            <Text style={styles.modalNutritionalText}>Protein: 0g</Text>
+            <Text style={styles.modalNutritionalText}>Calories: 0g</Text>
+
+            <TouchableHighlight
+              style={styles.modalButtons}
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}>
+              <Text style={styles.modalButtonText}>Add To Order</Text>
+            </TouchableHighlight>
+          </View>
+        </Modal>
+
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
@@ -128,7 +159,7 @@ export default class DrinkMenu extends Component {
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
               subtitleStyle={styles.itemText}
-              onPress={() => this.addToOrder()}
+              onPress={() => {this.setModalVisible(true);}}
             />
           )}
           keyExtractor={item => item.name}
@@ -149,11 +180,40 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18
   },
-  loading: { 
+  loading:{ 
     backgroundColor: "#1c1c1c", 
     flex: 1,
     alignItems: "center", 
     justifyContent: "center" 
+  },
+  modal:{
+    alignItems: "center",
+    backgroundColor:"white", 
+    width: viewWidth * 0.6, 
+    height: viewHeight * 0.4,
+    justifyContent: "center",
+    marginLeft: viewWidth * 0.2,
+    marginTop: viewHeight * 0.3,
+    borderRadius: 10
+  },
+  modalButtons: {
+    width: viewWidth * 0.3,
+    height: viewWidth * 0.15,
+    justifyContent: "center",
+    backgroundColor: '#fbba37',
+    alignContent: 'center',
+    borderWidth: 1,
+    borderColor: '#404040',
+    borderRadius: 6,
+    marginTop: viewHeight * 0.05,
+    marginBottom: viewHeight * 0.05
+  },
+  modalButtonText: {
+    fontSize: 18,
+    textAlign: "center"
+  },
+  modalNutritionalText: {
+    fontSize: 20
   },
   separator:{
     height: 2,
