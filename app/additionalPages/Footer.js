@@ -25,12 +25,6 @@ export class FooterView extends React.Component {
                     style={{flex: 1, resizeMode: 'center', width: '90%'}} 
                     source={require('./img/sandwich.png')} />  
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('SearchView')}>
-                <Image
-                style={{flex: 1, resizeMode: 'center', width: '50%'}} 
-                source={require('./img/search.png')} />  
-            </TouchableOpacity>
    
         </View>
 
@@ -47,7 +41,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#181818'
       },
     FooterButton: {
-        flex: 0.25,
+        flex: 0.33,
         alignItems: 'center',
         borderWidth: .3,
         borderColor: '#404040',

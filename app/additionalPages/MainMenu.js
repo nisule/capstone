@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import DrinkMenu from './DrinkMenu.js';
 import FoodMenu from './FoodMenu.js';
-import Search from './Search.js';
 import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
@@ -38,13 +37,9 @@ const TabNavigator = createBottomTabNavigator(
     FoodMenuView: {
       screen: FoodMenu,
     },
-    SearchView: {
-      screen: Search,
-    },
     AccountSettingsView: {
       screen: AccountSettings,
     },
-    
     AppSettingsView: { 
       screen: AppSettings, }
   },
