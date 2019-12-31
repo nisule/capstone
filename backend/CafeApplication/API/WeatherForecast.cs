@@ -1,6 +1,6 @@
 using System;
 
-namespace API {
+namespace API2 {
     public class WeatherForecast {
         public DateTime Date { get; set; }
 

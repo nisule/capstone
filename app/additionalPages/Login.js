@@ -58,8 +58,8 @@ export default class loginView extends Component {
             }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
               { 'Content-Type': 'application/json'}, 
               JSON.stringify({ 
-                email: 'sam@email.com',
-                password : "test"
+                email: 'yuhh@email.com',
+                password : "suhh"
               }))
               .then((response) => response.text()) 
               .then((responseJson) => {

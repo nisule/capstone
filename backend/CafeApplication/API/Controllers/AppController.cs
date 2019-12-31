@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
     [ApiController]
-    public class AppController : ControllerBase
-    {
+    public class AppController : ControllerBase {
         [HttpPost]
         [Route("Login")]
         public string[] ValidateCredentials([FromBody]AccountCredentials data) {
