@@ -169,6 +169,30 @@ public static class DBAccess {
         }
     }
 
+    public static bool InsertNewUser(string userID, string fName, string lName, string email, string password, string salt) {
+        string sql = "INSERT INTO User(user_id, first_name, last_name, email, password, salt) " +
+                                 "VALUES(@id, @fName, @lName, @email, @password, @salt)";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@id", userID);
+                command.Parameters.AddWithValue("@fName", fName);
+                command.Parameters.AddWithValue("@lName", lName);
+                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@password", password);
+                command.Parameters.AddWithValue("@salt", salt);
+                command.ExecuteReader();
+                connection.Close();
+                return true;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database query: " + e.Message);
+            return false;
+        }
+    }
+
     private static DataTable issueQuery(string sql) {
         try {
             connection.Open();

@@ -53,21 +53,21 @@ export default class loginView extends Component {
         <View style={styles.bottom}>
   
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            // RNFetchBlob.config({
-            //     trusty: true
-            // }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
-            //   { 'Content-Type': 'application/json'}, 
-            //   JSON.stringify({ 
-            //     email: 'yuhh@email.com',
-            //     password : "suhh"
-            //   }))
-            //   .then((response) => response.text()) 
-            //   .then((responseJson) => {
-            //     alert(responseJson); 
-            //   })
-            // .catch((error) => {
-            //   console.error(error);
-            // }),
+            RNFetchBlob.config({
+                trusty: true
+            }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
+              { 'Content-Type': 'application/json'}, 
+              JSON.stringify({ 
+                email: 'yuhh@email.com',
+                password : "suhh"
+              }))
+              .then((response) => response.text()) 
+              .then((responseJson) => {
+                alert(responseJson); 
+              })
+            .catch((error) => {
+              console.error(error);
+            }),
             navigate('Menu')
           }}>
             <Text style={styles.loginButtonText}>Login</Text>

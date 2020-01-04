@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 
 namespace Account {
-    class AccountCreator {
-        private static String generateSalt()
-        {
-            var random = new RNGCryptoServiceProvider();
-            // length of salt
-            int length = 16; 
+    public class AccountCreator {
 
-            byte[] salt = new byte[length];
+        private string _salt;
 
-            // Build the random bytes
-            random.GetNonZeroBytes(salt);
-
-            // Return the string encoded salt as UTF8
-            return Encoding.UTF8.GetString(salt);
+        public AccountCreator() {
+            _salt = Security.generateSalt(); 
         }
+
+        public bool storeNewAccount(string id, string firstName, string lastName, string email, string password) {
+            string saltedPassword = password + _salt;
+            string hashedPassword = Security.hashPassword(saltedPassword);
+
+            return DBAccess.InsertNewUser(id, firstName, lastName, email, hashedPassword, _salt);
+        }
+
+
+        
     }
 }

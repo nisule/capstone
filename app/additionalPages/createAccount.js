@@ -22,17 +22,33 @@ export default class signupView extends Component{
         </View>
         <View style={{flex:0.025}}/>
 
+      <View style = {{flex: 0.135, flexDirection: 'row'}}>
         <TextInput
-          style={styles.signupBoxes}
-          placeholder="Username"
+          style={styles.nameBoxes}
+          placeholder="First Name"
           placeholderTextColor='white'
           onChangeText={(text) => this.setState({text})}
-          emailInput={this.state.text}
+          firstNameInput={this.state.text}
+
+          returnKeyType = { "next" }
+          onSubmitEditing={() => { this.lastName.focus(); }}
+          blurOnSubmit={false}
+        />
+        <View style={{flex:0.015}}/>
+
+        <TextInput
+          style={styles.nameBoxes}
+          placeholder="Last Name"
+          placeholderTextColor='white'
+          onChangeText={(text) => this.setState({text})}
+          lastNameInput={this.state.text}
 
           returnKeyType = { "next" }
           onSubmitEditing={() => { this.Email.focus(); }}
           blurOnSubmit={false}
+          ref={(input) => { this.lastName = input; }}
         />
+      </View>
 
       <View style={{flex:0.025}}/>
         <TextInput
@@ -99,8 +115,14 @@ const styles = StyleSheet.create({
       backgroundColor: '#303030',
       color:'white',
       borderRadius: 6,
-      justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+    },
+    nameBoxes: {
+      flex: 1,
+      fontSize: 18,
+      backgroundColor: '#303030',
+      color:'white',
+      borderRadius: 6,
     },
     signupButton: {
       justifyContent: "center",
