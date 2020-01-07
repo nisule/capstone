@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace API.Controllers {
+namespace API2.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase {
@@ -19,7 +19,7 @@ namespace API.Controllers {
         public WeatherForecastController(ILogger<WeatherForecastController> logger) {
             _logger = logger;
         }
-
+        
         [HttpGet]
         public IEnumerable<WeatherForecast> Get() {
             var rng = new Random();
