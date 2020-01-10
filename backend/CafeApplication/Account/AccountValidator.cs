@@ -15,12 +15,15 @@ namespace Account {
             
         }
 
-        private bool compareCredentials(string email, string password, string salt) {
+        
+        private bool compareCredentials(string email, string password) {
+            string salt = DBAccess.getSalt(email);
             string passwordWithSalt = password + salt;
             string hashedPassword = Security.hashPassword(passwordWithSalt);
 
             //Query the DB for the entered credentials
             var data = DBAccess.getAllAccountCredentials(email, hashedPassword) ;
+            
 
             if (data.Rows.Count == 1)
                 return true;
