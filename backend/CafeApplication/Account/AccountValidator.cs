@@ -15,8 +15,8 @@ namespace Account {
             
         }
 
-        
-        private bool compareCredentials(string email, string password) {
+        // return true if credentials are valid, false otherwise
+        public bool compareCredentials(string email, string password) {
             string salt = DBAccess.getSalt(email);
             string passwordWithSalt = password + salt;
             string hashedPassword = Security.hashPassword(passwordWithSalt);
