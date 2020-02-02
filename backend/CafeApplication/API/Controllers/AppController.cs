@@ -15,23 +15,17 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Login")]
-        public string[] ValidateCredentials([FromBody]AccountCredentials data) {
+        public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) {
             Debug.WriteLine(data.email + " " + data.password);
             AccountValidator av = new AccountValidator();
 
            if (av.compareCredentials(data.email, data.password) == true)
             {
-                // probably return 200 or something because credentials were valid
+                return StatusCode(200);
             } else
             {
-                // probably return 400 because credentials were invalid
+                return StatusCode(400);
             }
-
-            return new string[]
-            {
-                data.email,
-                data.password
-            };
         }
 
         [HttpPost]

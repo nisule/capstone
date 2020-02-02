@@ -148,6 +148,7 @@ public static class DBAccess {
         catch (Exception e)
         {
             Debug.WriteLine("Error in database user get salt query: " + e.Message);
+            connection.Close();
             return null;
         }
     }
