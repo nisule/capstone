@@ -11,6 +11,7 @@ namespace Account {
 
         public AccountCreator() {
             _salt = Security.generateSalt(); 
+
         }
 
         public bool storeNewAccount(string id, string firstName, string lastName, string email, string password) {

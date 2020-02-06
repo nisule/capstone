@@ -26,7 +26,7 @@ namespace API.Controllers {
 
         [HttpGet]
         [Route("CreateAccount")]
-        public HttpResponseMessage AddNewUser(HttpRequestMessage request, [FromBody]AccountCredentials data) {
+        public HttpResponseMessage AddNewUser([FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
