@@ -15,16 +15,20 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Login")]
-        public string[] ValidateCredentials([FromBody]AccountCredentials data) {
+        public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) {
             Debug.WriteLine(data.email + " " + data.password);
-            return new string[]
+            AccountValidator av = new AccountValidator();
+
+           if (av.compareCredentials(data.email, data.password) == true)
             {
-                data.email,
-                data.password
-            };
+                return StatusCode(200);
+            } else
+            {
+                return StatusCode(400);
+            }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("CreateAccount")]
         public HttpResponseMessage AddNewUser([FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance

@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace API2 {
+namespace API {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -35,10 +35,16 @@ namespace API2 {
             app.UseRouting();
 
             app.UseAuthorization();
+            try
+            {
+                app.UseEndpoints(endpoints => {
+                    endpoints.MapControllers();
+                });
+            } catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+            }
 
-            app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
-            });
         }
     }
 }

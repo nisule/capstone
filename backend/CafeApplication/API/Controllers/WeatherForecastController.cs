@@ -19,7 +19,7 @@ namespace API2.Controllers {
         public WeatherForecastController(ILogger<WeatherForecastController> logger) {
             _logger = logger;
         }
-
+        
         [HttpGet]
         public IEnumerable<WeatherForecast> Get() {
             var rng = new Random();

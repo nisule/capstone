@@ -127,6 +127,32 @@ public static class DBAccess {
         }
     }
 
+    public static String getSalt(string email)
+    {
+        string sql = "SELECT salt FROM user WHERE email = @email";
+        try
+        {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection))
+            {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@email", email);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                string salt = (string)dataTable.Rows[0]["salt"];
+                return salt;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("Error in database user get salt query: " + e.Message);
+            connection.Close();
+            return null;
+        }
+    }
+
     public static DataTable getAllAccountCredentials(string email, string pword) {
         string sql = "SELECT email, password, salt FROM User WHERE email = @email AND password = @password";
 

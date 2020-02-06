@@ -15,17 +15,20 @@ namespace Account {
             
         }
 
-        private bool compareCredentials(string email, string password, string salt) {
+        // return true if credentials are valid, false otherwise
+        public bool compareCredentials(string email, string password) {
+            string salt = DBAccess.getSalt(email);
             string passwordWithSalt = password + salt;
             string hashedPassword = Security.hashPassword(passwordWithSalt);
 
             //Query the DB for the entered credentials
             var data = DBAccess.getAllAccountCredentials(email, hashedPassword) ;
+            
+            // getAllAccountCredentials will return null if the credentials are invalid.
+            if (data == null)
+                return false;
 
-            if (data.Rows.Count == 1)
-                return true;
-
-            return false;
+            return true;
         }
 
         

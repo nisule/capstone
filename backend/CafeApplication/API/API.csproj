@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Account\Account.csproj" />
+    <ProjectReference Include="..\Database\Database.csproj" />
+    <ProjectReference Include="..\OrderHandling\OrderHandling.csproj" />
   </ItemGroup>
 
 </Project>
