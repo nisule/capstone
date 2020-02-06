@@ -58,17 +58,28 @@ export default class loginView extends Component {
             }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
               { 'Content-Type': 'application/json'}, 
               JSON.stringify({ 
-                email: 'yuhh@email.com',
-                password : "suhh"
+                email: 'yeah',
+                password : "test"
               }))
-              .then((response) => response.text()) 
-              .then((responseJson) => {
-                alert(responseJson); 
+              .then((response) => {
+                let status = response.info().status;
+
+                if(status == 200){
+                  //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
+                  alert("Welcome!")
+                  navigate('Menu')
+                } else{
+                  alert("Incorrect credentials, please try again.")
+                  //TODO: Remove this once we fix the account validation.
+                  navigate("Menu")
+                }
               })
-            .catch((error) => {
-              console.error(error);
-            }),
-            navigate('Menu')
+              .catch((error) => {
+                console.error(error);
+                alert("Request could not be handled.")
+            })
+
+
           }}>
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
