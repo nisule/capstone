@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Account {
     public class AccountValidator {
@@ -12,7 +13,6 @@ namespace Account {
 
             AccountCreator c = new AccountCreator();
             bool bb = c.storeNewAccount("345","Genius", "Tester", "Tester@gmail.com", "abc");
-            
         }
 
         // return true if credentials are valid, false otherwise

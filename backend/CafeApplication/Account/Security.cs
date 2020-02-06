@@ -10,17 +10,20 @@ namespace Account {
     public static class Security {
 
         public static string generateSalt() {
-            var random = new RNGCryptoServiceProvider();
-            // length of salt
-            int length = 16;
+            // only putting alphanumeric characters in the salt
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var salt = new char[16];
+            
+            // pull a random character from chars and put it in the salt array
+            for (int i = 0; i < salt.Length; i++)
+            {
+                salt[i] = chars[random.Next(chars.Length)];
+            }
 
-            byte[] salt = new byte[length];
-
-            // Build the random bytes
-            random.GetNonZeroBytes(salt);
-
-            // Return the string encoded salt as UTF8
-            return Encoding.UTF8.GetString(salt);
+            // return salt string
+            var finalSalt = new String(salt);
+            return finalSalt;
         }
 
         public static string hashPassword(string pass) {
