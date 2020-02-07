@@ -31,8 +31,8 @@ namespace API.Controllers {
             AccountCreator c = new AccountCreator();
 
             //TODO: check if any fields are null -> return proper response code
-            
 
+            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password);
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password))
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
