@@ -5,8 +5,13 @@ import RNFetchBlob from 'rn-fetch-blob'
 export default class loginView extends Component {
     constructor(props) {
       super(props);
-      this.state = {text: ''};
+      this.state = {
+        text: '',
+        email: '',
+        password: '',
+      }
     }
+
     render() {
       const {navigate} = this.props.navigation;
   
@@ -26,7 +31,7 @@ export default class loginView extends Component {
               style={styles.loginBoxes}
               placeholder="Email"
               placeholderTextColor='white'
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({email: text})}
               emailInput={this.state.text}
               keyboardType={"email-address"}
               returnKeyType = { "next" }
@@ -39,7 +44,7 @@ export default class loginView extends Component {
               style={styles.loginBoxes}
               placeholder="Password"
               placeholderTextColor='white'
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({password: text})}
               passwordInput={this.state.text}
               secureTextEntry
               ref={(input) => { this.Password = input; }}
@@ -58,8 +63,8 @@ export default class loginView extends Component {
             }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
               { 'Content-Type': 'application/json'}, 
               JSON.stringify({ 
-                email: 'blaha@test.com',
-                password : "yol"
+                email: this.state.email,
+                password : this.state.password
               }))
               .then((response) => {
                 let status = response.info().status;

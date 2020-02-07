@@ -15,8 +15,9 @@ namespace API.Controllers {
         [HttpPost]
         [Route("Login")]
         public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) {
-
-           if (AccountValidator.compareCredentials(data.email, data.password) == true) {
+            // todo remove debug line 
+            Debug.WriteLine(data.email + " " + data.password);
+            if (AccountValidator.compareCredentials(data.email, data.password) == true) {
                 return StatusCode(200);
             } else {
                 return StatusCode(400);
