@@ -12,18 +12,13 @@ namespace API.Controllers {
     [ApiController]
     public class AppController : ControllerBase {
 
-
         [HttpPost]
         [Route("Login")]
         public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) {
-            Debug.WriteLine(data.email + " " + data.password);
-            AccountValidator av = new AccountValidator();
 
-           if (av.compareCredentials(data.email, data.password) == true)
-            {
+           if (AccountValidator.compareCredentials(data.email, data.password) == true) {
                 return StatusCode(200);
-            } else
-            {
+            } else {
                 return StatusCode(400);
             }
         }

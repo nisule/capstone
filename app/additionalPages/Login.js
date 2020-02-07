@@ -58,8 +58,8 @@ export default class loginView extends Component {
             }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
               { 'Content-Type': 'application/json'}, 
               JSON.stringify({ 
-                email: 'yeah',
-                password : "test"
+                email: 'blaha@test.com',
+                password : "yol"
               }))
               .then((response) => {
                 let status = response.info().status;
@@ -71,7 +71,6 @@ export default class loginView extends Component {
                 } else{
                   alert("Incorrect credentials, please try again.")
                   //TODO: Remove this once we fix the account validation.
-                  navigate("Menu")
                 }
               })
               .catch((error) => {

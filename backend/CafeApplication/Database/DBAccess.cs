@@ -127,9 +127,8 @@ public static class DBAccess {
         }
     }
 
-    public static String getSalt(string email)
-    {
-        string sql = "SELECT salt FROM user WHERE email = @email";
+    public static string getSalt(string email) {
+        string sql = "SELECT salt FROM User WHERE email = @email";
         try
         {
             connection.Open();
@@ -147,7 +146,7 @@ public static class DBAccess {
         }
         catch (Exception e)
         {
-            Debug.WriteLine("Error in database user get salt query: " + e.Message);
+            Debug.WriteLine("Error in database user get salt query: " + e.StackTrace);
             connection.Close();
             return null;
         }
