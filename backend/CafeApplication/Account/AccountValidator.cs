@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Account {
     public static class AccountValidator {
@@ -11,10 +12,15 @@ namespace Account {
             //bool b = AccountValidator.compareCredentials("blaha@test.com", "yolo");
            
 
+<<<<<<< HEAD
             //string salt = DBAccess.getSalt("blaha@test.com");
 
             //bool bb = c.storeNewAccount("345","Genius", "Tester", "Tester@gmail.com", "abc");
             
+=======
+            AccountCreator c = new AccountCreator();
+            bool bb = c.storeNewAccount("345","Genius", "Tester", "Tester@gmail.com", "abc");
+>>>>>>> 2e5752cad5b0010d9f4850109df5d1d02d05cfb3
         }
 
         // return true if credentials are valid, false otherwise
