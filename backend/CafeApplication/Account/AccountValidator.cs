@@ -17,14 +17,18 @@ namespace Account {
             string salt = DBAccess.getSalt(email);
             string passwordWithSalt = password + salt;
             string hashedPassword = Security.hashPassword(passwordWithSalt);
+            Debug.Print("hashedPassword = " + hashedPassword);
 
             //Query the DB for the entered credentials
-            var data = DBAccess.getAllAccountCredentials(email, password) ;
-            
-            // getAllAccountCredentials will return null if the credentials are invalid.
-            if (data.Rows.Count == 1)
-                return true;
+            var data = DBAccess.getAllAccountCredentials(email, hashedPassword) ;
 
+            // getAllAccountCredentials will return null if the credentials are invalid.
+            if (data.Rows.Count == 1) { 
+                Debug.Print("correct credentials");
+                return true;
+            }
+
+            Debug.Print("incorrect credentials");
             return false;
         }
 

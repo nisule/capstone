@@ -152,7 +152,7 @@ public static class DBAccess {
         }
     }
 
-    public static DataTable getAllAccountCredentials(string email, string pword) {
+    public static DataTable getAllAccountCredentials(string email, string password) {
         string sql = "SELECT email, password, salt FROM User WHERE email = @email AND password = @password";
 
         try {
@@ -160,7 +160,7 @@ public static class DBAccess {
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
                 command.CommandTimeout = 1000;
                 command.Parameters.AddWithValue("@email", email);
-                command.Parameters.AddWithValue("@password", pword);
+                command.Parameters.AddWithValue("@password", password);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
