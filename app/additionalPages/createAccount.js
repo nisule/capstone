@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
-
+import RNFetchBlob from 'rn-fetch-blob'
 
 export default class signupView extends Component{
   constructor(props) {
     super(props);
-    this.state = {text: ''};  
+    this.state = {
+      text: '',
+      studentID: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    } 
   }
 
   render() {
@@ -24,10 +31,11 @@ export default class signupView extends Component{
 
       <View style = {{flex: 0.135, flexDirection: 'row'}}>
         <TextInput
+        // TODO: add a box for studentID
           style={styles.nameBoxes}
           placeholder="First Name"
           placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({firstName: text})}
           firstNameInput={this.state.text}
 
           returnKeyType = { "next" }
@@ -40,11 +48,11 @@ export default class signupView extends Component{
           style={styles.nameBoxes}
           placeholder="Last Name"
           placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({lastName: text})}
           lastNameInput={this.state.text}
 
           returnKeyType = { "next" }
-          onSubmitEditing={() => { this.Email.focus(); }}
+          onSubmitEditing={() => { this.studentID.focus(); }}
           blurOnSubmit={false}
           ref={(input) => { this.lastName = input; }}
         />
@@ -53,9 +61,23 @@ export default class signupView extends Component{
       <View style={{flex:0.025}}/>
         <TextInput
           style={styles.signupBoxes}
+          placeholder="Student ID"
+          placeholderTextColor='white'
+          onChangeText={(text) => this.setState({studentID: text})}
+          emailInput={this.state.text}
+
+          returnKeyType = { "next" }
+          onSubmitEditing={() => { this.Email.focus(); }}
+          blurOnSubmit={false}
+          ref={(input) => { this.studentID = input; }}
+        />
+
+      <View style={{flex:0.025}}/>
+        <TextInput
+          style={styles.signupBoxes}
           placeholder="Email"
           placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({email: text})}
           emailInput={this.state.text}
 
           returnKeyType = { "next" }
@@ -69,7 +91,7 @@ export default class signupView extends Component{
           style={styles.signupBoxes}
           placeholder="Password"
           placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({password: text})}
           passwordInput={this.state.text}
           secureTextEntry
 
@@ -78,7 +100,7 @@ export default class signupView extends Component{
           blurOnSubmit={false}
           ref={(input) => { this.Password = input; }}
         />
-
+        
         <View style={{flex:0.025}}/>
         <TextInput
           style={styles.signupBoxes}
@@ -88,12 +110,41 @@ export default class signupView extends Component{
           passwordInput={this.state.text}
           secureTextEntry
           ref={(input) => { this.confirmPassword = input; }}
+          // TODO: add check so that the passwords are equal to each other
           // make onSubmitEditing hit 'create account'
         />
       </View>
 
       <View style={styles.bottom}>
-        <TouchableOpacity style={styles.signupButton} onPress={() => navigate('Login')}>
+        <TouchableOpacity style={styles.signupButton} onPress={() => {
+           RNFetchBlob.config({
+            trusty: true
+            // fix the route
+        }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
+          { 'Content-Type': 'application/json'}, 
+          JSON.stringify({ 
+            // add all the fields
+            userID: this.state.studentID,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password : this.state.password
+          }))
+          .then((response) => {
+            let status = response.info().status;
+
+            if(status == 200){
+              // account creation was successful
+              navigate('Menu')
+            } else{
+              // account creation failed
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Request could not be handled.")
+        })
+        }}>
           <Text style={styles.loginButtonText}>Create Account</Text>
         </TouchableOpacity>
       </View>
