@@ -16,8 +16,7 @@ namespace Account {
             var salt = new char[16];
             
             // pull a random character from chars and put it in the salt array
-            for (int i = 0; i < salt.Length; i++)
-            {
+            for (int i = 0; i < salt.Length; i++) {
                 salt[i] = chars[random.Next(chars.Length)];
             }
 
