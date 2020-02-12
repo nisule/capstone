@@ -128,7 +128,7 @@ export default class FoodMenu extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          this.setModalVisible(false);
         }}>
         <View style={styles.modal}>
           <Text style={styles.modalNutritionalText}>Fat: 0g</Text>
@@ -139,12 +139,13 @@ export default class FoodMenu extends Component {
           <TouchableHighlight
             style={styles.modalButtons}
             onPress={() => {
+              alert("Item added to cart!")
               this.setModalVisible(!this.state.modalVisible);
             }}>
             <Text style={styles.modalButtonText}>Add To Order</Text>
           </TouchableHighlight>
         </View>
-        </Modal>
+      </Modal>
 
         <FlatList
           data={this.state.data}
