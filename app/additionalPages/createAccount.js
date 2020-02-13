@@ -111,41 +111,51 @@ export default class signupView extends Component{
           passwordInput={this.state.text}
           secureTextEntry
           ref={(input) => { this.confirmPassword = input; }}
-          // TODO: add check so that the passwords are equal to each other
           // make onSubmitEditing hit 'create account'
         />
       </View>
 
       <View style={styles.bottom}>
         <TouchableOpacity style={styles.signupButton} onPress={() => {
-           RNFetchBlob.config({
-            trusty: true
-            // fix the route
-        }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
-          { 'Content-Type': 'application/json'}, 
-          JSON.stringify({ 
-            // add all the fields
-            userID: this.state.studentID,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-            password2: this.state.password2
-          }))
-          .then((response) => {
-            let status = response.info().status;
+          // if both password inputs match, send data to create account
+          if (this.state.password === this.state.password2) {
+            // check if password is long enough
+            if (this.state.password.length > 7) {
+                RNFetchBlob.config({
+                  trusty: true
+                  // fix the route
+              }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
+                { 'Content-Type': 'application/json'}, 
+                JSON.stringify({ 
+                  // add all the fields
+                  userID: this.state.studentID,
+                  firstName: this.state.firstName,
+                  lastName: this.state.lastName,
+                  email: this.state.email,
+                  password: this.state.password,
+                  password2: this.state.password2
+                }))
+                .then((response) => {
+                  let status = response.info().status;
 
-            if(status == 200){
-              // account creation was successful
-              navigate('Menu')
-            } else{
-              // account creation failed
+                  if(status == 200){
+                    // account creation was successful
+                    navigate('Menu')
+                  } else{
+                    // account creation failed
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                  alert("Request could not be handled.")
+              })
+            } else {
+              alert("Password must be at least 8 characters, please try again.")
             }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Request could not be handled.")
-        })
+          } else {
+            // if passwords do not match
+            alert("Passwords didn't match, please try again.")
+          }
         }}>
           <Text style={styles.loginButtonText}>Create Account</Text>
         </TouchableOpacity>

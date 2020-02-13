@@ -41,7 +41,7 @@ namespace API.Controllers {
 
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
                 // check that both passwords are the same
-                if (data.password.Equals(data.password2)) {
+                if (data.password.Equals(data.password2) && data.password.Length > 7) {
                     return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
                 }
                 else {
