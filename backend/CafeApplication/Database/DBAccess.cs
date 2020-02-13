@@ -38,6 +38,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in item price query: " + e.Message);
+            connection.Close();
             return null;
         }
     }
@@ -58,6 +59,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error database inserting order: " + e.Message);
+            connection.Close();
         }
     }
 
@@ -79,6 +81,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+            connection.Close();
         }
    
     }
@@ -102,6 +105,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in latest order query: " + e.Message);
+            connection.Close();
             return null;
         }
     }
@@ -123,6 +127,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
+            connection.Close();
             return null;
         }
     }
@@ -170,6 +175,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
+            connection.Close();
             return null;
         }
     }
@@ -190,7 +196,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
-
+            connection.Close();
         }
     }
 
@@ -214,6 +220,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+            connection.Close();
             return false;
         }
     }
@@ -232,6 +239,7 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+            connection.Close();
             return null;
         }
     }

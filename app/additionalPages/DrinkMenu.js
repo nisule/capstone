@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
+import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -54,22 +55,23 @@ export default class DrinkMenu extends Component {
     this.setState({loading: false, data: this.allDrinks, error: null})
 
     // Once we get the api set up, retrieve list of all drinks and save to local list:
-    // const url = `https://<url to get list of drinks>`;
-    // this.setState({ loading: true });
+    const url = 'https:10.0.2.2:5001/DrinkItems';
+    this.setState({ loading: true });
 
-    // fetch(url)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     this.setState({
-    //       data: res.results,
-    //       error: res.error || null,
-    //       loading: false,
-    //     });
-    //     this.allDrinks = res.results;
-    //   })
-    //   .catch(error => {
-    //     this.setState({ error, loading: false });
-    //   });
+    RNFetchBlob.config({
+      trusty: true
+  }).fetch( 'GET', url, 
+    { 'Content-Type': 'application/json'})
+    .then((response) => response.json())
+    .then((responseJson) => {
+      alert(responseJson[0].Name);
+
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Request could not be handled.")
+  })
+
   };
 
   addToOrder(){

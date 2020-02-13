@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using Account;
+using DTOs;
+using Newtonsoft.Json;
+
 
 namespace API.Controllers {
     [ApiController]
     public class AppController : ControllerBase {
 
-        [HttpPost]
-        [Route("Login")]
-        public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) {
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        [Microsoft.AspNetCore.Mvc.Route("Login")]
+        public StatusCodeResult ValidateCredentials([Microsoft.AspNetCore.Mvc.FromBody]AccountCredentials data) {
             // todo remove debug line 
             Debug.WriteLine(data.email + " " + data.password);
-            if (AccountValidator.compareCredentials(data.email, data.password) == true) {
+            if (AccountValidator.compareCredentials(data.email, data.password)) {
                 return StatusCode(200);
             } else {
                 return StatusCode(400);
             }
         }
 
-        [HttpPost]
-        [Route("CreateAccount")]
-        public HttpResponseMessage AddNewUser([FromBody]AccountCredentials data) {
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        [Microsoft.AspNetCore.Mvc.Route("CreateAccount")]
+        public HttpResponseMessage AddNewUser([System.Web.Http.FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
@@ -39,15 +38,16 @@ namespace API.Controllers {
             return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
         }
 
+        [Microsoft.AspNetCore.Mvc.HttpGet]
+        [Microsoft.AspNetCore.Mvc.Route("DrinkItems")]
+        public string MainMenuItems() {
+            var DTO = new ItemDetails();
+
+            var items = DTO.getAllItems();
+            string output = JsonConvert.SerializeObject(items);
+
+            return output; 
+        }
     }
 
-
-    public class AccountCredentials {
-        public string userID { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-
-    }
 }
