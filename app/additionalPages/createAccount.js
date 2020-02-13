@@ -32,7 +32,6 @@ export default class signupView extends Component{
 
       <View style = {{flex: 0.135, flexDirection: 'row'}}>
         <TextInput
-        // TODO: add a box for studentID
           style={styles.nameBoxes}
           placeholder="First Name"
           placeholderTextColor='white'
@@ -110,53 +109,61 @@ export default class signupView extends Component{
           onChangeText={(text) => this.setState({password2: text})}
           passwordInput={this.state.text}
           secureTextEntry
+          onSubmitEditing={() => { this._touchable.touchableHandlePress() }}
           ref={(input) => { this.confirmPassword = input; }}
-          // make onSubmitEditing hit 'create account'
+          // TODO: make onSubmitEditing hit 'create account'
         />
       </View>
 
       <View style={styles.bottom}>
         <TouchableOpacity style={styles.signupButton} onPress={() => {
-          // if both password inputs match, send data to create account
-          if (this.state.password === this.state.password2) {
-            // check if password is long enough
-            if (this.state.password.length > 7) {
-                RNFetchBlob.config({
-                  trusty: true
-                  // fix the route
-              }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
-                { 'Content-Type': 'application/json'}, 
-                JSON.stringify({ 
-                  // add all the fields
-                  userID: this.state.studentID,
-                  firstName: this.state.firstName,
-                  lastName: this.state.lastName,
-                  email: this.state.email,
-                  password: this.state.password,
-                  password2: this.state.password2
-                }))
-                .then((response) => {
-                  let status = response.info().status;
-
-                  if(status == 200){
-                    // account creation was successful
-                    navigate('Menu')
-                  } else{
-                    // account creation failed
-                  }
+          // checks to make sure no field is an empty string
+          if (this.state.firstName != "" && this.state.lastName != "" && this.state.userID != "" && this.state.email != "" && this.state.password != "" && this.state.password2 != "") {
+            // checks if both password inputs match, send data to create account
+            if (this.state.password === this.state.password2) {
+              // checks if password is long enough
+              if (this.state.password.length > 7) {
+                  RNFetchBlob.config({
+                    trusty: true
+                }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
+                  { 'Content-Type': 'application/json'}, 
+                  JSON.stringify({ 
+                    userID: this.state.studentID,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    email: this.state.email,
+                    password: this.state.password,
+                    password2: this.state.password2
+                  }))
+                  .then((response) => {
+                    let status = response.info().status;
+                   
+                    if(status == 200){
+                      // account creation was successful
+                      navigate('Menu')
+                    } else{
+                      // account creation failed
+                      alert("Account creation failed, please try again.")
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    alert("Request could not be handled.")
                 })
-                .catch((error) => {
-                  console.error(error);
-                  alert("Request could not be handled.")
-              })
+              } else {
+                alert("Password must be at least 8 characters, please try again.")
+              }
             } else {
-              alert("Password must be at least 8 characters, please try again.")
+              // if passwords do not match
+              alert("Passwords didn't match, please try again.")
             }
           } else {
-            // if passwords do not match
-            alert("Passwords didn't match, please try again.")
+            alert("Please fill out all the forms.")
           }
-        }}>
+        }}
+        ref={(touchable) => this._touchable = touchable}
+        >
+         
           <Text style={styles.loginButtonText}>Create Account</Text>
         </TouchableOpacity>
       </View>

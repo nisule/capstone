@@ -26,7 +26,7 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("CreateAccount")]
-        public HttpResponseMessage AddNewUser([FromBody]AccountCredentials data) {
+        public StatusCodeResult AddNewUser([FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
@@ -36,19 +36,23 @@ namespace API.Controllers {
             
             // return 400 if anything was an empty string
             if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
             }
 
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
                 // check that both passwords are the same
                 if (data.password.Equals(data.password2) && data.password.Length > 7) {
-                    return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+                    Debug.WriteLine("response 200");
+                    return StatusCode(200);
                 }
                 else {
-                    return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                    Debug.WriteLine("response 400");
+                    return StatusCode(400);
                 }
             } else {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
             }
 
         }
