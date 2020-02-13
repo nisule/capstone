@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http;
 using Account;
 using DTOs;
 using Newtonsoft.Json;
@@ -23,19 +22,38 @@ namespace API.Controllers {
             }
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("CreateAccount")]
-        public HttpResponseMessage AddNewUser([System.Web.Http.FromBody]AccountCredentials data) {
+
+        [HttpPost]
+        [Route("CreateAccount")]
+        public StatusCodeResult AddNewUser([FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
-            //TODO: check if any fields are null -> return proper response code
+            //TODO: probably a lot more checks we could add to make data we get can actually go in DB
 
-            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password);
-            if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password))
-                return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password + " " + data.password2);
+            
+            // return 400 if anything was an empty string
+            if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) {
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
+            }
 
-            return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+            if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
+                // check that both passwords are the same
+                if (data.password.Equals(data.password2) && data.password.Length > 7) {
+                    Debug.WriteLine("response 200");
+                    return StatusCode(200);
+                }
+                else {
+                    Debug.WriteLine("response 400");
+                    return StatusCode(400);
+                }
+            } else {
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
+            }
+
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet]

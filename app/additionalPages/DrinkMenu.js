@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
+import {TouchableWithoutFeedback, TouchableOpacity } from "react-native-gesture-handler";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -130,7 +131,7 @@ export default class DrinkMenu extends Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+            this.setModalVisible(false);
           }}>
           <View style={styles.modal}>
             <Text style={styles.modalNutritionalText}>Fat: 0g</Text>
@@ -141,6 +142,7 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
+                alert("Item added to cart!")
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>
@@ -168,6 +170,7 @@ export default class DrinkMenu extends Component {
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />
+        
       </SafeAreaView>
     );
 
