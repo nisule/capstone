@@ -12,6 +12,7 @@ export default class signupView extends Component{
       lastName: '',
       email: '',
       password: '',
+      password2: '',
     } 
   }
 
@@ -106,7 +107,7 @@ export default class signupView extends Component{
           style={styles.signupBoxes}
           placeholder="Confirm Password"
           placeholderTextColor='white'
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({password2: text})}
           passwordInput={this.state.text}
           secureTextEntry
           ref={(input) => { this.confirmPassword = input; }}
@@ -128,7 +129,8 @@ export default class signupView extends Component{
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            password : this.state.password
+            password: this.state.password,
+            password2: this.state.password2
           }))
           .then((response) => {
             let status = response.info().status;

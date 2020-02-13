@@ -30,13 +30,27 @@ namespace API.Controllers {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
-            //TODO: check if any fields are null -> return proper response code
+            //TODO: probably a lot more checks we could add to make data we get can actually go in DB
 
-            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password);
-            if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password))
-                return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password + " " + data.password2);
+            
+            // return 400 if anything was an empty string
+            if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) {
+                return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+            }
 
-            return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+            if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
+                // check that both passwords are the same
+                if (data.password.Equals(data.password2)) {
+                    return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+                }
+                else {
+                    return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                }
+            } else {
+                return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+            }
+
         }
 
     }
@@ -48,6 +62,8 @@ namespace API.Controllers {
         public string lastName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
+
+        public string password2 { get; set; }
 
     }
 }
