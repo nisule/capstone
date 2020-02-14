@@ -50,41 +50,56 @@ export default class loginView extends Component {
               ref={(input) => { this.Password = input; }}
   
               // check to make sure login is valid later before navigating
-              onSubmitEditing={() => { navigate('Menu') }} 
+              onSubmitEditing={() => { this._touchable.touchableHandlePress() }} 
             />
         </View>
         
   
         <View style={styles.bottom}>
-  
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            RNFetchBlob.config({
-                trusty: true
-            }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
-              { 'Content-Type': 'application/json'}, 
-              JSON.stringify({ 
-                email: this.state.email,
-                password : this.state.password
-              }))
-              .then((response) => {
-                let status = response.info().status;
+            // if both email and password are blank
+            if (this.state.email === "" && this.state.password === "") {
+              alert("Please fill out the fields and try again.")
+            } else {
+              // check if email is blank
+              if (this.state.email != "") {
+                // check if password is blank
+                if (this.state.password != "") {
+                  RNFetchBlob.config({
+                      trusty: true
+                  }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
+                    { 'Content-Type': 'application/json'}, 
+                    JSON.stringify({ 
+                      email: this.state.email,
+                      password : this.state.password
+                    }))
+                    .then((response) => {
+                      let status = response.info().status;
 
-                if(status == 200){
-                  //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
-                  alert("Welcome!")
-                  navigate('Menu')
-                } else{
-                  alert("Incorrect credentials, please try again.")
-                  //TODO: Remove this once we fix the account validation.
+                      if(status == 200){
+                        //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
+                        alert("Welcome!")
+                        navigate('Menu')
+                      } else{
+                        alert("Incorrect credentials, please try again.")
+                        //TODO: Remove this once we fix the account validation.
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                      alert("Request could not be handled.")
+                  })
+                } else {
+                  alert("Please enter your password and try again.")
                 }
-              })
-              .catch((error) => {
-                console.error(error);
-                alert("Request could not be handled.")
-            })
-
-
-          }}>
+              } else {
+                alert("Please enter your email and try again.")
+              }
+            }
+            
+          }}
+          ref={(touchable) => this._touchable = touchable}
+          >
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
   
