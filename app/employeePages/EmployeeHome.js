@@ -9,6 +9,7 @@ export default class EmployeeHome extends Component {
     super(props);
   }
   render() {
+    const {navigate} = this.props.navigation;
 
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>

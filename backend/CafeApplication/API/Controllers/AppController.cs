@@ -13,11 +13,20 @@ namespace API.Controllers {
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [Microsoft.AspNetCore.Mvc.Route("Login")]
         public StatusCodeResult ValidateCredentials([Microsoft.AspNetCore.Mvc.FromBody]AccountCredentials data) {
-            // todo remove debug line 
+            // todo remove debug lines
             Debug.WriteLine(data.email + " " + data.password);
+
+            // return 400 if anything was an empty string
+            if (data.email.Equals("") || data.password.Equals("")) {
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
+            }
+            
             if (AccountValidator.compareCredentials(data.email, data.password)) {
+                Debug.WriteLine("response 200");
                 return StatusCode(200);
             } else {
+                Debug.WriteLine("response 400");
                 return StatusCode(400);
             }
         }
@@ -39,6 +48,7 @@ namespace API.Controllers {
                 return StatusCode(400);
             }
 
+            // if account gets stored in db successfully
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
                 // check that both passwords are the same
                 if (data.password.Equals(data.password2) && data.password.Length > 7) {
@@ -54,6 +64,16 @@ namespace API.Controllers {
                 return StatusCode(400);
             }
 
+        }
+
+        [HttpPost]
+        [Route("IsEmployee")]
+        public string isEmployee([FromBody]AccountCredentials data) {
+            bool isEmployee = AccountValidator.isEmployee(data.email);
+            Debug.WriteLine(isEmployee);
+
+            string output = JsonConvert.SerializeObject(isEmployee);
+            return output;
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet]

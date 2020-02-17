@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import drawerNavigator from './DrawerNavigator';
 import loginView from '../additionalPages/Login';
 import signupView  from '../additionalPages/createAccount';
+import employeeView from '../employeePages/EmployeeHome';
 
 const Navigator = createStackNavigator({
       Login: {
@@ -22,6 +23,12 @@ const Navigator = createStackNavigator({
         screen: drawerNavigator,
         navigationOptions: {
             header: null
+        }
+      },
+      Employee: {
+        screen: employeeView,
+        navigationOptions: {
+          header: null
         }
       }
 });

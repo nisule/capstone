@@ -57,7 +57,7 @@ export default class loginView extends Component {
   
         <View style={styles.bottom}>
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            // if both email and password are blank
+            // check if both email and password are blank
             if (this.state.email === "" && this.state.password === "") {
               alert("Please fill out the fields and try again.")
             } else {
@@ -65,6 +65,7 @@ export default class loginView extends Component {
               if (this.state.email != "") {
                 // check if password is blank
                 if (this.state.password != "") {
+                  // call to API to try to log in 
                   RNFetchBlob.config({
                       trusty: true
                   }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
@@ -76,13 +77,35 @@ export default class loginView extends Component {
                     .then((response) => {
                       let status = response.info().status;
 
-                      if(status == 200){
-                        //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
-                        alert("Welcome!")
-                        navigate('Menu')
-                      } else{
-                        alert("Incorrect credentials, please try again.")
+                      // if status is 200 then login was succesful
+                      if(status == 200) {
+                        // make call to API to see if user is an employee or customer
+                        RNFetchBlob.config({
+                          trusty: true
+                        }).fetch( 'POST', 'https:10.0.2.2:5001/IsEmployee', 
+                        { 'Content-Type': 'application/json'}, 
+                        JSON.stringify({ 
+                          email: this.state.email,
+                        }))
+                        .then((response) => {
+
+                          let status = response.info().status;
+                          if (status === 200) {
+                            let text = response.text()
+
+                            // navigate to customer or employee view
+                            if (text === "false") {
+                              navigate('Menu')
+                            } else if (text === "true") {
+                              navigate('Employee')
+                            }
+          
+                          }
+                        })
+
+                      } else {
                         //TODO: Remove this once we fix the account validation.
+                        alert("Incorrect credentials, please try again.")
                       }
                     })
                     .catch((error) => {
