@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Dimensions, Modal, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
+import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -12,29 +13,10 @@ export default class FoodMenu extends Component {
     this.state = {
       loading: false,
       data: [],
+      currentDataDisplayed: [],
       error: null,
       modalVisible: false,
     };
-
-    // Delete this after API is working, just have this data to demonstrate how the views are working.
-    this.allFood = [
-      {key:1, name:"Apple Slices", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:2, name:"Carrots", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:3, name:"Apple Slices1", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:4, name:"Carrots1", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:5, name:"Apple Slices2", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:6, name:"Carrots2", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:7, name:"Apple Slices3", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:8, name:"Carrots3", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:9, name:"Apple Slices4", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:10, name:"Carrots4", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:11, name:"Apple Slices5", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:12, name:"Carrots5", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:13, name:"Apple Slices6", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:14, name:"Carrots6", image:require("./img/carrots.jpg"), price: "0.50"},
-      {key:15, name:"Apple Slices7", image:require("./img/apple_slices.jpg"), price: "0.50"},
-      {key:16, name:"Carrots7", image:require("./img/carrots.jpg"), price: "0.50"},
-    ];
   }
 
   setModalVisible(visible) {
@@ -48,28 +30,28 @@ export default class FoodMenu extends Component {
   }
 
   makeRemoteRequest = () => {
-    this.setState({loading: true});
+    //TODO: Change to correct url when endpoints for all food is added to API:
+    const url = 'https:10.0.2.2:5001/DrinkItems';
+    this.setState({ loading: true });
 
-    // Delete this statement after API is working.
-    this.setState({loading: false, data: this.allFood, error: null})
-
-    // Once we get the api set up, retrieve list of all food and save to local list:
-    // const url = `https://<url to get list of food>`;
-    // this.setState({ loading: true });
-
-    // fetch(url)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     this.setState({
-    //       data: res.results,
-    //       error: res.error || null,
-    //       loading: false,
-    //     });
-    //     this.allFood = res.results;
-    //   })
-    //   .catch(error => {
-    //     this.setState({ error, loading: false });
-    //   });
+    RNFetchBlob.config({
+      trusty: true
+    }).fetch( 'GET', url, 
+      { 'Content-Type': 'application/json'})
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          data: responseJson,
+          currentDataDisplayed: responseJson,
+          error: responseJson.error || null,
+          loading: false,
+        })
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState({loading: false})
+        alert("Request could not be handled.")
+    })
   };
 
   addToOrder(){
@@ -81,16 +63,23 @@ export default class FoodMenu extends Component {
       value: text,
     });
 
-    const newData = this.allFood.filter(item => {
-      const itemData = `${item.name.toUpperCase()}`;
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-    
-    this.setState({
-      data: newData,
-    });
+    if(this.state.value == ""){
+      this.setState({
+        // If the search bar is empty, set the current data being displayed to all items.
+        currentDataDisplayed: this.state.data,
+      });
+    } else{
+      const newData = this.state.data.filter(item => {
+        const itemData = `${item.item_name.toUpperCase()}`;
+        const textData = text.toUpperCase();
+  
+        return itemData.indexOf(textData) > -1;
+      });
+      
+      this.setState({
+        currentDataDisplayed: newData,
+      });
+    }
   };
 
   renderHeader = () => {
@@ -148,14 +137,14 @@ export default class FoodMenu extends Component {
       </Modal>
 
         <FlatList
-          data={this.state.data}
+          data={this.state.currentDataDisplayed}
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
-                source: item.image,
+                source: require("./img/apple_slices.jpg"),
                 size: "large"
               }}
-              title={`${item.name}`}
+              title={`${item.item_name}`}
               subtitle={`$${item.price}`}
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
@@ -163,7 +152,7 @@ export default class FoodMenu extends Component {
               onPress={() => {this.setModalVisible(true);}}
             />
           )}
-          keyExtractor={item => item.name}
+          keyExtractor={item => item.item_name}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />
