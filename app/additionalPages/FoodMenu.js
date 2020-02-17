@@ -13,6 +13,7 @@ export default class FoodMenu extends Component {
     this.state = {
       loading: false,
       data: [],
+      currentDataDisplayed: [],
       error: null,
       modalVisible: false,
     };
@@ -41,6 +42,7 @@ export default class FoodMenu extends Component {
       .then((responseJson) => {
         this.setState({
           data: responseJson,
+          currentDataDisplayed: responseJson,
           error: responseJson.error || null,
           loading: false,
         })
@@ -61,16 +63,23 @@ export default class FoodMenu extends Component {
       value: text,
     });
 
-    const newData = this.state.data.filter(item => {
-      const itemData = `${item.item_name.toUpperCase()}`;
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-    
-    this.setState({
-      data: newData,
-    });
+    if(this.state.value == ""){
+      this.setState({
+        // If the search bar is empty, set the current data being displayed to all items.
+        currentDataDisplayed: this.state.data,
+      });
+    } else{
+      const newData = this.state.data.filter(item => {
+        const itemData = `${item.item_name.toUpperCase()}`;
+        const textData = text.toUpperCase();
+  
+        return itemData.indexOf(textData) > -1;
+      });
+      
+      this.setState({
+        currentDataDisplayed: newData,
+      });
+    }
   };
 
   renderHeader = () => {
@@ -128,7 +137,7 @@ export default class FoodMenu extends Component {
       </Modal>
 
         <FlatList
-          data={this.state.data}
+          data={this.state.currentDataDisplayed}
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
