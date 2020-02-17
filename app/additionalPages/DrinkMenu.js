@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
-import {TouchableWithoutFeedback, TouchableOpacity } from "react-native-gesture-handler";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -17,26 +16,6 @@ export default class DrinkMenu extends Component {
       error: null,
       modalVisible: false,
     };
-
-    // Delete this after API is working, just have this data to demonstrate how the views are working.
-    this.allDrinks = [
-      {key:1, name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:2, name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:3, name:"Chocolate Milk1", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:4, name:"Gatorade1", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:5, name:"Chocolate Milk2", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:6, name:"Gatorade2", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:7, name:"Chocolate Milk3", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:8, name:"Gatorade3", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:9, name:"Chocolate Milk4", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:10, name:"Gatorade4", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:11, name:"Chocolate Milk5", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:12, name:"Gatorade5", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:13, name:"Chocolate Milk6", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:14, name:"Gatorade6", image:require("./img/gatorade.jpg"), price: "1.89"},
-      {key:15, name:"Chocolate Milk7", image:require("./img/Chocolate_Milk.jpg"), price: "0.50"},
-      {key:16, name:"Gatorade7", image:require("./img/gatorade.jpg"), price: "1.89"},
-    ];
   }
 
   setModalVisible(visible) {
@@ -50,29 +29,26 @@ export default class DrinkMenu extends Component {
   }
 
   makeRemoteRequest = () => {
-    this.setState({loading: true});
-
-    // Delete this statement after API is working.
-    this.setState({loading: false, data: this.allDrinks, error: null})
-
-    // Once we get the api set up, retrieve list of all drinks and save to local list:
     const url = 'https:10.0.2.2:5001/DrinkItems';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
       trusty: true
-  }).fetch( 'GET', url, 
-    { 'Content-Type': 'application/json'})
-    .then((response) => response.json())
-    .then((responseJson) => {
-      alert(responseJson[0].Name);
-
+    }).fetch( 'GET', url, 
+      { 'Content-Type': 'application/json'})
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          data: responseJson,
+          error: responseJson.error || null,
+          loading: false,
+        })
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState({loading: false})
+        alert("Request could not be handled.")
     })
-    .catch((error) => {
-      console.error(error);
-      alert("Request could not be handled.")
-  })
-
   };
 
   addToOrder(){
@@ -84,8 +60,8 @@ export default class DrinkMenu extends Component {
       value: text,
     });
 
-    const newData = this.allDrinks.filter(item => {
-      const itemData = `${item.name.toUpperCase()}`;
+    const newData = this.state.data.filter(item => {
+      const itemData = `${item.item_name.toUpperCase()}`;
       const textData = text.toUpperCase();
 
       return itemData.indexOf(textData) > -1;
@@ -155,10 +131,10 @@ export default class DrinkMenu extends Component {
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
-                source: item.image,
+                source: require("./img/Chocolate_Milk.jpg"),
                 size: "large"
               }}
-              title={`${item.name}`}
+              title={`${item.item_name}`}
               subtitle={`$${item.price}`}
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
@@ -166,7 +142,7 @@ export default class DrinkMenu extends Component {
               onPress={() => {this.setModalVisible(true);}}
             />
           )}
-          keyExtractor={item => item.name}
+          keyExtractor={item => item.item_name}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />
