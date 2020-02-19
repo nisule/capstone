@@ -14,7 +14,7 @@ export default class loginView extends Component {
 
     render() {
       const {navigate} = this.props.navigation;
-  
+
       return (
       <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
 
@@ -22,11 +22,11 @@ export default class loginView extends Component {
 
           <View style={{flex: .5, alignItems:'center', justifyContent: 'center'}}>
             <Image
-              style={{flex: 1, resizeMode: 'stretch', width: '100%'}}   
-              source={require('./img/saucer.png')} />    
+              style={{flex: 1, resizeMode: 'stretch', width: '100%'}}
+              source={require('./img/saucer.png')} />
           </View>
-          <View style={{flex:0.025}}/>  
-  
+          <View style={{flex:0.025}}/>
+
             <TextInput
               style={styles.loginBoxes}
               placeholder="Email"
@@ -38,7 +38,7 @@ export default class loginView extends Component {
               onSubmitEditing={() => { this.Password.focus(); }}
               blurOnSubmit={false}
             />
-  
+
             <View style={{flex:0.025}}/>
             <TextInput
               style={styles.loginBoxes}
@@ -48,50 +48,87 @@ export default class loginView extends Component {
               passwordInput={this.state.text}
               secureTextEntry
               ref={(input) => { this.Password = input; }}
-  
+
               // check to make sure login is valid later before navigating
-              onSubmitEditing={() => { navigate('Menu') }} 
+              onSubmitEditing={() => { this._touchable.touchableHandlePress() }}
             />
         </View>
-        
-  
+
+
         <View style={styles.bottom}>
-  
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            RNFetchBlob.config({
-                trusty: true
-            }).fetch( 'POST', 'https:10.0.2.2:5001/Login', 
-              { 'Content-Type': 'application/json'}, 
-              JSON.stringify({ 
-                email: this.state.email,
-                password : this.state.password
-              }))
-              .then((response) => {
-                let status = response.info().status;
+            // check if both email and password are blank
+            if (this.state.email === "" && this.state.password === "") {
+              alert("Please fill out the fields and try again.")
+            } else {
+              // check if email is blank
+              if (this.state.email != "") {
+                // check if password is blank
+                if (this.state.password != "") {
+                  // call to API to try to log in
+                  RNFetchBlob.config({
+                      trusty: true
+                  }).fetch( 'POST', 'https:10.0.2.2:5001/Login',
+                    { 'Content-Type': 'application/json'},
+                    JSON.stringify({
+                      email: this.state.email,
+                      password : this.state.password
+                    }))
+                    .then((response) => {
+                      let status = response.info().status;
 
-                if(status == 200){
-                  //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
-                  alert("Welcome!")
-                  navigate('Menu')
-                } else if(status == 404){
-                  alert("Error Connecting...") 
-                }else{
-                  alert("Incorrect credentials, please try again.") 
+                      // if status is 200 then login was succesful
+                      if(status == 200) {
+                        // make call to API to see if user is an employee or customer
+                        RNFetchBlob.config({
+                          trusty: true
+                        }).fetch( 'POST', 'https:10.0.2.2:5001/IsEmployee',
+                        { 'Content-Type': 'application/json'},
+                        JSON.stringify({
+                          email: this.state.email,
+                        }))
+                        .then((response) => {
+
+                          let status = response.info().status;
+                          if (status === 200) {
+                            let text = response.text()
+
+                            // navigate to customer or employee view
+                            if (text === "false") {
+                              navigate('Menu')
+                            } else if (text === "true") {
+                              navigate('Employee')
+                            }
+
+                          }
+                        })
+
+                      } else {
+                        //TODO: Remove this once we fix the account validation.
+                        alert("Incorrect credentials, please try again.")
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                      alert("Request could not be handled.")
+                  })
+                } else {
+                  alert("Please enter your password and try again.")
                 }
-              })
-              .catch((error) => {
-                console.error(error);
-                alert("Request could not be handled.")
-            })
+              } else {
+                alert("Please enter your email and try again.")
+              }
+            }
 
-
-          }}>
+          }}
+          ref={(touchable) => this._touchable = touchable}
+          >
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
-  
+
           <TouchableOpacity style={styles.loginButtons} onPress={() => navigate('Signup')}>
             <Text style={styles.loginButtonText}>Signup</Text>
-          </TouchableOpacity>         
+          </TouchableOpacity>
         </View>
 
         <View style={{justifyContent:'center', alignItems:'center', alignSelf:'center',position: 'absolute', top: '5%'}}>
@@ -102,7 +139,7 @@ export default class loginView extends Component {
       );
     }
   }
-  
+
   const styles = StyleSheet.create({
       bottom: {
         flex: 0.27,

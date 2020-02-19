@@ -31,6 +31,10 @@ namespace Account {
             return 0;
         }
 
+        public static bool isEmployee(string email) {
+            return DBAccess.isEmployee(email);
+        }
+
         
 
 

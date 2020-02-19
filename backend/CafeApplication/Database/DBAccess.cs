@@ -157,6 +157,28 @@ public static class DBAccess {
         }
     }
 
+    public static bool isEmployee(string email) {
+        string sql = "SELECT is_employee FROM User WHERE email = @email";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@email", email);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                bool is_employee = (bool)dataTable.Rows[0]["is_employee"];
+                return is_employee;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database user isEmployee query: " + e.StackTrace);
+            connection.Close();
+            return false;
+        }
+    }
+
     public static DataTable getAllAccountCredentials(string email, string password) {
         string sql = "SELECT email, password, salt FROM User WHERE email = @email AND password = @password";
 

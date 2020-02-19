@@ -13,10 +13,21 @@ namespace API.Controllers {
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [Microsoft.AspNetCore.Mvc.Route("Login")]
         public StatusCodeResult ValidateCredentials([Microsoft.AspNetCore.Mvc.FromBody]AccountCredentials data) {
-            int status = AccountValidator.compareCredentials(data.email, data.password);
+            // todo remove debug lines
+            Debug.WriteLine(data.email + " " + data.password);
 
-            if (status == 1) {
+            // return 400 if anything was an empty string
+            if (data.email.Equals("") || data.password.Equals("")) {
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
+            }
+
+            if (AccountValidator.compareCredentials(data.email, data.password)) {
+                Debug.WriteLine("response 200");
                 return StatusCode(200);
+            } else {
+                Debug.WriteLine("response 400");
+                return StatusCode(400);
             }
             else if (status == -1) {
                 return StatusCode(404);
@@ -35,13 +46,14 @@ namespace API.Controllers {
             //TODO: probably a lot more checks we could add to make data we get can actually go in DB
 
             Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password + " " + data.password2);
-            
+
             // return 400 if anything was an empty string
             if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) {
                 Debug.WriteLine("response 400");
                 return StatusCode(400);
             }
 
+            // if account gets stored in db successfully
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
                 // check that both passwords are the same
                 if (data.password.Equals(data.password2) && data.password.Length > 7) {
@@ -59,6 +71,15 @@ namespace API.Controllers {
 
         }
 
+        [HttpPost]
+        [Route("IsEmployee")]
+        public string isEmployee([FromBody]AccountCredentials data) {
+            bool isEmployee = AccountValidator.isEmployee(data.email);
+
+            string output = JsonConvert.SerializeObject(isEmployee);
+            return output;
+        }
+
         [Microsoft.AspNetCore.Mvc.HttpGet]
         [Microsoft.AspNetCore.Mvc.Route("DrinkItems")]
         public string MainMenuItems() {
@@ -67,7 +88,7 @@ namespace API.Controllers {
             var items = DTO.getAllItems();
             string output = JsonConvert.SerializeObject(items);
 
-            return output; 
+            return output;
         }
     }
 
