@@ -73,9 +73,10 @@ export default class loginView extends Component {
                   //TODO: Change this alert to some other pop up window that doesn't have the "alert" showing in the window.
                   alert("Welcome!")
                   navigate('Menu')
-                } else{
-                  alert("Incorrect credentials, please try again.")
-                  //TODO: Remove this once we fix the account validation.
+                } else if(status == 404){
+                  alert("Error Connecting...") 
+                }else{
+                  alert("Incorrect credentials, please try again.") 
                 }
               })
               .catch((error) => {

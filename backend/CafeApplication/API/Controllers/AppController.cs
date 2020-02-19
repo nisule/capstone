@@ -13,13 +13,16 @@ namespace API.Controllers {
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [Microsoft.AspNetCore.Mvc.Route("Login")]
         public StatusCodeResult ValidateCredentials([Microsoft.AspNetCore.Mvc.FromBody]AccountCredentials data) {
-            // todo remove debug line 
-            Debug.WriteLine(data.email + " " + data.password);
-            if (AccountValidator.compareCredentials(data.email, data.password)) {
+            int status = AccountValidator.compareCredentials(data.email, data.password);
+
+            if (status == 1) {
                 return StatusCode(200);
-            } else {
-                return StatusCode(400);
             }
+            else if (status == -1) {
+                return StatusCode(404);
+            }
+            else
+                return StatusCode(400);
         }
 
 

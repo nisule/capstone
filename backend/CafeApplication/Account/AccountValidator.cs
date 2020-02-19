@@ -12,24 +12,23 @@ namespace Account {
          
         }
 
-        // return true if credentials are valid, false otherwise
-        public static bool compareCredentials(string email, string password) {
+        // returns -1 on null error, 0 for no data, and 1 if credentials match
+        public static int compareCredentials(string email, string password) {
             string salt = DBAccess.getSalt(email);
             string passwordWithSalt = password + salt;
             string hashedPassword = Security.hashPassword(passwordWithSalt);
-            Debug.Print("hashedPassword = " + hashedPassword);
 
             //Query the DB for the entered credentials
             var data = DBAccess.getAllAccountCredentials(email, hashedPassword) ;
 
-            // getAllAccountCredentials will return null if the credentials are invalid.
-            if (data.Rows.Count == 1) { 
-                Debug.Print("correct credentials");
-                return true;
-            }
+            if (data is null)
+                return -1;
 
-            Debug.Print("incorrect credentials");
-            return false;
+            // getAllAccountCredentials will return null if the credentials are invalid.
+            if (data.Rows.Count == 1) 
+                return 1;
+
+            return 0;
         }
 
         

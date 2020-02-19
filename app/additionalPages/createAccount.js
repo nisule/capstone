@@ -118,7 +118,8 @@ export default class signupView extends Component{
       <View style={styles.bottom}>
         <TouchableOpacity style={styles.signupButton} onPress={() => {
           // checks to make sure no field is an empty string
-          if (this.state.firstName != "" && this.state.lastName != "" && this.state.userID != "" && this.state.email != "" && this.state.password != "" && this.state.password2 != "") {
+          if (this.state.firstName != "" && this.state.lastName != "" && this.state.userID != "" 
+          && this.state.email != "" && this.state.password != "" && this.state.password2 != "") {
             // checks if both password inputs match, send data to create account
             if (this.state.password === this.state.password2) {
               // checks if password is long enough
