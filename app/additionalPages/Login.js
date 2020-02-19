@@ -58,9 +58,9 @@ export default class loginView extends Component {
         <View style={styles.bottom}>
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
             // check if both email and password are blank
-            if (this.state.email === "" && this.state.password === "") {
+            if (this.state.email === "" && this.state.password === "")
               alert("Please fill out the fields and try again.")
-            } else {
+            else {
               // check if email is blank
               if (this.state.email != "") {
                 // check if password is blank
@@ -88,38 +88,33 @@ export default class loginView extends Component {
                           email: this.state.email,
                         }))
                         .then((response) => {
-
                           let status = response.info().status;
                           if (status === 200) {
                             let text = response.text()
 
                             // navigate to customer or employee view
-                            if (text === "false") {
+                            if (text === "false") 
                               navigate('Menu')
-                            } else if (text === "true") {
+                            else if (text === "true") 
                               navigate('Employee')
-                            }
-
                           }
                         })
 
-                      } else {
-                        //TODO: Remove this once we fix the account validation.
+                      }else if (status == 400)
+                        alert("Incorrect credentials, please try again.")   
+                      else 
                         alert("Incorrect credentials, please try again.")
-                      }
+
                     })
                     .catch((error) => {
                       console.error(error);
                       alert("Request could not be handled.")
                   })
-                } else {
+                } else 
                   alert("Please enter your password and try again.")
-                }
-              } else {
-                alert("Please enter your email and try again.")
-              }
+              } else 
+                alert("Please enter your email and try again.")    
             }
-
           }}
           ref={(touchable) => this._touchable = touchable}
           >

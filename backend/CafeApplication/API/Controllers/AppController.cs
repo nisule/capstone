@@ -10,32 +10,21 @@ namespace API.Controllers {
     [ApiController]
     public class AppController : ControllerBase {
 
-        [Microsoft.AspNetCore.Mvc.HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("Login")]
-        public StatusCodeResult ValidateCredentials([Microsoft.AspNetCore.Mvc.FromBody]AccountCredentials data) {
-            // todo remove debug lines
-            Debug.WriteLine(data.email + " " + data.password);
-
-            // return 400 if anything was an empty string
-            if (data.email.Equals("") || data.password.Equals("")) {
-                Debug.WriteLine("response 400");
+        [HttpPost]
+        [Route("Login")]
+        public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) { 
+            if (data.email.Equals("") || data.password.Equals("")) 
                 return StatusCode(400);
-            }
+           
+            int status = AccountValidator.compareCredentials(data.email, data.password);
 
-            if (AccountValidator.compareCredentials(data.email, data.password)) {
-                Debug.WriteLine("response 200");
+            if (status == 1) //valid credentials
                 return StatusCode(200);
-            } else {
-                Debug.WriteLine("response 400");
+            else if (status == 0) //invalid credentials
                 return StatusCode(400);
-            }
-            else if (status == -1) {
+            else  //Null error
                 return StatusCode(404);
-            }
-            else
-                return StatusCode(400);
         }
-
 
         [HttpPost]
         [Route("CreateAccount")]
@@ -45,21 +34,17 @@ namespace API.Controllers {
 
             //TODO: probably a lot more checks we could add to make data we get can actually go in DB
 
-            Debug.WriteLine(data.userID + " " + data.firstName + " " + data.lastName + " " + data.email + " " + data.password + " " + data.password2);
-
             // return 400 if anything was an empty string
-            if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) {
-                Debug.WriteLine("response 400");
+            if (data.userID.Equals("") || data.firstName.Equals("") || data.lastName.Equals("") || data.email.Equals("") || data.password.Equals("") || data.password2.Equals("")) 
                 return StatusCode(400);
-            }
+            
 
             // if account gets stored in db successfully
             if (c.storeNewAccount(data.userID, data.firstName, data.lastName, data.email, data.password)) {
                 // check that both passwords are the same
-                if (data.password.Equals(data.password2) && data.password.Length > 7) {
-                    Debug.WriteLine("response 200");
+                if (data.password.Equals(data.password2) && data.password.Length > 7) 
                     return StatusCode(200);
-                }
+                
                 else {
                     Debug.WriteLine("response 400");
                     return StatusCode(400);
@@ -80,8 +65,8 @@ namespace API.Controllers {
             return output;
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("DrinkItems")]
+        [HttpGet]
+        [Route("DrinkItems")]
         public string MainMenuItems() {
             var DTO = new ItemDetails();
 
