@@ -82,28 +82,29 @@ export default class loginView extends Component {
                         // make call to API to see if user is an employee or customer
                         RNFetchBlob.config({
                           trusty: true
-                        }).fetch( 'POST', 'https:10.0.2.2:5001/IsEmployee',
+                        }).fetch( 'POST', 'https:10.0.2.2:5001/Info',
                         { 'Content-Type': 'application/json'},
                         JSON.stringify({
                           email: this.state.email,
                         }))
-                        .then((response) => {
+                        .then((response) => response.json())
+                        .then((responseJson) => {                          
                           let status = response.info().status;
                           if (status === 200) {
-                            let text = response.text()
-
-                            // navigate to customer or employee view
-                            if (text === "false") 
+                          // TODO: Create new instance of UserInfo
+                      
+                          //navigate to customer or employee view
+                            if (responseJson.isEmployee === false) 
                               navigate('Menu')
-                            else if (text === "true") 
+                            else if (responseJson.isEmployee === true) 
                               navigate('Employee')
-                          }
+                           }
                         })
 
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
                       else 
-                        alert("Incorrect credentials, please try again.")
+                        alert("Error Connecting...")
 
                     })
                     .catch((error) => {

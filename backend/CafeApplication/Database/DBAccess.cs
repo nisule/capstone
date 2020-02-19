@@ -196,6 +196,27 @@ public static class DBAccess {
         }
     }
 
+    public static DataTable getUserInfo(string email) {
+        string sql = "SELECT first_name, email, is_employee FROM User WHERE email = @email";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@email", email);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database user info query: " + e.Message);
+            connection.Close();
+            return null;
+        }
+    }
+
     public static void updateBalance(string userID, double newBalance) {
         string sql = "UPDATE User " + 
                      "SET balance = @newBalance " + 

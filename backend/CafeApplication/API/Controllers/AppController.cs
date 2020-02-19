@@ -27,6 +27,16 @@ namespace API.Controllers {
         }
 
         [HttpPost]
+        [Route("Info")]
+        public string UserInfo([FromBody]AccountCredentials data) {
+            var DTO = new AccountCredentials();
+            var info = DTO.getUserInfo(data.email);
+            string output = JsonConvert.SerializeObject(info);
+            return output;
+        }
+
+
+        [HttpPost]
         [Route("CreateAccount")]
         public StatusCodeResult AddNewUser([FromBody]AccountCredentials data) {
             //TODO: use factory to create object instance
