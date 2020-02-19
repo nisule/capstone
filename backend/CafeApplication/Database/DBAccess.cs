@@ -16,12 +16,6 @@ public static class DBAccess {
         return issueQuery(sql);
     }
 
-    //Only drinks filter
-    public static DataTable getAllDrinks() {
-        string sql = "SELECT * FROM Item WHERE is_drink = true";
-        return issueQuery(sql);
-    }
-
     public static DataTable getItemPrice(string itemID) {
         string sql = "SELECT price FROM Item WHERE item_id = @itemID";
         try {
@@ -245,6 +239,16 @@ public static class DBAccess {
             connection.Close();
             return false;
         }
+    }
+
+    public static DataTable getAllFood() {
+        string sql = "SELECT * FROM Item WHERE is_drink = false";
+        return issueQuery(sql);
+    }
+    
+    public static DataTable getAllDrinks() {
+        string sql = "SELECT * FROM Item WHERE is_drink = true";
+        return issueQuery(sql);
     }
 
     private static DataTable issueQuery(string sql) {

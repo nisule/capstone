@@ -31,7 +31,7 @@ export default class FoodMenu extends Component {
 
   makeRemoteRequest = () => {
     //TODO: Change to correct url when endpoints for all food is added to API:
-    const url = 'https:10.0.2.2:5001/DrinkItems';
+    const url = 'https:10.0.2.2:5001/FoodItems';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
