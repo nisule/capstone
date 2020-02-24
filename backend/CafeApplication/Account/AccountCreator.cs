@@ -21,7 +21,5 @@ namespace Account {
             return DBAccess.InsertNewUser(id, firstName, lastName, email, hashedPassword, _salt);
         }
 
-
-        
     }
 }

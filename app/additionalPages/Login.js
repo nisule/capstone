@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob';
 
 export default class loginView extends Component {
     constructor(props) {
@@ -38,7 +38,7 @@ export default class loginView extends Component {
               onSubmitEditing={() => { this.Password.focus(); }}
               blurOnSubmit={false}
             />
-
+            
             <View style={{flex:0.025}}/>
             <TextInput
               style={styles.loginBoxes}
@@ -76,7 +76,6 @@ export default class loginView extends Component {
                     }))
                     .then((response) => {
                       let status = response.info().status;
-
                       // if status is 200 then login was succesful
                       if(status == 200) {
                         // make call to API to see if user is an employee or customer
@@ -92,7 +91,9 @@ export default class loginView extends Component {
                           let status = response.info().status;
                           if (status === 200) {
                           // TODO: Create new instance of UserInfo
-                      
+                          global.fName = responseJson.firstName;
+                          global.email = responseJson.email;
+                          global.isEmployee = responseJson.isEmployee;
                           //navigate to customer or employee view
                             if (responseJson.isEmployee === false) 
                               navigate('Menu')

@@ -9,20 +9,23 @@ import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
 
-
 export default class menuView extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-
+    alert(global.items);
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
 
-            <View style={styles.titleStyle}>
-                <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
-            </View>
-        </SafeAreaView>
+          <View style={styles.titleStyle}>
+            
+              <Text style={styles.titleText}>Cunning Coders' Cafe </Text>
+              
+
+          </View>
+      </SafeAreaView>
+      
     );
   }
 }

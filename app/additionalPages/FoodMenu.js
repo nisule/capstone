@@ -16,11 +16,13 @@ export default class FoodMenu extends Component {
       currentDataDisplayed: [],
       error: null,
       modalVisible: false,
+      currentItem: []
     };
   }
 
-  setModalVisible(visible) {
+  setModalVisible(visible, item) {
     this.setState({modalVisible: visible});
+    this.setState({currentItem: item})
   }
 
   // This method is invoked once after the native UI for this component has finished rendering. This will
@@ -128,7 +130,10 @@ export default class FoodMenu extends Component {
           <TouchableHighlight
             style={styles.modalButtons}
             onPress={() => {
-              alert("Item added to cart!")
+              let itemString = global.items;
+              alert("Item added to cart!");
+              itemString += "," + this.state.currentItem.item_id;
+              global.items = itemString;
               this.setModalVisible(!this.state.modalVisible);
             }}>
             <Text style={styles.modalButtonText}>Add To Order</Text>
@@ -149,7 +154,7 @@ export default class FoodMenu extends Component {
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
               subtitleStyle={styles.itemText}
-              onPress={() => {this.setModalVisible(true);}}
+              onPress={() => {this.setModalVisible(true, item);}}
             />
           )}
           keyExtractor={item => item.item_name}

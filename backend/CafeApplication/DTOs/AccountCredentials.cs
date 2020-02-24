@@ -13,16 +13,18 @@
             var itemTable = DBAccess.getUserInfo(email);
             AccountCredentials info = new AccountCredentials();
 
-            info.firstName = itemTable.Rows[0].ItemArray[0].ToString();
-            info.email = itemTable.Rows[0].ItemArray[1].ToString();
+            if (!(itemTable is null)) {
+                info.firstName = itemTable.Rows[0].ItemArray[0].ToString();
+                info.email = itemTable.Rows[0].ItemArray[1].ToString();
 
-            string isEmpStr = itemTable.Rows[0].ItemArray[2].ToString();
+                string isEmpStr = itemTable.Rows[0].ItemArray[2].ToString();
 
-            if (string.Equals(isEmpStr, "True"))
-                info.isEmployee = true;
-            else if (string.Equals(isEmpStr, "False"))
-                info.isEmployee = false;
-           
+                if (string.Equals(isEmpStr, "True"))
+                    info.isEmployee = true;
+                else if (string.Equals(isEmpStr, "False"))
+                    info.isEmployee = false;
+            }
+
             return info;
         }
     }
