@@ -32,15 +32,19 @@ export default class menuView extends Component {
       ],
       cartItems: [
         {key:1, item_name:"Apples", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
-        {key:2, item_name:"Carrots", image:require("./img/carrots.jpg"), price: "1.50", quantity: 3},
-        {key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
-        {key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
+        //{key:2, item_name:"Carrots", image:require("./img/carrots.jpg"), price: "1.50", quantity: 3},
+        //{key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
+        //{key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
       ],
     };
   }
 
   parseItems = () => {
+    let itemArray = global.items.split(';');
 
+    for (let i = 0; i < itemArray.length; i++){
+      this.state.cartItems.push({key:i, item_name: itemArray, image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5})
+    }
 
   }
 

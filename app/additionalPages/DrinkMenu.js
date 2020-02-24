@@ -134,7 +134,7 @@ export default class DrinkMenu extends Component {
                   itemString = global.items;
 
                 alert("Item added to cart!");
-                itemString += "," + this.state.currentItem.item_name;
+                itemString += ";" + this.state.currentItem.item_name;
                 global.items = itemString;
                 this.setModalVisible(!this.state.modalVisible);
               }}>
