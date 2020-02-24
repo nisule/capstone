@@ -12,33 +12,32 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Login")]
-        public StatusCodeResult ValidateCredentials([FromBody]AccountCredentials data) { 
-            if (data.email.Equals("") || data.password.Equals("")) 
-                return StatusCode(400);
-           
+        public string ValidateCredentials([FromBody]UserInfo data) {
+            var DTO = new UserInfo();
             int status = AccountValidator.compareCredentials(data.email, data.password);
 
-            if (status == 1) //valid credentials
-                return StatusCode(200);
-            else if (status == 0) //invalid credentials
-                return StatusCode(400);
-            else  //Null error
-                return StatusCode(404);
-        }
-
-        [HttpPost]
-        [Route("Info")]
-        public string UserInfo([FromBody]AccountCredentials data) {
-            var DTO = new AccountCredentials();
-            var info = DTO.getUserInfo(data.email);
-            string output = JsonConvert.SerializeObject(info);
-            return output;
+            if (status == 1) { //valid credentials
+                DTO.status = "200"; //Set the status
+                DTO = DTO.getUserInfo(data.email); //Get the user info for return
+                string output = JsonConvert.SerializeObject(DTO);
+                return output;
+            }
+            else if (status == 0) { //invalid credentials
+                DTO.status = "400";
+                string output = JsonConvert.SerializeObject(DTO);
+                return output;
+            }
+            else {  //Null error
+                DTO.status = "404";
+                string output = JsonConvert.SerializeObject(DTO);
+                return output;
+            }
         }
 
 
         [HttpPost]
         [Route("CreateAccount")]
-        public StatusCodeResult AddNewUser([FromBody]AccountCredentials data) {
+        public StatusCodeResult AddNewUser([FromBody]UserInfo data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
@@ -63,7 +62,7 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("IsEmployee")]
-        public string isEmployee([FromBody]AccountCredentials data) {
+        public string isEmployee([FromBody]UserInfo data) {
             bool isEmployee = AccountValidator.isEmployee(data.email);
             string output = JsonConvert.SerializeObject(isEmployee);
             return output;

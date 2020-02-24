@@ -68,44 +68,25 @@ export default class loginView extends Component {
                   // call to API to try to log in
                   RNFetchBlob.config({
                       trusty: true
-                  }).fetch( 'POST', 'https:10.0.2.2:5001/Login',
-                    { 'Content-Type': 'application/json'},
-                    JSON.stringify({
+                  }).fetch( 'POST', 'https:10.0.2.2:5001/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
                       email: this.state.email,
                       password : this.state.password
                     }))
-                    .then((response) => {
-                      let status = response.info().status;
+                    .then( (response) => response.json())
+                    .then( (responseJson) => {  
+                      let status = responseJson.status;
                       // if status is 200 then login was succesful
                       if(status == 200) {
-                        // make call to API to see if user is an employee or customer
-                        RNFetchBlob.config({
-                          trusty: true
-                        }).fetch( 'POST', 'https:10.0.2.2:5001/Info',
-                        { 'Content-Type': 'application/json'},
-                        JSON.stringify({
-                          email: this.state.email,
-                        }))
-                        .then((response) => response.json())
-                        .then((responseJson) => {                          
-                          let status = response.info().status;
-                          if (status === 200) {
-                          // TODO: Create new instance of UserInfo
-                          global.fName = responseJson.firstName;
-                          global.email = responseJson.email;
-                          global.isEmployee = responseJson.isEmployee;
-                          //navigate to customer or employee view
-                            if (responseJson.isEmployee === false) 
-                              navigate('Menu')
-                            else if (responseJson.isEmployee === true) 
-                              navigate('Employee')
-                           }
-                        })
+                        
+                        if (responseJson.isEmployee === false) 
+                          navigate('Menu')
+                        else if (responseJson.isEmployee === true) 
+                          navigate('Employee')
 
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
                       else 
-                        alert("Error Connecting...")
+                        alert("Error Connecting...");
 
                     })
                     .catch((error) => {

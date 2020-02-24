@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
+import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -16,11 +17,13 @@ export default class DrinkMenu extends Component {
       currentDataDisplayed: [],
       error: null,
       modalVisible: false,
+      currentItem: []
     };
   }
 
-  setModalVisible(visible) {
+  setModalVisible(visible, item) {
     this.setState({modalVisible: visible});
+    this.setState({currentItem: item})
   }
 
   // This method is invoked once after the native UI for this component has finished rendering. This will
@@ -126,7 +129,13 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
-                alert("Item added to cart!")
+                let itemString = "";
+                if(global.items != undefined)
+                  itemString = global.items;
+
+                alert("Item added to cart!");
+                itemString += "," + this.state.currentItem.item_name;
+                global.items = itemString;
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>
@@ -147,7 +156,7 @@ export default class DrinkMenu extends Component {
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
               subtitleStyle={styles.itemText}
-              onPress={() => {this.setModalVisible(true);}}
+              onPress={() => {this.setModalVisible(true, item);}}
             />
           )}
           keyExtractor={item => item.item_name}

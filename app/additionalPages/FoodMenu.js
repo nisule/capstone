@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Dimensions, Modal, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
+import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;  
@@ -130,9 +131,12 @@ export default class FoodMenu extends Component {
           <TouchableHighlight
             style={styles.modalButtons}
             onPress={() => {
-              let itemString = global.items;
+              let itemString = ""; 
+              if(global.items != undefined)
+                itemString = global.items;
+
               alert("Item added to cart!");
-              itemString += "," + this.state.currentItem.item_id;
+              itemString += "," + this.state.currentItem.item_name;
               global.items = itemString;
               this.setModalVisible(!this.state.modalVisible);
             }}>

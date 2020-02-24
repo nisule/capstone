@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, RefreshControl} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -31,12 +31,17 @@ export default class menuView extends Component {
         {order_id: 6, total: 5.41, date: "2020-01-15"}
       ],
       cartItems: [
-        {key:1, item_name:"Apple Slices", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
+        {key:1, item_name:"Apples", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
         {key:2, item_name:"Carrots", image:require("./img/carrots.jpg"), price: "1.50", quantity: 3},
         {key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
         {key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
       ],
     };
+  }
+
+  parseItems = () => {
+
+
   }
 
   renderSeparator = () => {
@@ -48,7 +53,6 @@ export default class menuView extends Component {
   };
 
   render() {
-    alert(global.items);
     return (
        // TODO: Somehow be able to access the current user's information to retrieve their first name and balance.
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
@@ -59,9 +63,9 @@ export default class menuView extends Component {
             <View style={styles.welcomeSection}>
               <Text style={styles.welcomeText}> Welcome, {this.state.first_name}!</Text>
               <View style={styles.separator}/>
-              <Text style={{ alignContent: "flex-start", fontSize: 20}}> Balance: ${this.state.balance}</Text>
+              <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> Balance: ${this.state.balance}</Text>
               <View style={styles.separator}/>
-              <Text style={{ alignContent: "flex-start", fontSize: 20}}> User ID: {this.state.user_id}</Text>
+              <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> User ID: {this.state.user_id}</Text>
             </View>
 
             <View style={styles.currentOrder}>
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   welcomeSection:{
-    backgroundColor: "white",
+    backgroundColor: "#181818",
     alignSelf: 'auto',
     marginBottom: 5,
     borderRadius: 10,
@@ -221,7 +225,7 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   welcomeText:{
-    color:'black',
+    color:'white',
     fontSize: 20,
     marginRight: 10,
     marginLeft: 10,

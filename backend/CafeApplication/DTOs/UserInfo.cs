@@ -1,5 +1,7 @@
-﻿namespace DTOs {
-    public class AccountCredentials {
+﻿
+namespace DTOs {
+    public class UserInfo {
+        public string status { get; set; }
         public string userID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -8,24 +10,22 @@
         public string password2 { get; set; }
         public bool isEmployee { get; set; }
 
-        public AccountCredentials getUserInfo(string email) {
+        public UserInfo getUserInfo(string email) {
 
             var itemTable = DBAccess.getUserInfo(email);
-            AccountCredentials info = new AccountCredentials();
 
             if (!(itemTable is null)) {
-                info.firstName = itemTable.Rows[0].ItemArray[0].ToString();
-                info.email = itemTable.Rows[0].ItemArray[1].ToString();
+                this.firstName = itemTable.Rows[0].ItemArray[0].ToString();
+                this.email = itemTable.Rows[0].ItemArray[1].ToString();
 
                 string isEmpStr = itemTable.Rows[0].ItemArray[2].ToString();
 
                 if (string.Equals(isEmpStr, "True"))
-                    info.isEmployee = true;
+                    this.isEmployee = true;
                 else if (string.Equals(isEmpStr, "False"))
-                    info.isEmployee = false;
+                    this.isEmployee = false;
             }
-
-            return info;
+            return this;
         }
     }
     
