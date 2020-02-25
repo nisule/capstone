@@ -74,7 +74,7 @@ export default class menuView extends Component {
 
             <View style={styles.currentOrder}>
               <FlatList
-                style= {{}}
+                style= {{flex: 0.7, backgroundColor: "white"}}
                 data={this.state.cartItems}
                 renderItem={({ item }) => (
                   <ListItem
