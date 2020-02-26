@@ -12,6 +12,7 @@ namespace DTOs {
         public string password { get; set; }
         public string password2 { get; set; }
         public bool isEmployee { get; set; }
+        public string balance { get; set; }
         public List<OrderInfo> orders { get; set; } = new List<OrderInfo>();
 
 
@@ -22,8 +23,9 @@ namespace DTOs {
                 this.userID = itemTable.Rows[0].ItemArray[0].ToString();
                 this.firstName = itemTable.Rows[0].ItemArray[1].ToString();
                 this.email = itemTable.Rows[0].ItemArray[2].ToString();
+                this.balance = itemTable.Rows[0].ItemArray[3].ToString();
 
-                string isEmpStr = itemTable.Rows[0].ItemArray[3].ToString();
+                string isEmpStr = itemTable.Rows[0].ItemArray[4].ToString();
 
                 if (string.Equals(isEmpStr, "True"))
                     this.isEmployee = true;

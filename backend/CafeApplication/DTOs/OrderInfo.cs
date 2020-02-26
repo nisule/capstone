@@ -26,14 +26,7 @@ namespace DTOs {
                 }
             }
 
-
-
-
         }
-
-
-
-
 
     }
 }
