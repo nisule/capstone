@@ -197,7 +197,7 @@ public static class DBAccess {
     }
 
     public static DataTable getUserInfo(string email) {
-        string sql = "SELECT first_name, email, is_employee FROM User WHERE email = @email";
+        string sql = "SELECT user_id, first_name, email, is_employee FROM User WHERE email = @email";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
@@ -212,6 +212,48 @@ public static class DBAccess {
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user info query: " + e.Message);
+            connection.Close();
+            return null;
+        }
+    }
+
+    public static DataTable getPastTenOrders(string userID) {
+        string sql = "SELECT order_id, total, date FROM Orders WHERE user_id = @userID ORDER BY order_id DESC LIMIT 10";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@userID", userID);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database past order query: " + e.Message);
+            connection.Close();
+            return null;
+        }
+    }
+
+    public static DataTable getOrderItems(string orderID) {
+        string sql = "SELECT Order_Items.item_id, item_name, quantity FROM Order_Items, Item WHERE Order_Items.item_id = Item.item_id AND Order_Items.order_id = @orderID";
+        try {
+            connection.Open();
+            using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                command.CommandTimeout = 1000;
+                command.Parameters.AddWithValue("@orderID", orderID);
+                var dataReader = command.ExecuteReader();
+                var dataTable = new DataTable();
+                dataTable.Load(dataReader);
+                connection.Close();
+                return dataTable;
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database past order query: " + e.Message);
             connection.Close();
             return null;
         }

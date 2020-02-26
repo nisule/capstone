@@ -60,14 +60,6 @@ namespace API.Controllers {
                 return StatusCode(400);
         }
 
-        [HttpPost]
-        [Route("IsEmployee")]
-        public string isEmployee([FromBody]UserInfo data) {
-            bool isEmployee = AccountValidator.isEmployee(data.email);
-            string output = JsonConvert.SerializeObject(isEmployee);
-            return output;
-        }
-
         [HttpGet]
         [Route("DrinkItems")]
         public string DrinkItems() {

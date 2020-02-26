@@ -77,7 +77,7 @@ export default class loginView extends Component {
                       let status = responseJson.status;
                       // if status is 200 then login was succesful
                       if(status == 200) {
-                        
+                        alert("order id: " + responseJson.orders[1].orderID);
                         if (responseJson.isEmployee === false) 
                           navigate('Menu')
                         else if (responseJson.isEmployee === true) 
