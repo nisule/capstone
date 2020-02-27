@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image, AsyncStorage} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+
 
 export default class loginView extends Component {
     constructor(props) {
@@ -49,7 +50,6 @@ export default class loginView extends Component {
               secureTextEntry
               ref={(input) => { this.Password = input; }}
 
-              // check to make sure login is valid later before navigating
               onSubmitEditing={() => { this._touchable.touchableHandlePress() }}
             />
         </View>
@@ -77,7 +77,9 @@ export default class loginView extends Component {
                       let status = responseJson.status;
                       // if status is 200 then login was succesful
                       if(status == 200) {
-                        
+                        // save the token
+                        this.handleSignIn(responseJson.authToken);
+
                         if (responseJson.isEmployee === false) 
                           navigate('Menu')
                         else if (responseJson.isEmployee === true) 
@@ -116,6 +118,83 @@ export default class loginView extends Component {
        </KeyboardAvoidingView>
       );
     }
+
+    // this should check with api that your token is valid when you open app
+    // but apparently the token is always undefined when you try to do that
+    // so this kinda broke rn
+    initAuthToken = async () => {
+      const authData = await AsyncStorage.getItem('authentication_data');
+      const {navigate} = this.props.navigation;
+
+      if (authData !== null) {
+        const authDataJson = JSON.parse(authData);
+
+        RNFetchBlob.config({
+            trusty: true
+          }).fetch('POST', 'https:10.0.2.2:5001/AuthToken', {
+              'Content-Type': 'application/json'
+            },
+            JSON.stringify({
+              authToken: authData.authToken
+            }))
+          .then((response) => {
+            let status = response.info().status;
+            if (status == 200) {
+              // user had valid token
+              navigate('Menu');
+            } else {
+              // user does not have valid token, needs to login
+              navigate('Login');
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Request could not be handled.");
+          })
+
+      } else {
+        navigate("Login");
+      }
+    }
+
+    // stores authToken after logging in
+    handleSignIn = async (token) => {
+      try {
+        await AsyncStorage.setItem('authentication_data', token);
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // TODO: figure out to return the token cuz putting 'return token' was giving 'object object'
+    getToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authentication_data');
+        if (token !== null) {
+          alert(token)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+
+    componentDidUpdate() {
+      const {navigate} = this.props.navigation;
+      if (this.props.userSettings !== undefined) {
+        navigate("Login");
+      }
+
+      if(this.props.signedIn !== undefined) {
+        this.props.navigate("Login");
+      }
+    }
+
+    componentDidMount() {
+      this.initAuthToken();
+    }
+
+
   }
 
   const styles = StyleSheet.create({

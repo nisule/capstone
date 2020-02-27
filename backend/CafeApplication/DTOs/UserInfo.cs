@@ -9,8 +9,9 @@ namespace DTOs {
         public string password { get; set; }
         public string password2 { get; set; }
         public bool isEmployee { get; set; }
+        public string authToken { get; set; }
 
-        public UserInfo getUserInfo(string email) {
+        public UserInfo getUserInfo(string email, string token) {
 
             var itemTable = DBAccess.getUserInfo(email);
 
@@ -25,6 +26,9 @@ namespace DTOs {
                 else if (string.Equals(isEmpStr, "False"))
                     this.isEmployee = false;
             }
+
+            this.authToken = token;
+
             return this;
         }
     }
