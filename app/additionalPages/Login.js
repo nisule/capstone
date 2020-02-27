@@ -77,12 +77,9 @@ export default class loginView extends Component {
                       let status = responseJson.status;
                       // if status is 200 then login was succesful
                       if(status == 200) {
-<<<<<<< HEAD
                         // save the token
                         this.handleSignIn(responseJson.authToken);
 
-=======
->>>>>>> a375e38e99bf7f425c1be8038befa866a8777103
                         if (responseJson.isEmployee === false) 
                           navigate('Menu')
                         else if (responseJson.isEmployee === true) 
