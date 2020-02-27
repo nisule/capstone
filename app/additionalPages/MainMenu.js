@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, RefreshControl} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -10,6 +10,16 @@ import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+class cartItem{
+  constructor(id, item_name, price, quantity){
+    this.id = id;
+    this.item_name = item_name;
+    this.price = price;
+    this.quantity = quantity;
+  }
+}
+
 
 export default class menuView extends Component {
   constructor(props) {
@@ -31,7 +41,7 @@ export default class menuView extends Component {
         {order_id: 6, total: 5.41, date: "2020-01-15"}
       ],
       cartItems: [
-        {key:1, item_name:"Apples", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
+        //{key:1, item_name:"Apples", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
         //{key:2, item_name:"Carrots", image:require("./img/carrots.jpg"), price: "1.50", quantity: 3},
         //{key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
         //{key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
@@ -39,14 +49,25 @@ export default class menuView extends Component {
     };
   }
 
-  parseItems = () => {
-    let itemArray = global.items.split(';');
+  
 
-    for (let i = 0; i < itemArray.length; i++){
-      this.state.cartItems.push({key:i, item_name: itemArray, image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5})
+  _retrieveData = async () => {
+    try {
+      const items = await AsyncStorage.getItem('Cart');
+      if (items !== null) {
+        const itemsJson = JSON.parse(items);
+        
+        for (var item of itemsJson){
+          this.state.cartItems.push(new cartItem(item.id, item.name, item.price, item.qty));
+        }
+
+
+      }
+    } catch (error) {
+      alert("Error retrieving cart data: " + error);
     }
+  };
 
-  }
 
   renderSeparator = () => {
     return (
@@ -74,6 +95,7 @@ export default class menuView extends Component {
 
             <View style={styles.currentOrder}>
               <FlatList
+                s = {this._retrieveData()}
                 style= {{flex: 0.7, backgroundColor: "white"}}
                 data={this.state.cartItems}
                 renderItem={({ item }) => (
@@ -115,7 +137,7 @@ export default class menuView extends Component {
                     containerStyle={styles.itemContainer}
                     titleStyle={styles.itemText}
                     subtitleStyle={styles.itemText}
-                    onPress={() => {alert("TODO: Show popup of all items in this order.");}}
+                    onPress={() => {this._retrieveData(); }}
                   />
                 )}
                 keyExtractor={item => item.order_id}

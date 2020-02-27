@@ -11,14 +11,18 @@ namespace OrderHandling {
             OrderCreator o = new OrderCreator();
 
             //Test example
-            string user_id = "11111111";
+            string user_id = "55554444";
 
             // Dictionary with item_id and quantity.
             Dictionary<int, int> items = new Dictionary<int, int>();
 
-            items.Add(1, 1);
-            items.Add(4, 2);
-        
+            items.Add(4, 1);
+            items.Add(15, 3);
+
+
+
+
+
 
             o.ProcessOrder(user_id, items);
             

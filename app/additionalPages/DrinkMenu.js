@@ -1,11 +1,24 @@
 import React, {Component} from "react";
-import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
+import {TouchableHighlight, Dimensions, Modal, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
-import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
-var viewHeight = Dimensions.get('window').height;  
+var viewHeight = Dimensions.get('window').height;
+var cartItems = {
+   items: { 
+   }, 
+  };
+var items = [];
+
+class Item{
+  constructor(id, name, price, qty){
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.qty = qty;
+  }
+}
 
 export default class DrinkMenu extends Component {
   constructor(props) {
@@ -83,6 +96,16 @@ export default class DrinkMenu extends Component {
     });
   };
 
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('Cart', JSON.stringify(items));
+      alert("Item added to cart!");
+    } catch (error) {
+        alert("Error adding to cart.");
+      }
+    
+  };
+
   renderHeader = () => {
     return (
       <SearchBar
@@ -129,13 +152,9 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
-                let itemString = "";
-                if(global.items != undefined)
-                  itemString = global.items;
+                items.push(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));
 
-                alert("Item added to cart!");
-                itemString += ";" + this.state.currentItem.item_name;
-                global.items = itemString;
+                this._storeData();            
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>
