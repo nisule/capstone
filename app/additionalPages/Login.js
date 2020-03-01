@@ -15,6 +15,7 @@ export default class loginView extends Component {
 
     render() {
       const {navigate} = this.props.navigation;
+      this.resetCartItems();
 
       return (
       <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
@@ -193,6 +194,14 @@ export default class loginView extends Component {
       this.initAuthToken();
     }
 
+    // When the user logs out we want to reset the cart items.
+    resetCartItems = async () => {
+      try {
+        await AsyncStorage.removeItem('Cart');
+      } catch (error) {
+          alert("Error adding to cart.");
+      }
+    }
 
   }
 

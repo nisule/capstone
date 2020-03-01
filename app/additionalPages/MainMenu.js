@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -10,6 +10,9 @@ import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+var viewWidth = Dimensions.get('window').width;
+var viewHeight = Dimensions.get('window').height;
 
 class cartItem{
   constructor(id, item_name, price, quantity){
@@ -46,28 +49,25 @@ export default class menuView extends Component {
         //{key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
         //{key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
       ],
+      modalVisible: false,
     };
   }
-
-  
 
   _retrieveData = async () => {
     try {
       const items = await AsyncStorage.getItem('Cart');
+
       if (items !== null) {
         const itemsJson = JSON.parse(items);
         
         for (var item of itemsJson){
           this.state.cartItems.push(new cartItem(item.id, item.name, item.price, item.qty));
         }
-
-
       }
     } catch (error) {
       alert("Error retrieving cart data: " + error);
     }
   };
-
 
   renderSeparator = () => {
     return (
@@ -77,31 +77,75 @@ export default class menuView extends Component {
     );
   };
 
+  loadAndViewCart() {
+    // Retrieve the cart items in async storage and update the local list of items.
+    this.setState({cartItems: []});
+    this._retrieveData();
+    this.setModalVisible(true);
+  };
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  };
+
   render() {
     return (
        // TODO: Somehow be able to access the current user's information to retrieve their first name and balance.
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
-            <View style={styles.titleStyle}>
-              <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
-            </View>
+          <View style={styles.titleStyle}>
+            <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
+          </View>
 
-            <View style={styles.welcomeSection}>
-              <Text style={styles.welcomeText}> Welcome, {this.state.first_name}!</Text>
-              <View style={styles.separator}/>
-              <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> Balance: ${this.state.balance}</Text>
-              <View style={styles.separator}/>
-              <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> User ID: {this.state.user_id}</Text>
-            </View>
+          <View style={styles.welcomeSection}>
+            <Text style={styles.welcomeText}> Welcome, {this.state.first_name}!</Text>
+            <View style={styles.separator}/>
+            <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> Balance: ${this.state.balance}</Text>
+            <View style={styles.separator}/>
+            <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> User ID: {this.state.user_id}</Text>
+          </View>
+         
+          <View style={styles.orderHistoryView}>
+            <Text style={styles.orderHistoryTitle}>Order History</Text>
+            <View style={styles.separator}/>
+
+            <FlatList
+              style= {{marginBottom: 5}}
+              data={this.state.orderHistory}
+              renderItem={({ item }) => (
+                <ListItem
+                  title={`Total: ${item.total}`}
+                  rightTitle={item.date}
+                  containerStyle={styles.itemContainer}
+                  titleStyle={styles.itemText}
+                  subtitleStyle={styles.itemText}
+                  onPress={() => { alert("Add popup to show items in order."); }}
+                />
+              )}
+              keyExtractor={item => item.order_id}
+              ItemSeparatorComponent={this.renderSeparator}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.checkoutButton} onPress={() => this.loadAndViewCart()}>
+            <Text style={styles.checkoutButtonText}>Current Order</Text>
+          </TouchableOpacity>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false);
+            }}>
 
             <View style={styles.currentOrder}>
               <FlatList
-                s = {this._retrieveData()}
                 style= {{flex: 0.7, backgroundColor: "white"}}
                 data={this.state.cartItems}
                 renderItem={({ item }) => (
                   <ListItem
                     leftAvatar={{
-                      source: item.image,
+                      source: require("./img/apple_slices.jpg"),
                       size: "medium",
                       borderWidth: 1
                     }}
@@ -117,33 +161,12 @@ export default class menuView extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableOpacity style={styles.checkoutButton} onPress={() => alert("TODO: Fill in with Order Review and button to Pay.")}>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
               </TouchableOpacity>
-
             </View>
-
-            <View style={styles.orderHistoryView}>
-              <Text style={styles.orderHistoryTitle}>Order History</Text>
-              <View style={styles.separator}/>
-
-              <FlatList
-                style= {{marginBottom: 5}}
-                data={this.state.orderHistory}
-                renderItem={({ item }) => (
-                  <ListItem
-                    title={`Total: ${item.total}`}
-                    rightTitle={item.date}
-                    containerStyle={styles.itemContainer}
-                    titleStyle={styles.itemText}
-                    subtitleStyle={styles.itemText}
-                    onPress={() => {this._retrieveData(); }}
-                  />
-                )}
-                keyExtractor={item => item.order_id}
-                ItemSeparatorComponent={this.renderSeparator}
-              />
-            </View>
+            
+          </Modal>        
 
         </SafeAreaView>
     );
@@ -199,12 +222,14 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   currentOrder:{
-    marginBottom: 5,
+    marginTop: viewHeight* 0.1,
+    marginLeft: viewWidth * 0.08,
+    width: viewWidth * 0.85,
+    height: viewHeight * 0.75,
     borderRadius: 10,
     borderColor: 'grey',
     borderWidth: 3,
     backgroundColor: '#7A5959',
-    flex: 0.6
   },
   itemContainer:{
     backgroundColor: "white"
@@ -212,6 +237,32 @@ const styles = StyleSheet.create({
   itemText:{
     color: "black",
     fontSize: 18
+  },
+  modal:{
+    alignItems: "center",
+    backgroundColor:"white", 
+    width: viewWidth * 0.6, 
+    height: viewHeight * 0.4,
+    justifyContent: "center",
+    marginLeft: viewWidth * 0.2,
+    marginTop: viewHeight * 0.3,
+    borderRadius: 10
+  },
+  modalButtons: {
+    width: viewWidth * 0.3,
+    height: viewWidth * 0.15,
+    justifyContent: "center",
+    backgroundColor: '#fbba37',
+    alignContent: 'center',
+    borderWidth: 1,
+    borderColor: '#404040',
+    borderRadius: 6,
+    marginTop: viewHeight * 0.05,
+    marginBottom: viewHeight * 0.05
+  },
+  modalButtonText: {
+    fontSize: 18,
+    textAlign: "center"
   },
   orderHistoryTitle: {
     fontSize: 20,
@@ -243,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   welcomeSection:{
-    backgroundColor: "#181818",
+    backgroundColor: "#7A5959",
     alignSelf: 'auto',
     marginBottom: 5,
     borderRadius: 10,
