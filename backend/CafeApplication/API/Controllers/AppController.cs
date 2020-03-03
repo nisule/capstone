@@ -17,9 +17,22 @@ namespace API.Controllers {
             int status = AccountValidator.compareCredentials(data.email, data.password);
 
             if (status == 1) { //valid credentials
+                string token;
+                // check to see if user has a token already
+                if (SessionController.sm.ifUserExists(data.email))
+                    token = SessionController.sm.getToken(data.email);
+                else {
+                    // generate token for user
+                    SessionController.sm.updateToken(data.email);
+                    token = SessionController.sm.getToken(data.email);
+                }
+
                 DTO.status = "200"; //Set the status
-                DTO = DTO.getUserInfo(data.email); //Get the user info for return
+                DTO = DTO.getUserInfo(data.email, token); //Get the user info for return
                 string output = JsonConvert.SerializeObject(DTO);
+
+                
+                Debug.WriteLine(output);
                 return output;
             }
             else if (status == 0) { //invalid credentials
@@ -32,6 +45,33 @@ namespace API.Controllers {
                 string output = JsonConvert.SerializeObject(DTO);
                 return output;
             }
+        }
+
+        [HttpPost]
+        [Route("Logout")]
+        public StatusCodeResult logout([FromBody]UserInfo data) {
+            // make sure user is authenticated
+            // TODO might not need email for verifyToken, maybe use ifTokenValid
+            if (SessionController.sm.verifyToken(data.email, data.authToken)) {
+                if (SessionController.sm.removeToken(data.email))
+                    return StatusCode(200);
+                else
+                    return StatusCode(400);
+            } else {
+                // return 401 (unauthenticated)
+                return StatusCode(401);
+            }
+        }
+
+        [HttpPost]
+        [Route("AuthToken")]
+        public StatusCodeResult authToken([FromBody]UserInfo data) {
+            Debug.WriteLine("TOKEN GOT:");
+            Debug.WriteLine(data.authToken);
+            if (SessionController.sm.ifTokenValid(data.authToken))
+                return StatusCode(200);
+            else
+                return StatusCode(401);
         }
 
 

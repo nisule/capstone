@@ -12,11 +12,11 @@ namespace DTOs {
         public string password { get; set; }
         public string password2 { get; set; }
         public bool isEmployee { get; set; }
+        public string authToken { get; set; }
         public string balance { get; set; }
         public List<OrderInfo> orders { get; set; } = new List<OrderInfo>();
 
-
-        public UserInfo getUserInfo(string email) {
+        public UserInfo getUserInfo(string email, string token) {
             var itemTable = DBAccess.getUserInfo(email);
 
             if (!(itemTable is null)) {
@@ -35,6 +35,7 @@ namespace DTOs {
                 populateOrders(this.userID);
             }
 
+            this.authToken = token;
 
             return this;
         }
