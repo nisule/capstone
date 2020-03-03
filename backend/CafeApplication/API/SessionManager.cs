@@ -14,7 +14,7 @@ namespace API {
         }
 
         // generates a random token
-        private String generateAuthToken() {
+        private string generateAuthToken() {
             var random = new RNGCryptoServiceProvider();
             byte[] ary = new byte[64];
             random.GetNonZeroBytes(ary);
@@ -26,7 +26,7 @@ namespace API {
         // return true if token received matches token stored for an email, false if they don't match or other error
         // used for API calls after logging in
         // TODO might not need email for this
-        public Boolean verifyToken(string email, string token) {
+        public bool verifyToken(string email, string token) {
             // check if key (email) is in dict
             if (usersAuthTokens.ContainsKey(email) == false) 
                 return false;
@@ -44,7 +44,7 @@ namespace API {
         }
 
         // returns true if token is in dict, false otherwise
-        public Boolean ifTokenValid(string token) {
+        public bool ifTokenValid(string token) {
             foreach (KeyValuePair<string, string> dict in usersAuthTokens) {
                 if (dict.Value.Equals(token))
                     return true;
@@ -63,7 +63,7 @@ namespace API {
         }
 
         // check if user already in dict
-        public Boolean ifUserExists(string email) {
+        public bool ifUserExists(string email) {
             if (usersAuthTokens.ContainsKey(email))
                 return true;
             else

@@ -15,7 +15,8 @@ var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
 
 class cartItem{
-  constructor(id, item_name, price, quantity){
+  constructor(key, id, item_name, price, quantity){
+    this.key = key;
     this.id = id;
     this.item_name = item_name;
     this.price = price;
@@ -56,12 +57,14 @@ export default class menuView extends Component {
   _retrieveData = async () => {
     try {
       const items = await AsyncStorage.getItem('Cart');
-
+      console.log("items: " + items);
       if (items !== null) {
         const itemsJson = JSON.parse(items);
         
+        let key = 0;
         for (var item of itemsJson){
-          this.state.cartItems.push(new cartItem(item.id, item.name, item.price, item.qty));
+          this.state.cartItems.push(new cartItem(key, item.id, item.name, item.price, item.qty));
+          key++;
         }
       }
     } catch (error) {
@@ -77,10 +80,11 @@ export default class menuView extends Component {
     );
   };
 
-  loadAndViewCart() {
+
+  loadAndViewCart = async () => {
     // Retrieve the cart items in async storage and update the local list of items.
     this.setState({cartItems: []});
-    this._retrieveData();
+    await this._retrieveData();
     this.setModalVisible(true);
   };
 
@@ -121,13 +125,13 @@ export default class menuView extends Component {
                   onPress={() => { alert("Add popup to show items in order."); }}
                 />
               )}
-              keyExtractor={item => item.order_id}
+              keyExtractor={item => item.order_id + ""}
               ItemSeparatorComponent={this.renderSeparator}
             />
           </View>
 
           <TouchableOpacity style={styles.checkoutButton} onPress={() => this.loadAndViewCart()}>
-            <Text style={styles.checkoutButtonText}>Current Order</Text>
+            <Text style={styles.checkoutButtonText}>View Cart</Text>
           </TouchableOpacity>
 
           <Modal
@@ -157,7 +161,7 @@ export default class menuView extends Component {
                     onPress={() => {alert("TODO: Remove item from cart.");}}
                   />
                 )}
-                keyExtractor={item => item.item_name}
+                keyExtractor={item => item.item_name + ""}
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>

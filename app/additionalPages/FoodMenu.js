@@ -161,7 +161,7 @@ export default class FoodMenu extends Component {
               onPress={() => {this.setModalVisible(true, item);}}
             />
           )}
-          keyExtractor={item => item.item_name}
+          keyExtractor={item => item.item_name + ""}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />

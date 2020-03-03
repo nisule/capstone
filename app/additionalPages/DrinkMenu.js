@@ -149,7 +149,6 @@ export default class DrinkMenu extends Component {
               style={styles.modalButtons}
               onPress={() => {
                 items.push(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));
-
                 this._storeData();            
                 this.setModalVisible(!this.state.modalVisible);
               }}>
@@ -174,7 +173,7 @@ export default class DrinkMenu extends Component {
               onPress={() => {this.setModalVisible(true, item);}}
             />
           )}
-          keyExtractor={item => item.item_name}
+          keyExtractor={item => item.item_name + ""}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />
