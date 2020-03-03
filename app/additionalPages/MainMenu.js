@@ -57,7 +57,6 @@ export default class menuView extends Component {
   _retrieveData = async () => {
     try {
       const items = await AsyncStorage.getItem('Cart');
-      console.log("items: " + items);
       if (items !== null) {
         const itemsJson = JSON.parse(items);
         
