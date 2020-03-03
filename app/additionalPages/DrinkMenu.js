@@ -5,10 +5,6 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
-var cartItems = {
-   items: { 
-   }, 
-  };
 var items = [];
 
 class Item{
