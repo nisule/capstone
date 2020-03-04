@@ -34,7 +34,7 @@ export default class menuView extends Component {
     // A better solution would be to somehow have this information available globally once a user logs in.
     this.state = {
       user_id: 12345678,
-      first_name: 'Tester',
+      first_name: "",
       balance: 500.14,
       orderHistory: [
         {order_id: 1, total: 10.22, date: "2019-11-23"},
@@ -54,7 +54,21 @@ export default class menuView extends Component {
     };
   }
 
-  _retrieveData = async () => {
+  retrieveUserData = async () => {
+    try {
+      const info = await AsyncStorage.getItem('user_info');
+      if (info !== null) {
+        const infoJson = JSON.parse(info);
+
+        this.setState({first_name: infoJson.firstName, balance: infoJson.balance, user_id: infoJson.userID});
+        console.log("state fname: " + this.state.first_name);
+      }
+    } catch (error) {
+      alert("Error retrieving user data: " + error);
+    }
+  }
+
+  retrieveCartData = async () => {
     try {
       const items = await AsyncStorage.getItem('Cart');
       if (items !== null) {
@@ -79,11 +93,15 @@ export default class menuView extends Component {
     );
   };
 
+  componentDidMount = () => {
+    this.retrieveUserData();
+  }
+
 
   loadAndViewCart = async () => {
     // Retrieve the cart items in async storage and update the local list of items.
     this.setState({cartItems: []});
-    await this._retrieveData();
+    await this.retrieveCartData();
     this.setModalVisible(true);
   };
 
@@ -232,7 +250,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'grey',
     borderWidth: 3,
-    backgroundColor: '#7A5959',
+    backgroundColor: '#363636',
   },
   itemContainer:{
     backgroundColor: "white"
@@ -282,26 +300,27 @@ const styles = StyleSheet.create({
     flex: 0.3
   },
   separator:{
-    height: 2,
+    height: 1,
     backgroundColor: "#A79E9C",
   },
   titleText:{
     fontSize: 25,
-    color: 'white'
+    color: 'black'
   },
   titleStyle:{
     flex: 0.09,
     marginBottom: 5,
-    backgroundColor:'grey',
+    backgroundColor:'#fbba37',
     alignContent:"center",
-    alignItems: "center"
+    alignItems: "center",
+    borderRadius: 5
   },
   welcomeSection:{
-    backgroundColor: "#7A5959",
+    backgroundColor: "#363636",
     alignSelf: 'auto',
     marginBottom: 5,
     borderRadius: 10,
-    borderColor: 'grey',
+    //borderColor: 'grey',
     borderWidth: 3
   },
   welcomeText:{

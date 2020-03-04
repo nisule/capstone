@@ -31,8 +31,6 @@ namespace API.Controllers {
                 DTO = DTO.getUserInfo(data.email, token); //Get the user info for return
                 string output = JsonConvert.SerializeObject(DTO);
 
-                
-                Debug.WriteLine(output);
                 return output;
             }
             else if (status == 0) { //invalid credentials
@@ -66,8 +64,6 @@ namespace API.Controllers {
         [HttpPost]
         [Route("AuthToken")]
         public StatusCodeResult authToken([FromBody]UserInfo data) {
-            Debug.WriteLine("TOKEN GOT:");
-            Debug.WriteLine(data.authToken);
             if (SessionController.sm.ifTokenValid(data.authToken))
                 return StatusCode(200);
             else

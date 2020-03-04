@@ -10,12 +10,6 @@ public static class DBAccess {
 
     private static MySqlConnection connection = new MySqlConnection(connString);
 
-    //All items for main menu
-    public static DataTable getAllItems() {
-        string sql = "SELECT * FROM Item";
-        return issueQuery(sql);
-    }
-
     public static DataTable getItemPrice(string itemID) {
         string sql = "SELECT price FROM Item WHERE item_id = @itemID";
         try {
@@ -137,14 +131,13 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@email", email);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
-                dataTable.Load(dataReader);
+                dataTable.Load(dataReader); 
                 connection.Close();
                 string salt = (string)dataTable.Rows[0]["salt"];
                 return salt;
             }
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             Debug.WriteLine("Error in database user get salt query: " + e.StackTrace);
             connection.Close();
             return null;

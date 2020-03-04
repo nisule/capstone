@@ -76,10 +76,12 @@ export default class loginView extends Component {
                     .then( (response) => response.json())
                     .then( (responseJson) => {  
                       let status = responseJson.status;
+
+                      global.firstName = responseJson.firstName;
                       // if status is 200 then login was succesful
                       if(status == 200) {
-                        // save the token
-                        this.handleSignIn(responseJson.authToken);
+                        this.storeUserInfo(responseJson);
+                        this.storeToken(responseJson.authToken + "");
 
                         if (responseJson.isEmployee === false) 
                           navigate('Menu')
@@ -122,43 +124,43 @@ export default class loginView extends Component {
     // this should check with api that your token is valid when you open app
     // but apparently the token is always undefined when you try to do that
     // so this kinda broke rn
-    initAuthToken = async () => {
-      const authData = await AsyncStorage.getItem('authentication_data');
-      const {navigate} = this.props.navigation;
+    // initAuthToken = async () => {
+    //   const authData = await AsyncStorage.getItem('authentication_data');
+    //   const {navigate} = this.props.navigation;
 
-      if (authData !== null) {
-        const authDataJson = JSON.parse(authData);
+    //   if (authData !== null) {
+    //     const authDataJson = JSON.parse(authData);
 
-        RNFetchBlob.config({
-            trusty: true
-          }).fetch('POST', 'https:10.0.2.2:5001/AuthToken', {
-              'Content-Type': 'application/json'
-            },
-            JSON.stringify({
-              authToken: authData.authToken
-            }))
-          .then((response) => {
-            let status = response.info().status;
-            if (status == 200) {
-              // user had valid token
-              navigate('Menu');
-            } else {
-              // user does not have valid token, needs to login
-              navigate('Login');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Request could not be handled.");
-          })
+    //     RNFetchBlob.config({
+    //         trusty: true
+    //       }).fetch('POST', 'https:10.0.2.2:5001/AuthToken', {
+    //           'Content-Type': 'application/json'
+    //         },
+    //         JSON.stringify({
+    //           authToken: authData.authToken
+    //         }))
+    //       .then((response) => {
+    //         let status = response.info().status;
+    //         if (status == 200) {
+    //           // user had valid token
+    //           navigate('Menu');
+    //         } else {
+    //           // user does not have valid token, needs to login
+    //           navigate('Login');
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //         alert("Request could not be handled.");
+    //       })
 
-      } else {
-        navigate("Login");
-      }
-    }
+    //   } else {
+    //     navigate("Login");
+    //   }
+    // }
 
     // stores authToken after logging in
-    handleSignIn = async (token) => {
+    storeToken = async (token) => {
       try {
         await AsyncStorage.setItem('authentication_data', token);
       } catch (error) {
@@ -166,17 +168,26 @@ export default class loginView extends Component {
       }
     }
 
+    storeUserInfo = async (info) => {
+      try {
+        await AsyncStorage.setItem('user_info', JSON.stringify(info));
+      } catch (error) {
+        console.error(error)
+      }
+    }
     // TODO: figure out to return the token cuz putting 'return token' was giving 'object object'
     getToken = async () => {
       try {
         const token = await AsyncStorage.getItem('authentication_data');
         if (token !== null) {
-          alert(token)
+          alert(token);
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
+
+
 
 
     componentDidUpdate() {
@@ -190,9 +201,9 @@ export default class loginView extends Component {
       }
     }
 
-    componentDidMount() {
-      this.initAuthToken();
-    }
+    // componentDidMount() {
+    //   //this.initAuthToken();
+    // }
 
     // When the user logs out we want to reset the cart items.
     resetCartItems = async () => {
