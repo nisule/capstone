@@ -5,7 +5,6 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
-var items = [];
 
 class Item{
   constructor(id, name, price, qty){
@@ -92,14 +91,19 @@ export default class DrinkMenu extends Component {
     });
   };
 
-  _storeData = async () => {
+  _storeData = async (item) => {
+    let tempData = [];
     try {
-      await AsyncStorage.setItem('Cart', JSON.stringify(items));
+      let storedData = await AsyncStorage.getItem('Cart');
+      if (storedData !== null) { //Data already stored
+        tempData = JSON.parse(storedData);
+      }
+      tempData.push(item);
+      await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
       alert("Item added to cart!");
     } catch (error) {
-        alert("Error adding to cart.");
+        alert("Error adding to cart. " + error);
       }
-    
   };
 
   renderHeader = () => {
@@ -148,8 +152,7 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
-                items.push(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));
-                this._storeData();            
+                this._storeData(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));            
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>

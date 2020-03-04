@@ -171,7 +171,7 @@ export default class menuView extends Component {
                       borderWidth: 1
                     }}
                     title={`${item.item_name} x ${item.quantity}`}
-                    subtitle={`Total: $${item.price}`}
+                    subtitle={`Price: $${item.price}`}
                     containerStyle={styles.itemContainer}
                     titleStyle={styles.itemText}
                     subtitleStyle={styles.itemText}
