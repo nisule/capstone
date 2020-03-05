@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, AsyncStorage } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer, createNavigator } from 'react-navigation';
 
@@ -24,7 +24,7 @@ const DrawerNavigator = createDrawerNavigator(
         screen: loginView,
         navigationOptions: {
           drawerLockMode: 'locked-closed'
-        }
+        },
       },
     },
     {

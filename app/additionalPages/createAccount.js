@@ -142,15 +142,15 @@ export default class signupView extends Component{
                     if(status == 200){
                       // account creation was successful
                       // TODO: dont just automatically go to menu yet, need to get authToken and shit
-                      navigate('Menu')
+                      navigate("Login");
                     } else{
                       // account creation failed
-                      alert("Account creation failed, please try again.")
+                      alert("Account creation failed, please try again.");
                     }
                   })
                   .catch((error) => {
                     console.error(error);
-                    alert("Request could not be handled.")
+                    alert("Request could not be handled.");
                 })
               } else {
                 alert("Password must be at least 8 characters, please try again.")

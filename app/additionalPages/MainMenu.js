@@ -94,7 +94,7 @@ export default class menuView extends Component {
   };
 
   componentDidMount = () => {
-    this.retrieveUserData();
+    //this.retrieveUserData();
   }
 
 
@@ -110,6 +110,7 @@ export default class menuView extends Component {
   };
 
   render() {
+    this.retrieveUserData();
     return (
        // TODO: Somehow be able to access the current user's information to retrieve their first name and balance.
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818', justifyContent: 'space-between'}}>

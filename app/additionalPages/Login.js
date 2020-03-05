@@ -169,6 +169,7 @@ export default class loginView extends Component {
     }
 
     storeUserInfo = async (info) => {
+      console.log("info" + JSON.stringify(info));
       try {
         await AsyncStorage.setItem('user_info', JSON.stringify(info));
       } catch (error) {
