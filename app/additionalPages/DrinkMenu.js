@@ -100,7 +100,7 @@ export default class DrinkMenu extends Component {
       }
       tempData.push(item);
       await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
-      alert("Item added to cart!");
+      alert(item.name + " added to cart!");
     } catch (error) {
         alert("Error adding to cart. " + error);
       }
@@ -203,13 +203,15 @@ const styles = StyleSheet.create({
   },
   modal:{
     alignItems: "center",
-    backgroundColor:"white", 
+    backgroundColor:"#181818", 
     width: viewWidth * 0.6, 
     height: viewHeight * 0.4,
     justifyContent: "center",
     marginLeft: viewWidth * 0.2,
     marginTop: viewHeight * 0.3,
-    borderRadius: 10
+    borderRadius: 10,
+    borderColor: '#404040',
+    borderWidth: 1,
   },
   modalButtons: {
     width: viewWidth * 0.3,
@@ -225,10 +227,11 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     fontSize: 18,
-    textAlign: "center"
+    textAlign: "center",
   },
   modalNutritionalText: {
-    fontSize: 20
+    fontSize: 20,
+    color: 'white'
   },
   separator:{
     height: 2,

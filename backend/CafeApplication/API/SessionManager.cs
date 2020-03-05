@@ -9,7 +9,7 @@ namespace API {
     public class SessionManager {
         Dictionary<string, string> usersAuthTokens;
 
-        public SessionManager() {
+        public SessionManager()     {
             usersAuthTokens = new Dictionary<string, string>();
         }
 
@@ -58,7 +58,7 @@ namespace API {
         }
 
         // Used whenever someone logs out
-        public Boolean removeToken(string email) {
+        public bool removeToken(string email) {
             return usersAuthTokens.Remove(email);
         }
 

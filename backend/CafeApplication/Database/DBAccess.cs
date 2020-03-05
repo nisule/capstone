@@ -127,6 +127,7 @@ public static class DBAccess {
 
     public static string getSalt(string email) {
         
+        
         string sql = "SELECT salt FROM User WHERE email = @email";
         try {
             connection.Open();

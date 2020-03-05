@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace DTOs {
-    public class ItemDetails {
+    public class ItemDetailsDTO {
         public string item_id { get; set; }
         public string item_name { get; set; }
         public string stock { get; set; }
@@ -10,14 +10,14 @@ namespace DTOs {
         public string addition_date { get; set; }
         public string deletion_date { get; set; }
 
-        public List<ItemDetails> getFoodItems() {
+        public List<ItemDetailsDTO> getFoodItems() {
 
             var itemTable = DBAccess.getAllFood();
-            List<ItemDetails> items = new List<ItemDetails>();
+            List<ItemDetailsDTO> items = new List<ItemDetailsDTO>();
 
             if (!(itemTable is null)) {
                 for (int i = 0; i < itemTable.Rows.Count; i++) {
-                    ItemDetails item = new ItemDetails();
+                    ItemDetailsDTO item = new ItemDetailsDTO();
                     item.item_id = itemTable.Rows[i].ItemArray[0].ToString();
                     item.item_name = itemTable.Rows[i].ItemArray[1].ToString();
                     item.stock = itemTable.Rows[i].ItemArray[2].ToString();
@@ -31,14 +31,14 @@ namespace DTOs {
             return items;
         }
 
-        public List<ItemDetails> getDrinkItems() {
+        public List<ItemDetailsDTO> getDrinkItems() {
 
             var itemTable = DBAccess.getAllDrinks();
-            List<ItemDetails> items = new List<ItemDetails>();
+            List<ItemDetailsDTO> items = new List<ItemDetailsDTO>();
 
             if (!(itemTable is null)) {
                 for (int i = 0; i < itemTable.Rows.Count; i++) {
-                    ItemDetails item = new ItemDetails();
+                    ItemDetailsDTO item = new ItemDetailsDTO();
                     item.item_id = itemTable.Rows[i].ItemArray[0].ToString();
                     item.item_name = itemTable.Rows[i].ItemArray[1].ToString();
                     item.stock = itemTable.Rows[i].ItemArray[2].ToString();

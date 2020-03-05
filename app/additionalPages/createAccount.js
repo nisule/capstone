@@ -21,7 +21,7 @@ export default class signupView extends Component{
     return (
     <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="padding" >
 
-      <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
+      <View style={{padding: '4%', flex: 1, justifyContent: 'flex-end'}}>
 
       <View style={{flex: .5, alignItems:'center'}}>
           <Image
@@ -142,6 +142,7 @@ export default class signupView extends Component{
                     if(status == 200){
                       // account creation was successful
                       // TODO: dont just automatically go to menu yet, need to get authToken and shit
+                      alert("Account successfully created!");
                       navigate("Login");
                     } else{
                       // account creation failed
@@ -191,10 +192,11 @@ const styles = StyleSheet.create({
     },
     nameBoxes: {
       flex: 1,
-      fontSize: 18,
+      fontSize: 17,
       backgroundColor: '#303030',
       color:'white',
       borderRadius: 6,
+      paddingLeft: 5,
     },
     signupButton: {
       justifyContent: "center",

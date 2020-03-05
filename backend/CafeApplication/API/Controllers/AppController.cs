@@ -12,8 +12,8 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Login")]
-        public string ValidateCredentials([FromBody]UserInfo data) {
-            var DTO = new UserInfo();
+        public string ValidateCredentials([FromBody]UserInfoDTO data) {
+            var DTO = new UserInfoDTO();
             int status = AccountValidator.compareCredentials(data.email, data.password);
 
             if (status == 1) { //valid credentials
@@ -47,7 +47,7 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Logout")]
-        public StatusCodeResult logout([FromBody]UserInfo data) {
+        public StatusCodeResult logout([FromBody]UserInfoDTO data) {
             // make sure user is authenticated
             // TODO might not need email for verifyToken, maybe use ifTokenValid
             if (SessionController.sm.verifyToken(data.email, data.authToken)) {
@@ -63,7 +63,7 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("AuthToken")]
-        public StatusCodeResult authToken([FromBody]UserInfo data) {
+        public StatusCodeResult authToken([FromBody]UserInfoDTO data) {
             if (SessionController.sm.ifTokenValid(data.authToken))
                 return StatusCode(200);
             else
@@ -73,7 +73,7 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("CreateAccount")]
-        public StatusCodeResult AddNewUser([FromBody]UserInfo data) {
+        public StatusCodeResult AddNewUser([FromBody]UserInfoDTO data) {
             //TODO: use factory to create object instance
             AccountCreator c = new AccountCreator();
 
@@ -99,7 +99,7 @@ namespace API.Controllers {
         [HttpGet]
         [Route("DrinkItems")]
         public string DrinkItems() {
-            var DTO = new ItemDetails();
+            var DTO = new ItemDetailsDTO();
             var items = DTO.getDrinkItems();
             string output = JsonConvert.SerializeObject(items);
             return output;
@@ -108,7 +108,7 @@ namespace API.Controllers {
         [HttpGet]
         [Route("FoodItems")]
         public string FoodItems() {
-            var DTO = new ItemDetails();
+            var DTO = new ItemDetailsDTO();
             var items = DTO.getFoodItems();
             string output = JsonConvert.SerializeObject(items);
             return output;

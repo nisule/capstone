@@ -61,7 +61,6 @@ export default class menuView extends Component {
         const infoJson = JSON.parse(info);
 
         this.setState({first_name: infoJson.firstName, balance: infoJson.balance, user_id: infoJson.userID});
-        console.log("state fname: " + this.state.first_name);
       }
     } catch (error) {
       alert("Error retrieving user data: " + error);
@@ -340,11 +339,12 @@ const styles = StyleSheet.create({
     marginBottom: -(viewHeight * .1),
     backgroundColor:'#fbba37',
     alignContent:"center",
+    justifyContent: 'center',
     alignItems: "center",
     borderRadius: 5
   },
   welcomeSection:{
-    flex: .13,
+    flex: .11,
     backgroundColor: "#363636",
     alignSelf: 'auto',
     marginBottom: -(viewHeight * .1),

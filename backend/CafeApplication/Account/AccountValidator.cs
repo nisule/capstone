@@ -21,13 +21,5 @@
             //If no rows were returned, then the credentials do not match
             return 0;
         }
-
-        public static bool isEmployee(string email) {
-            return DBAccess.isEmployee(email);
-        }
-
-        
-
-
     }
 }
