@@ -165,7 +165,7 @@ export default class DrinkMenu extends Component {
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
-                source: require("./img/Chocolate_Milk.jpg"),
+                source: require("./img/comingSoon.png"),
                 size: "large"
               }}
               title={`${item.item_name}`}

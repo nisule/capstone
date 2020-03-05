@@ -168,7 +168,7 @@ export default class FoodMenu extends Component {
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
-                source: require("./img/apple_slices.jpg"),
+                source: require("./img/comingSoon.png"),
                 size: "large"
               }}
               title={`${item.item_name}`}

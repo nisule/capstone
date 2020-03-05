@@ -173,7 +173,7 @@ export default class menuView extends Component {
                 renderItem={({ item }) => (
                   <ListItem
                     leftAvatar={{
-                      source: require("./img/apple_slices.jpg"),
+                      source: require("./img/comingSoon.png"),
                       size: "medium",
                       borderWidth: 1
                     }}
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   welcomeSection:{
-    flex: .11,
+    flex: .12,
     backgroundColor: "#363636",
     alignSelf: 'auto',
     marginBottom: -(viewHeight * .1),
