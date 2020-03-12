@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 
 namespace DTOs {
-    public class UserInfo {
+    public class UserInfoDTO {
         public string status { get; set; }
         public string userID { get; set; }
         public string firstName { get; set; }
@@ -14,9 +14,9 @@ namespace DTOs {
         public bool isEmployee { get; set; }
         public string authToken { get; set; }
         public string balance { get; set; }
-        public List<OrderInfo> orders { get; set; } = new List<OrderInfo>();
+        public List<OrderInfoDTO> orders { get; set; } = new List<OrderInfoDTO>();
 
-        public UserInfo getUserInfo(string email, string token) {
+        public UserInfoDTO getUserInfo(string email, string token) {
             var itemTable = DBAccess.getUserInfo(email);
 
             if (!(itemTable is null)) {
@@ -41,12 +41,12 @@ namespace DTOs {
         }
 
         private void populateOrders(string uID) {
-            OrderInfo order;
+            OrderInfoDTO order;
             var itemTable = DBAccess.getPastTenOrders(uID);
 
             if (!(itemTable is null)) {
                 foreach(DataRow row in itemTable.Rows) {
-                    order = new OrderInfo();
+                    order = new OrderInfoDTO();
                     order.orderID = row.ItemArray[0].ToString();
                     order.total = row.ItemArray[1].ToString();
                     order.date = row.ItemArray[2].ToString();

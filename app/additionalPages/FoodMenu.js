@@ -1,11 +1,20 @@
 import React, {Component} from "react";
-import {Dimensions, Modal, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator} from "react-native";
+import {Dimensions, Modal, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
 import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
-var viewHeight = Dimensions.get('window').height;  
+var viewHeight = Dimensions.get('window').height; 
+
+class Item{
+  constructor(id, name, price, qty){
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.qty = qty;
+  }
+}
 
 export default class FoodMenu extends Component {
   constructor(props) {
@@ -25,6 +34,21 @@ export default class FoodMenu extends Component {
     this.setState({modalVisible: visible});
     this.setState({currentItem: item})
   }
+
+  _storeData = async (item) => {
+    let tempData = [];
+    try {
+      let storedData = await AsyncStorage.getItem('Cart');
+      if (storedData !== null) { //Data already stored
+        tempData = JSON.parse(storedData);
+      }
+      tempData.push(item);
+      await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
+      alert(item.name + " added to cart!");
+    } catch (error) {
+        alert("Error adding to cart. " + error);
+      }
+  };
 
   // This method is invoked once after the native UI for this component has finished rendering. This will
   // automatically load all the drinks from the API once the screen is loaded.
@@ -131,13 +155,7 @@ export default class FoodMenu extends Component {
           <TouchableHighlight
             style={styles.modalButtons}
             onPress={() => {
-              let itemString = ""; 
-              if(global.items != undefined)
-                itemString = global.items;
-
-              alert("Item added to cart!");
-              itemString += ";" + this.state.currentItem.item_name;
-              global.items = itemString;
+              this._storeData(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));
               this.setModalVisible(!this.state.modalVisible);
             }}>
             <Text style={styles.modalButtonText}>Add To Order</Text>
@@ -150,7 +168,7 @@ export default class FoodMenu extends Component {
           renderItem={({ item }) => (
             <ListItem
               leftAvatar={{ 
-                source: require("./img/apple_slices.jpg"),
+                source: require("./img/comingSoon.png"),
                 size: "large"
               }}
               title={`${item.item_name}`}
@@ -187,13 +205,15 @@ const styles = StyleSheet.create({
   },
   modal:{
     alignItems: "center",
-    backgroundColor:"white", 
+    backgroundColor:"#181818", 
     width: viewWidth * 0.6, 
     height: viewHeight * 0.4,
     justifyContent: "center",
     marginLeft: viewWidth * 0.2,
     marginTop: viewHeight * 0.3,
-    borderRadius: 10
+    borderRadius: 10,
+    borderColor: '#404040',
+    borderWidth: 1,
   },
   modalButtons: {
     width: viewWidth * 0.3,
@@ -212,7 +232,8 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalNutritionalText: {
-    fontSize: 20
+    fontSize: 20,
+    color: 'white'
   },
   separator:{
     height: 2,

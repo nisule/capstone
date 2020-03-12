@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight, Image} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -61,7 +61,6 @@ export default class menuView extends Component {
         const infoJson = JSON.parse(info);
 
         this.setState({first_name: infoJson.firstName, balance: infoJson.balance, user_id: infoJson.userID});
-        console.log("state fname: " + this.state.first_name);
       }
     } catch (error) {
       alert("Error retrieving user data: " + error);
@@ -94,7 +93,7 @@ export default class menuView extends Component {
   };
 
   componentDidMount = () => {
-    this.retrieveUserData();
+    //this.retrieveUserData();
   }
 
 
@@ -110,9 +109,10 @@ export default class menuView extends Component {
   };
 
   render() {
+    this.retrieveUserData();
     return (
        // TODO: Somehow be able to access the current user's information to retrieve their first name and balance.
-        <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#181818', justifyContent: 'space-between'}}>
           <View style={styles.titleStyle}>
             <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
           </View>
@@ -124,7 +124,16 @@ export default class menuView extends Component {
             <View style={styles.separator}/>
             <Text style={{ alignContent: "flex-start", fontSize: 20, color: 'white'}}> User ID: {this.state.user_id}</Text>
           </View>
-         
+
+          <View style={styles.cartView}>
+            <TouchableOpacity style = {styles.cartButton} onPress={() => this.loadAndViewCart()}>
+            <Image
+             style={{flex: .9, resizeMode: 'center', width: '100%', height: '100%'}} 
+              source={require('./img/shopping_cart.png')} /> 
+              <Text style={styles.checkoutButtonText}>View Cart</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.orderHistoryView}>
             <Text style={styles.orderHistoryTitle}>Order History</Text>
             <View style={styles.separator}/>
@@ -147,9 +156,7 @@ export default class menuView extends Component {
             />
           </View>
 
-          <TouchableOpacity style={styles.checkoutButton} onPress={() => this.loadAndViewCart()}>
-            <Text style={styles.checkoutButtonText}>View Cart</Text>
-          </TouchableOpacity>
+         
 
           <Modal
             animationType="slide"
@@ -166,12 +173,12 @@ export default class menuView extends Component {
                 renderItem={({ item }) => (
                   <ListItem
                     leftAvatar={{
-                      source: require("./img/apple_slices.jpg"),
+                      source: require("./img/comingSoon.png"),
                       size: "medium",
                       borderWidth: 1
                     }}
                     title={`${item.item_name} x ${item.quantity}`}
-                    subtitle={`Total: $${item.price}`}
+                    subtitle={`Price: $${item.price}`}
                     containerStyle={styles.itemContainer}
                     titleStyle={styles.itemText}
                     subtitleStyle={styles.itemText}
@@ -227,6 +234,26 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const styles = StyleSheet.create({
+  cartView: {
+    flex: .15,
+    backgroundColor: '#363636',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    width: viewWidth * .75,
+    marginBottom: -(viewHeight * .1),
+    borderRadius: 10,
+  },
+  cartButton: {
+    flex: 1,
+    //backgroundColor: "#fbba37",
+    //backgroundColor: 'rgba(52, 52, 52, 1)',
+    width: viewWidth * .75,
+    borderRadius: 10,
+    borderWidth: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
   checkoutButton: {
     marginTop: 5,
     marginBottom: 5,
@@ -297,7 +324,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 3,
     backgroundColor: 'white',
-    flex: 0.3
+    flex: .3
   },
   separator:{
     height: 1,
@@ -308,20 +335,22 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   titleStyle:{
-    flex: 0.09,
-    marginBottom: 5,
+    flex: 0.07,
+    marginBottom: -(viewHeight * .1),
     backgroundColor:'#fbba37',
     alignContent:"center",
+    justifyContent: 'center',
     alignItems: "center",
     borderRadius: 5
   },
   welcomeSection:{
+    flex: .12,
     backgroundColor: "#363636",
     alignSelf: 'auto',
-    marginBottom: 5,
+    marginBottom: -(viewHeight * .1),
     borderRadius: 10,
-    //borderColor: 'grey',
-    borderWidth: 3
+    borderWidth: 3,
+
   },
   welcomeText:{
     color:'white',

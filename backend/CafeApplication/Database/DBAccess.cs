@@ -20,6 +20,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -42,6 +43,7 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@total", total);
 
                 var dataReader = command.ExecuteReader();
+                dataReader.Close();
                 connection.Close();
             }
         }
@@ -64,6 +66,7 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@itemQuantity", itemQuantity);
 
                 var dataReader = command.ExecuteReader();
+                dataReader.Close();
                 connection.Close();
             }
         }
@@ -87,6 +90,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -109,6 +113,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -121,9 +126,10 @@ public static class DBAccess {
     }
 
     public static string getSalt(string email) {
+        
+        
         string sql = "SELECT salt FROM User WHERE email = @email";
-        try
-        {
+        try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection))
             {
@@ -131,7 +137,8 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@email", email);
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
-                dataTable.Load(dataReader); 
+                dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 string salt = (string)dataTable.Rows[0]["salt"];
                 return salt;
@@ -154,6 +161,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 bool is_employee = (bool)dataTable.Rows[0]["is_employee"];
                 return is_employee;
@@ -199,6 +207,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -220,6 +229,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -241,6 +251,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
@@ -315,6 +326,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
