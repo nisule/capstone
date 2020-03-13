@@ -20,15 +20,15 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in item price query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -44,11 +44,12 @@ public static class DBAccess {
 
                 var dataReader = command.ExecuteReader();
                 dataReader.Close();
-                connection.Close();
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error database inserting order: " + e.Message);
+        }
+        finally {
             connection.Close();
         }
     }
@@ -67,14 +68,15 @@ public static class DBAccess {
 
                 var dataReader = command.ExecuteReader();
                 dataReader.Close();
-                connection.Close();
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+        }
+        finally {
             connection.Close();
         }
-   
+
     }
 
     public static DataTable getUserLatestOrder(string userID) {
@@ -91,14 +93,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in latest order query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -114,14 +117,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -139,15 +143,16 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 string salt = (string)dataTable.Rows[0]["salt"];
                 return salt;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user get salt query: " + e.StackTrace);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -162,15 +167,16 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 bool is_employee = (bool)dataTable.Rows[0]["is_employee"];
                 return is_employee;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user isEmployee query: " + e.StackTrace);
-            connection.Close();
             return false;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -187,14 +193,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -209,14 +216,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database user info query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -231,14 +239,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database past order query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -253,14 +262,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database past order query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -275,11 +285,12 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@newBalance", newBalance);
                 command.Parameters.AddWithValue("@userID", userID);
                 command.ExecuteReader();
-                connection.Close();
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
+        }
+        finally {
             connection.Close();
         }
     }
@@ -298,14 +309,15 @@ public static class DBAccess {
                 command.Parameters.AddWithValue("@password", password);
                 command.Parameters.AddWithValue("@salt", salt);
                 command.ExecuteReader();
-                connection.Close();
                 return true;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
-            connection.Close();
             return false;
+        }
+        finally {
+            connection.Close();
         }
     }
 
@@ -328,14 +340,15 @@ public static class DBAccess {
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 dataReader.Close();
-                connection.Close();
                 return dataTable;
             }
         }
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
-            connection.Close();
             return null;
+        }
+        finally {
+            connection.Close();
         }
     }
 
