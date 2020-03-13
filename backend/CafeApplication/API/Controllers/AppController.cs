@@ -47,11 +47,12 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("Logout")]
-        public StatusCodeResult logout([FromBody]UserInfoDTO data) {
+        public StatusCodeResult Logout([FromBody]UserInfoDTO data) {
+
             // make sure user is authenticated
-            // TODO might not need email for verifyToken, maybe use ifTokenValid
-            if (SessionController.sm.verifyToken(data.email, data.authToken)) {
-                if (SessionController.sm.removeToken(data.email))
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                
+                if (SessionController.sm.removeToken(data.authToken))
                     return StatusCode(200);
                 else
                     return StatusCode(400);
@@ -63,7 +64,8 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("AuthToken")]
-        public StatusCodeResult authToken([FromBody]UserInfoDTO data) {
+        public StatusCodeResult AuthToken([FromBody]UserInfoDTO data) {
+
             if (SessionController.sm.ifTokenValid(data.authToken))
                 return StatusCode(200);
             else

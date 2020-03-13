@@ -162,7 +162,7 @@ export default class loginView extends Component {
     // stores authToken after logging in
     storeToken = async (token) => {
       try {
-        await AsyncStorage.setItem('authentication_data', token);
+        await AsyncStorage.setItem('authentication_data', JSON.stringify(token));
       } catch (error) {
         console.error(error)
       }
@@ -175,6 +175,7 @@ export default class loginView extends Component {
         console.error(error)
       }
     }
+
     // TODO: figure out to return the token cuz putting 'return token' was giving 'object object'
     getToken = async () => {
       try {

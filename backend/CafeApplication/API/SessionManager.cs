@@ -58,7 +58,15 @@ namespace API {
         }
 
         // Used whenever someone logs out
-        public bool removeToken(string email) {
+        public Boolean removeToken(string token) {
+            // this is broken, not removing properly. no change before and after
+            string email = "";
+            foreach (KeyValuePair<string, string> dict in usersAuthTokens) {
+                if (dict.Value.Equals(token))
+                    email = dict.Key;
+                break;
+            }
+
             return usersAuthTokens.Remove(email);
         }
 
