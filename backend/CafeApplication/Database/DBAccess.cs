@@ -186,6 +186,7 @@ public static class DBAccess {
                 var dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
+                dataReader.Close();
                 connection.Close();
                 return dataTable;
             }
