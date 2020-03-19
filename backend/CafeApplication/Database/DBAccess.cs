@@ -11,13 +11,14 @@ public static class DBAccess {
     private static MySqlConnection connection = new MySqlConnection(connString);
 
     public static DataTable getItemPrice(string itemID) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT price FROM Item WHERE item_id = @itemID";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@itemID", itemID);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
                 return dataTable;
@@ -28,6 +29,8 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
@@ -38,12 +41,10 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@userID", userID);
                 command.Parameters.AddWithValue("@total", total);
-
-                var dataReader = command.ExecuteReader();
-                dataReader.Close();
+                command.ExecuteReader();
             }
         }
         catch (Exception e) {
@@ -55,19 +56,16 @@ public static class DBAccess {
     }
 
     public static void insertOrderWithItem(string orderID, int itemID, int itemQuantity) {
-            string sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
-                         "VALUES(@orderID, @itemID, @itemQuantity)";
-
+        string sql = "INSERT INTO Order_Items(order_id, item_id, quantity) " +
+                     "VALUES(@orderID, @itemID, @itemQuantity)";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@orderID", orderID);
                 command.Parameters.AddWithValue("@itemID", itemID);
                 command.Parameters.AddWithValue("@itemQuantity", itemQuantity);
-
-                var dataReader = command.ExecuteReader();
-                dataReader.Close();
+                command.ExecuteReader();
             }
         }
         catch (Exception e) {
@@ -80,6 +78,7 @@ public static class DBAccess {
     }
 
     public static DataTable getUserLatestOrder(string userID) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT order_id " +
                          "FROM Orders " +
                          "WHERE user_id = @userID " +
@@ -87,12 +86,11 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@userID", userID);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -101,22 +99,24 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static DataTable getUserBalance(string userID) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT balance FROM User WHERE user_id = @userID";
 
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@userID", userID);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -125,48 +125,50 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
-
+        
     public static string getSalt(string email) {
-        
-        
+        MySqlDataReader dataReader = null;
         string sql = "SELECT salt FROM User WHERE email = @email";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection))
             {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@email", email);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 string salt = (string)dataTable.Rows[0]["salt"];
                 return salt;
             }
         }
         catch (Exception e) {
-            Debug.WriteLine("Error in database user get salt query: " + e.StackTrace);
+            Debug.WriteLine("Error in database user get salt query: " + e.Message);
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static bool isEmployee(string email) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT is_employee FROM User WHERE email = @email";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@email", email);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 bool is_employee = (bool)dataTable.Rows[0]["is_employee"];
                 return is_employee;
             }
@@ -176,23 +178,25 @@ public static class DBAccess {
             return false;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static DataTable getAllAccountCredentials(string email, string password) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT email, password, salt FROM User WHERE email = @email AND password = @password";
 
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@email", email);
                 command.Parameters.AddWithValue("@password", password);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -201,21 +205,23 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static DataTable getUserInfo(string email) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT user_id, first_name, email, balance, is_employee FROM User WHERE email = @email";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@email", email);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -224,21 +230,23 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static DataTable getPastTenOrders(string userID) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT order_id, total, date FROM Orders WHERE user_id = @userID ORDER BY order_id DESC LIMIT 10";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@userID", userID);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -247,21 +255,23 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
 
     public static DataTable getOrderItems(string orderID) {
+        MySqlDataReader dataReader = null;
         string sql = "SELECT Order_Items.item_id, item_name, quantity FROM Order_Items, Item WHERE Order_Items.item_id = Item.item_id AND Order_Items.order_id = @orderID";
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@orderID", orderID);
-                var dataReader = command.ExecuteReader();
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -270,6 +280,8 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }
@@ -281,7 +293,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@newBalance", newBalance);
                 command.Parameters.AddWithValue("@userID", userID);
                 command.ExecuteReader();
@@ -301,7 +313,7 @@ public static class DBAccess {
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
+                command.CommandTimeout = 10000;
                 command.Parameters.AddWithValue("@id", userID);
                 command.Parameters.AddWithValue("@fName", fName);
                 command.Parameters.AddWithValue("@lName", lName);
@@ -332,14 +344,14 @@ public static class DBAccess {
     }
 
     private static DataTable issueQuery(string sql) {
+        MySqlDataReader dataReader = null;
         try {
             connection.Open();
             using (MySqlCommand command = new MySqlCommand(sql, connection)) {
-                command.CommandTimeout = 1000;
-                var dataReader = command.ExecuteReader();
+                command.CommandTimeout = 10000;
+                dataReader = command.ExecuteReader();
                 var dataTable = new DataTable();
                 dataTable.Load(dataReader);
-                dataReader.Close();
                 return dataTable;
             }
         }
@@ -348,6 +360,8 @@ public static class DBAccess {
             return null;
         }
         finally {
+            if (!(dataReader is null))
+                dataReader.Close();
             connection.Close();
         }
     }

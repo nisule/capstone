@@ -5,6 +5,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
+var currentItem =[];
 
 class Item{
   constructor(id, name, price, qty){
@@ -25,13 +26,12 @@ export default class DrinkMenu extends Component {
       currentDataDisplayed: [],
       error: null,
       modalVisible: false,
-      currentItem: []
     };
   }
 
   setModalVisible(visible, item) {
     this.setState({modalVisible: visible});
-    this.setState({currentItem: item})
+    this.currentItem = item;
   }
 
   // This method is invoked once after the native UI for this component has finished rendering. This will
@@ -152,7 +152,7 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
-                this._storeData(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));            
+                this._storeData(new Item(this.currentItem.item_id, this.currentItem.item_name, this.currentItem.price, 1));            
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>

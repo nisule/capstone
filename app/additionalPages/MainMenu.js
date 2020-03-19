@@ -108,6 +108,25 @@ export default class menuView extends Component {
     this.setState({modalVisible: visible});
   };
 
+  renderItem = item => {
+    return (
+        <ListItem
+          leftAvatar={{
+          source: require("./img/comingSoon.png"),
+          size: "medium",
+          borderWidth: 1
+        }}
+        title={`${item.item.item_name} x ${item.item.quantity}`}
+        subtitle={`Price: $${item.item.price}`}
+        containerStyle={styles.itemContainer}
+        titleStyle={styles.itemText}
+        subtitleStyle={styles.itemText}
+        onPress={() => {alert("TODO: Remove item from cart.");}}
+        ></ListItem>
+
+    );
+  }
+
   render() {
     this.retrieveUserData();
     return (
@@ -130,9 +149,33 @@ export default class menuView extends Component {
             <Image
              style={{flex: .9, resizeMode: 'center', width: '100%', height: '100%'}} 
               source={require('./img/shopping_cart.png')} /> 
-              <Text style={styles.checkoutButtonText}>View Cart</Text>
+              <Text style={{fontSize: 18, color: 'white'}}>View Cart</Text>
             </TouchableOpacity>
           </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false);
+            }}>
+
+            <View style={styles.currentOrder}>
+              <FlatList
+                style= {{flex: 0.7, backgroundColor: "white"}}
+                data={this.state.cartItems}
+                renderItem={item => this.renderItem(item)} 
+                keyExtractor={item => item.item_name + ""}
+                ItemSeparatorComponent={this.renderSeparator}
+              />
+              <View style={{height: 3, backgroundColor: "black",}}/>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
+                <Text style={styles.checkoutButtonText}>Checkout</Text>
+              </TouchableOpacity>
+            </View>
+            
+          </Modal>  
 
           <View style={styles.orderHistoryView}>
             <Text style={styles.orderHistoryTitle}>Order History</Text>
@@ -142,6 +185,7 @@ export default class menuView extends Component {
               style= {{marginBottom: 5}}
               data={this.state.orderHistory}
               renderItem={({ item }) => (
+
                 <ListItem
                   title={`Total: ${item.total}`}
                   rightTitle={item.date}
@@ -158,43 +202,7 @@ export default class menuView extends Component {
 
          
 
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              this.setModalVisible(false);
-            }}>
-
-            <View style={styles.currentOrder}>
-              <FlatList
-                style= {{flex: 0.7, backgroundColor: "white"}}
-                data={this.state.cartItems}
-                renderItem={({ item }) => (
-                  <ListItem
-                    leftAvatar={{
-                      source: require("./img/comingSoon.png"),
-                      size: "medium",
-                      borderWidth: 1
-                    }}
-                    title={`${item.item_name} x ${item.quantity}`}
-                    subtitle={`Price: $${item.price}`}
-                    containerStyle={styles.itemContainer}
-                    titleStyle={styles.itemText}
-                    subtitleStyle={styles.itemText}
-                    onPress={() => {alert("TODO: Remove item from cart.");}}
-                  />
-                )}
-                keyExtractor={item => item.item_name + ""}
-                ItemSeparatorComponent={this.renderSeparator}
-              />
-              <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
-                <Text style={styles.checkoutButtonText}>Checkout</Text>
-              </TouchableOpacity>
-            </View>
-            
-          </Modal>        
+                
 
         </SafeAreaView>
     );

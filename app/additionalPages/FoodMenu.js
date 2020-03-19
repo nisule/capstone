@@ -6,6 +6,7 @@ import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height; 
+var currentItem = [];
 
 class Item{
   constructor(id, name, price, qty){
@@ -26,13 +27,12 @@ export default class FoodMenu extends Component {
       currentDataDisplayed: [],
       error: null,
       modalVisible: false,
-      currentItem: []
     };
   }
 
   setModalVisible(visible, item) {
     this.setState({modalVisible: visible});
-    this.setState({currentItem: item})
+    this.currentItem = item;
   }
 
   _storeData = async (item) => {
@@ -155,7 +155,7 @@ export default class FoodMenu extends Component {
           <TouchableHighlight
             style={styles.modalButtons}
             onPress={() => {
-              this._storeData(new Item(this.state.currentItem.item_id, this.state.currentItem.item_name, this.state.currentItem.price, 1));
+              this._storeData(new Item(this.currentItem.item_id, this.currentItem.item_name, this.currentItem.price, 1));
               this.setModalVisible(!this.state.modalVisible);
             }}>
             <Text style={styles.modalButtonText}>Add To Order</Text>
