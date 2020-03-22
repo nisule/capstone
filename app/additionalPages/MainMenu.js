@@ -170,9 +170,9 @@ export default class menuView extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
+              <TouchableHighlight style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
-              </TouchableOpacity>
+              </TouchableHighlight>
             </View>
             
           </Modal>  
@@ -199,11 +199,7 @@ export default class menuView extends Component {
               ItemSeparatorComponent={this.renderSeparator}
             />
           </View>
-
-         
-
-                
-
+          
         </SafeAreaView>
     );
   }
