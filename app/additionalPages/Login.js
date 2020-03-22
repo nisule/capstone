@@ -69,7 +69,7 @@ export default class loginView extends Component {
                   // call to API to try to log in
                   RNFetchBlob.config({
                       trusty: true
-                  }).fetch( 'POST', 'https:10.0.2.2:5001/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
+                  }).fetch( 'PUT', 'https:10.0.2.2:5001/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
                       email: this.state.email,
                       password : this.state.password
                     }))

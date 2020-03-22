@@ -3,14 +3,14 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Account;
 using DTOs;
+using OrderHandling;
 using Newtonsoft.Json;
-
 
 namespace API.Controllers {
     [ApiController]
     public class AppController : ControllerBase {
 
-        [HttpPost]
+        [HttpPut]
         [Route("Login")]
         public string ValidateCredentials([FromBody]UserInfoDTO data) {
             var DTO = new UserInfoDTO();
@@ -114,6 +114,24 @@ namespace API.Controllers {
             var items = DTO.getFoodItems();
             string output = JsonConvert.SerializeObject(items);
             return output;
+        }
+
+        [HttpPost]
+        [Route("SubmitOrder")]
+        public string SubmitOrder([FromBody]OrderInfoDTO data) {
+            //create order item
+            //EmployeeOrderQueue.addOrder(new Order(data.orderID, data.items, ));
+            
+
+            //put order in order queue
+            return null;
+        }
+
+        [HttpGet]
+        [Route("GetOrderQueue")]
+        public string GetOrderQueue() {
+
+            return null;
         }
     }
 

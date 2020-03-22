@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Di
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
+import RNFetchBlob from 'rn-fetch-blob'
 
 import DrinkMenu from './DrinkMenu.js';
 import FoodMenu from './FoodMenu.js';
@@ -127,6 +128,28 @@ export default class menuView extends Component {
     );
   }
 
+  submitOrder = () => {
+    RNFetchBlob.config({
+      trusty: true
+  }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+      Items: this.cartItems
+    }))
+    .then( (response) => response.json())
+    .then( (responseJson) => {  
+      let status = responseJson.status;
+
+      global.firstName = responseJson.firstName;
+      // if status is 200 then login was succesful
+      if(status == 200) {
+
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Request could not be handled.")
+  })
+  }
+
   render() {
     this.retrieveUserData();
     return (
@@ -170,7 +193,7 @@ export default class menuView extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("weed");}} >
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
               </TouchableOpacity>
             </View>
