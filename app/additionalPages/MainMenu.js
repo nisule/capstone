@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight, Image} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -9,7 +9,6 @@ import FoodMenu from './FoodMenu.js';
 import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -170,9 +169,9 @@ export default class menuView extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableHighlight style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("TODO: Fill in with Order Review and button to Pay.")}}>
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             
           </Modal>  
