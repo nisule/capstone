@@ -22,7 +22,9 @@ const DrawerNavigator = createAppContainer(createDrawerNavigator(
       Settings: {
         screen: AppSettings,
       },
-      logout: logoutView
+      Logout: {
+        screen: logoutView
+      }
   },
   
     {
