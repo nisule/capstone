@@ -9,6 +9,7 @@ import FoodMenu from './FoodMenu.js';
 import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
+import EmployeeHome from '../employeePages/EmployeeHome.js';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -207,6 +208,9 @@ const TabNavigator = createBottomTabNavigator(
   {
     MainMenuView: {
       screen: menuView,
+    },
+    EmployeeView: {
+      screen: EmployeeHome,
     },
     DrinkMenuView: {
       screen: DrinkMenu,

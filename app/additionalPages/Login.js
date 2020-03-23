@@ -82,12 +82,7 @@ export default class loginView extends Component {
                       if(status == 200) {
                         this.storeUserInfo(responseJson);
                         this.storeToken(responseJson.authToken + "");
-
-                        if (responseJson.isEmployee === false) 
-                          navigate('Menu')
-                        else if (responseJson.isEmployee === true) 
-                          navigate('Employee')
-
+                        navigate('Menu')
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
                       else 
@@ -188,9 +183,6 @@ export default class loginView extends Component {
       }
     }
 
-
-
-
     componentDidUpdate() {
       const {navigate} = this.props.navigation;
       if (this.props.userSettings !== undefined) {
@@ -201,10 +193,6 @@ export default class loginView extends Component {
         this.props.navigate("Login");
       }
     }
-
-    // componentDidMount() {
-    //   //this.initAuthToken();
-    // }
 
     // When the user logs out we want to reset the cart items.
     resetCartItems = async () => {

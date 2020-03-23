@@ -1,33 +1,81 @@
 import React, {Component} from 'react';
-import { StyleSheet, View , TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, View , TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 
 export class FooterView extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            isEmployee: false
+        };
+      }
 
-  render(){
-    return (
-        <View style={styles.Footer}>
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('MainMenuView')}>
-                <Image
-                    style={{flex: 1, resizeMode: 'center', width: '80%'}} 
-                    source={require('./img/home.png')} />     
-            </TouchableOpacity>
+    retrieveEmployeeBoolean = async () => {
+        try {
+            const info = await AsyncStorage.getItem('user_info');
+            if (info !== null) {
+              const infoJson = JSON.parse(info);
+      
+              this.setState({isEmployee: infoJson.isEmployee});
+            }
+          } catch (error) {
+            alert("Error retrieving user data: " + error);
+          }
+    };
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
-                <Image
-                style={{flex: 1, resizeMode: 'center', width: '90%'}} 
-                source={require('./img/coffeeFooter.png')} />
-            </TouchableOpacity>
+    render(){
+        this.retrieveEmployeeBoolean();
+        return (
+            // Using conditional rendering to load the appropriate footer for an employee and non-employee.
+            this.state.isEmployee?
+                <View style={styles.Footer}>
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('MainMenuView')}>
+                        <Image
+                            style={{flex: 1, resizeMode: 'center', width: '80%'}} 
+                            source={require('./img/home.png')} />     
+                    </TouchableOpacity>
 
-            <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenuView')}>
-                <Image
-                    style={{flex: 1, resizeMode: 'center', width: '90%'}} 
-                    source={require('./img/sandwich.png')} />  
-            </TouchableOpacity>
-   
-        </View>
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('EmployeeView')}>
+                        <Image
+                            style={{flex: 1, resizeMode: 'center', width: '100%'}} 
+                            source={require('./img/barista.png')} />  
+                    </TouchableOpacity>
 
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
+                        <Image
+                        style={{flex: 1, resizeMode: 'center', width: '90%'}} 
+                        source={require('./img/coffeeFooter.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenuView')}>
+                        <Image
+                            style={{flex: 1, resizeMode: 'center', width: '90%'}} 
+                            source={require('./img/sandwich.png')} />  
+                    </TouchableOpacity>
+        
+                </View>
+            :
+                <View style={styles.Footer}>
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('MainMenuView')}>
+                        <Image
+                            style={{flex: 1, resizeMode: 'center', width: '80%'}} 
+                            source={require('./img/home.png')} />     
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('DrinkMenuView')} >                
+                        <Image
+                        style={{flex: 1, resizeMode: 'center', width: '90%'}} 
+                        source={require('./img/coffeeFooter.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.FooterButton} onPress = {()=> this.props.navigation.navigate('FoodMenuView')}>
+                        <Image
+                            style={{flex: 1, resizeMode: 'center', width: '90%'}} 
+                            source={require('./img/sandwich.png')} />  
+                    </TouchableOpacity>
+                </View>
     );
   }
 }

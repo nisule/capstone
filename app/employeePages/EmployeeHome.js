@@ -3,7 +3,6 @@ import { Text, StyleSheet, View, SafeAreaView} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-
 export default class EmployeeHome extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +22,6 @@ export default class EmployeeHome extends Component {
   }
 }
 
-
-
 const styles = StyleSheet.create({
 
 })
-
