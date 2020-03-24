@@ -82,6 +82,7 @@ export default class loginView extends Component {
                       if(status == 200) {
                         this.storeUserInfo(responseJson);
                         this.storeToken(responseJson.authToken + "");
+                        this.Password.clear();
                         navigate('Menu')
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
