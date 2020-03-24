@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net.Http;
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Account;
 using DTOs;
@@ -120,18 +121,36 @@ namespace API.Controllers {
         [HttpPost]
         [Route("SubmitOrder")]
         public StatusCodeResult SubmitOrder([FromBody]OrderInfoDTO data) {
- 
-            //create order item
             EmployeeOrderQueue.addOrder(new Order(data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
-            
-            //put order in order queue
             return StatusCode(200);
         }
 
         [HttpGet]
         [Route("GetOrderQueue")]
         public string GetOrderQueue() {
+            var DTO = new OrderQueueDTO();
+            List<Order> queue = EmployeeOrderQueue.getOrderQueue();
+            foreach(var order in queue) {
+                DTO.populateOrder(order.userID.ToString(), order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
+            }
 
+            string output = JsonConvert.SerializeObject(DTO);
+            return output;
+        }
+
+        [HttpPost]
+        [Route("ApproveOrder")]
+        public string ApproveOrder([FromBody]OrderInfoDTO data) {
+            //TODO: Figure out our order ID situation
+            //EmployeeOrderQueue.approveOrder(order ID??);
+            return null;
+        }
+
+        [HttpPost]
+        [Route("DenyOrder")]
+        public string DenyOrder() {
+            //TODO: Figure out our order ID situation
+            //EmployeeOrderQueue.denyOrder(order ID??);
             return null;
         }
     }

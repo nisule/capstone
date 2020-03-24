@@ -20,5 +20,13 @@ namespace OrderHandling {
         public Dictionary<int, string[]> getItems() {
             return items;
         }
+
+        public float getTotal() {
+            return total;
+        }
+
+        public DateTime getDate() {
+            return date;
+        }
     }
 }

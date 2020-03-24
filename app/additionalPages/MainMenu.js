@@ -97,7 +97,6 @@ export default class menuView extends Component {
     //this.retrieveUserData();
   }
 
-
   loadAndViewCart = async () => {
     // Retrieve the cart items in async storage and update the local list of items.
     this.setState({cartItems: []});
@@ -142,6 +141,7 @@ export default class menuView extends Component {
       console.log(status);
       if(status == 200){
         alert("Order successfully submitted! An employee will review your order shortly.")
+        //TODO clear cart of items so the modal is empty
         this.setModalVisible(false);
       }else{
         alert("Error, order not submitted.")

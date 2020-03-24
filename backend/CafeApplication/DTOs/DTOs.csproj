@@ -49,11 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartDTOs\CartOrderDTO.cs" />
-    <Compile Include="LoginDTOs\ItemOrderInfoDTO.cs" />
-    <Compile Include="LoginDTOs\OrderInfoDTO.cs" />
-    <Compile Include="LoginDTOs\UserInfoDTO.cs" />
+    <Compile Include="LoginAndCartDTOs\ItemOrderInfoDTO.cs" />
+    <Compile Include="LoginAndCartDTOs\OrderInfoDTO.cs" />
+    <Compile Include="LoginAndCartDTOs\UserInfoDTO.cs" />
     <Compile Include="ItemDetailsDTO.cs" />
+    <Compile Include="OrderQueueDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

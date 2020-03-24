@@ -9,9 +9,12 @@ namespace OrderHandling {
 
         private static List<Order> orders = new List<Order>();
         
-
         public static void addOrder(Order o) {
             orders.Add(o);
+        }
+
+        public static List<Order> getOrderQueue() {
+            return orders;
         }
 
         public static Order getOrder(string orderID) {
@@ -24,10 +27,12 @@ namespace OrderHandling {
         }
 
         public static bool approveOrder(Order o) {
-            OrderProcessor oc = new OrderProcessor();
-            if (oc.ProcessOrder(o)) {
-                o.approved = 1;
-                return true;
+            if (orders.Contains(o)) {
+                OrderProcessor oc = new OrderProcessor();
+                if (oc.ProcessOrder(o)) {
+                    o.approved = 1;
+                    return true;
+                }
             }
             o.approved = 0;
             return false;
@@ -38,6 +43,7 @@ namespace OrderHandling {
             orders.Remove(o);
             return false;
         }
+
 
 
     }
