@@ -87,6 +87,8 @@ export default class loginView extends Component {
                         // clear fields after logging in
                         this.Password.clear();
                         this.Email.clear();
+                        this.state.email = "";
+                        this.state.password = "";
                         navigate('Menu')
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
