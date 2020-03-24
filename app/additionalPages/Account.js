@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Alert, Button, Text, View, SafeAreaView, StyleSheet, Dimensions} from 'react-native';
+import { Alert, Button, Text, View, SafeAreaView, StyleSheet, Dimensions, AsyncStorage} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 var viewWidth = Dimensions.get('window').width; 
@@ -7,10 +7,30 @@ var viewWidth = Dimensions.get('window').width;
 class AccountSettings extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      user_id: "",
+      email: "",
+      balance: 0
+    }
+  }
+
+  retrieveUserData = async () => {
+    try {
+      const info = await AsyncStorage.getItem('user_info');
+      if (info !== null) {
+        const infoJson = JSON.parse(info);
+
+        this.setState({email: infoJson.email, balance: infoJson.balance, user_id: infoJson.userID});
+      }
+    } catch (error) {
+      alert("Error retrieving user data: " + error);
+    }
   }
   
   render() {
     const {navigate} = this.props.navigation;
+    this.retrieveUserData();
 
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
@@ -23,19 +43,19 @@ class AccountSettings extends Component {
 
               <View style={styles.viewStyle}>
                 <Text style={styles.textStyle}>
-                  Email: ~Use API~
+                  Email: {this.state.email}
                 </Text>
               </View>
 
               <View style={styles.viewStyle}>
                 <Text style={styles.textStyle}>
-                  Dining Dollars: ~Use API~
+                  Dining Dollars: ${this.state.balance}
                 </Text>
               </View>
 
               <View style={styles.viewStyle}>
                 <Text style={styles.textStyle}>
-                  ID Number: ~Use API~
+                  Student ID: {this.state.user_id}
                 </Text>
               </View>
 

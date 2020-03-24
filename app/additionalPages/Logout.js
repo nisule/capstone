@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Button, AsyncStorage } from 'react-native';
+import { Text, TouchableOpacity, SafeAreaView, View, Button, AsyncStorage, StyleSheet, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import RNFetchBlob from 'rn-fetch-blob';
+
+var viewWidth = Dimensions.get('window').width; 
 
 export default class Logout extends Component {
     constructor(props) {
@@ -11,27 +13,31 @@ export default class Logout extends Component {
       };
     }
 
-      
-
   render() {
     const {goBack} = this.props.navigation;
     
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Are you sure you want to log out?</Text>
-        <Button
-          title="Yes"
-          onPress={() => {
-            this.props.navigation.navigate('Login');
-            this.logoutCall();
-            }
-            }
-        />
-         <Button
-          title="No"
-          onPress={() => goBack()}
-        />
-      </View>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#181818'}}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <Text style= {styles.titleText}>Are you sure you want to log out?</Text>
+          <View style={{ flexDirection: "row"}}>
+
+            <TouchableOpacity style={styles.buttonStyle} onPress={() => {
+                  this.props.navigation.navigate('Login');
+                  this.logoutCall();
+                  } }>
+              <Text style={styles.buttonText}>Yes</Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.buttonStyle} onPress={() => {
+               goBack() } }>
+              <Text style={styles.buttonText}>No</Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -65,8 +71,6 @@ export default class Logout extends Component {
       })
 }
 
-
-
   deleteToken = async () => {
     try {
         await AsyncStorage.removeItem('authentication_data');
@@ -75,3 +79,38 @@ export default class Logout extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  titleText:{
+    fontSize: 28, 
+    color: 'white'
+  },
+  titleStyle:{
+    marginBottom: 15,
+    backgroundColor:'grey',
+    alignItems:'center'
+  },
+  textStyle: {
+    color: 'white',
+    fontSize: 24
+  },
+  viewStyle: {
+    marginBottom: 15,
+    borderWidth: 1.5,
+    borderColor: 'grey',
+  },
+  buttonStyle: {
+    flex: 1,
+        justifyContent: "center",
+        backgroundColor: '#fbba37',
+        alignItems: 'center',
+        fontSize: 30,
+        borderWidth: 1,
+        borderColor: '#404040',
+        borderRadius: 6,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 29
+  }
+});

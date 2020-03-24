@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight, Image, TouchableOpacity} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image, TouchableOpacity} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -10,7 +10,7 @@ import FoodMenu from './FoodMenu.js';
 import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
-import {  } from 'react-native-gesture-handler';
+import EmployeeHome from '../employeePages/EmployeeHome.js';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -223,11 +223,7 @@ export default class menuView extends Component {
               ItemSeparatorComponent={this.renderSeparator}
             />
           </View>
-
-         
-
-                
-
+          
         </SafeAreaView>
     );
   }
@@ -236,6 +232,9 @@ const TabNavigator = createBottomTabNavigator(
   {
     MainMenuView: {
       screen: menuView,
+    },
+    EmployeeView: {
+      screen: EmployeeHome,
     },
     DrinkMenuView: {
       screen: DrinkMenu,
