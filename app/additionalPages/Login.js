@@ -39,6 +39,7 @@ export default class loginView extends Component {
               returnKeyType = { "next" }
               onSubmitEditing={() => { this.Password.focus(); }}
               blurOnSubmit={false}
+              ref={(input) => { this.Email = input; }}
             />
             
             <View style={{flex:0.025}}/>
@@ -82,7 +83,10 @@ export default class loginView extends Component {
                       if(status == 200) {
                         this.storeUserInfo(responseJson);
                         this.storeToken(responseJson.authToken + "");
+                        
+                        // clear fields after logging in
                         this.Password.clear();
+                        this.Email.clear();
                         navigate('Menu')
                       }else if (status == 400)
                         alert("Incorrect credentials, please try again.")   
