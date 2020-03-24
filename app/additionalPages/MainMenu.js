@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight, Image} from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, TouchableHighlight, Image, TouchableOpacity} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -10,7 +10,7 @@ import FoodMenu from './FoodMenu.js';
 import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {  } from 'react-native-gesture-handler';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -129,6 +129,7 @@ export default class menuView extends Component {
   }
 
   submitOrder = () => {
+    console.log("aaaa" + this.cartItems);
     RNFetchBlob.config({
       trusty: true
   }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
@@ -138,7 +139,7 @@ export default class menuView extends Component {
     .then( (responseJson) => {  
       let status = responseJson.status;
 
-      global.firstName = responseJson.firstName;
+      console.log(responseJson);
       // if status is 200 then login was succesful
       if(status == 200) {
 
@@ -193,7 +194,7 @@ export default class menuView extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
               />
               <View style={{height: 3, backgroundColor: "black",}}/>
-              <TouchableOpacity style={styles.checkoutButton} onPress={() => {alert("weed");}} >
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {this.submitOrder();}} >
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
               </TouchableOpacity>
             </View>
