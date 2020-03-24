@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="EmployeeOrderQueue.cs" />
     <Compile Include="Order.cs" />
-    <Compile Include="OrderCreator.cs" />
+    <Compile Include="OrderProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

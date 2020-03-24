@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OrderHandling {
-    public class OrderCreator {
+    public class OrderProcessor {
         
         public static void Main(string[] args) {
-            OrderCreator o = new OrderCreator();
+            OrderProcessor o = new OrderProcessor();
 
             //Test example
             string user_id = "55554444";
@@ -24,7 +24,7 @@ namespace OrderHandling {
 
 
 
-            o.ProcessOrder(user_id, items);
+            //o.ProcessOrder(user_id, items);
             
         }
 
@@ -33,9 +33,12 @@ namespace OrderHandling {
         * as value. It will then create the appropriate Orders and use the order_id of that entry to create 
         * the data in the Order_Items table.
         */
-        public bool ProcessOrder(string user_id, Dictionary<int, int> items) {
+        //public bool ProcessOrder(string user_id, Dictionary<int, int> items) {
+        public bool ProcessOrder(Order o) {
+            string user_id = o.userID.ToString();
+            
             //Computer the total and insert it into the database
-            double orderTotal = computeTotal(items, .102);
+            double orderTotal = computeTotal(o.getItems(), .102);
             if (hasFunds(orderTotal, user_id)) {
                 DBAccess.insertNewOrder(user_id, orderTotal);
 
@@ -44,8 +47,8 @@ namespace OrderHandling {
                 string orderID = table.Rows[0].ItemArray[0].ToString();
 
                 //Insert each item in the order into the database
-                foreach (KeyValuePair<int, int> entry in items) {
-                    DBAccess.insertOrderWithItem(orderID, entry.Key, entry.Value);
+                foreach (KeyValuePair<int, string[]> entry in o.getItems()) {
+                    DBAccess.insertOrderWithItem(orderID, entry.Key, Int32.Parse(entry.Value[1]));
                 }
                 return true;
             }
@@ -57,13 +60,13 @@ namespace OrderHandling {
 
         }
 
-        private double computeTotal(Dictionary<int, int> items, double taxRate) {
+        private double computeTotal(Dictionary<int, string[]> items, double taxRate) {
             double total = 0;
 
             // Calculating total:
             for (int i = 0; i < items.Count; i++) {
                 string itemId = items.ElementAt(i).Key.ToString();
-                int itemQuantity = items.ElementAt(i).Value;
+                int itemQuantity = Int32.Parse(items.ElementAt(i).Value[1]);
                 total += getItemPrice(itemId) * itemQuantity;
             }
             total += total * taxRate;

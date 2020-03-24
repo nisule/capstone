@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image, TouchableOpacity} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { ListItem} from "react-native-elements";
@@ -18,7 +18,7 @@ var viewHeight = Dimensions.get('window').height;
 class cartItem{
   constructor(key, id, item_name, price, quantity){
     this.key = key;
-    this.id = id;
+    this.item_id = id;
     this.item_name = item_name;
     this.price = price;
     this.quantity = quantity;
@@ -129,26 +129,41 @@ export default class menuView extends Component {
   }
 
   submitOrder = () => {
-    console.log("aaaa" + this.cartItems);
+    let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
-  }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
-      Items: this.cartItems
+    }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+      Items: this.state.cartItems,
+      userID: this.state.user_id,
+      total: orderTotal
     }))
-    .then( (response) => response.json())
-    .then( (responseJson) => {  
-      let status = responseJson.status;
-
-      console.log(responseJson);
-      // if status is 200 then login was succesful
-      if(status == 200) {
-
+    .then( (response) => {
+      let status = response.info().status;
+      console.log(status);
+      if(status == 200){
+        alert("Order successfully submitted! An employee will review your order shortly.")
+        this.setModalVisible(false);
+      }else{
+        alert("Error, order not submitted.")
+        this.setModalVisible(false);
       }
     })
     .catch((error) => {
       console.error(error);
       alert("Request could not be handled.")
-  })
+    })
+
+
+  }
+
+  calcTotal = () => {
+    let total = 0.00;
+    for (var item of this.state.cartItems){
+      let price = parseFloat(item.price);
+      let qty = parseInt(item.quantity);
+      total += price*qty;
+    }
+    return total.toFixed(2);
   }
 
   render() {

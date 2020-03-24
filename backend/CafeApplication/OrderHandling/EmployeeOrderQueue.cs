@@ -14,8 +14,28 @@ namespace OrderHandling {
             orders.Add(o);
         }
 
-        public static bool approveOrder(Order o) {
+        public static Order getOrder(string orderID) {
+            for (int i = 0; i < orders.Count; i++) {
+                if (orders[i].orderID == Int32.Parse(orderID)) {
+                    return orders[i];
+                }
+            }
+            return null;
+        }
 
+        public static bool approveOrder(Order o) {
+            OrderProcessor oc = new OrderProcessor();
+            if (oc.ProcessOrder(o)) {
+                o.approved = 1;
+                return true;
+            }
+            o.approved = 0;
+            return false;
+        }
+
+        public static bool denyOrder(Order o) {
+            o.approved = -1;
+            orders.Remove(o);
             return false;
         }
 

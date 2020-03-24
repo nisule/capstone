@@ -152,7 +152,7 @@ export default class DrinkMenu extends Component {
             <TouchableHighlight
               style={styles.modalButtons}
               onPress={() => {
-                this._storeData(new Item(this.currentItem.item_id, this.currentItem.item_name, this.currentItem.price, 1));            
+                this._storeData(new Item(this.currentItem.item_id, this.currentItem.item_name, this.currentItem.price, "1"));            
                 this.setModalVisible(!this.state.modalVisible);
               }}>
               <Text style={styles.modalButtonText}>Add To Order</Text>

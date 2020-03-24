@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net.Http;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Account;
 using DTOs;
@@ -118,13 +119,13 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("SubmitOrder")]
-        public string SubmitOrder([FromBody]OrderInfoDTO data) {
+        public StatusCodeResult SubmitOrder([FromBody]OrderInfoDTO data) {
+ 
             //create order item
-            //EmployeeOrderQueue.addOrder(new Order(data.orderID, data.items, ));
+            EmployeeOrderQueue.addOrder(new Order(data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
             
-
             //put order in order queue
-            return null;
+            return StatusCode(200);
         }
 
         [HttpGet]
