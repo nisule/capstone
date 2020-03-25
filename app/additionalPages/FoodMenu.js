@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Dimensions, Modal, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from "react-native";
+import {Dimensions, Text, TouchableHighlight, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
 import RNFetchBlob from 'rn-fetch-blob'
-import menuView from "./MainMenu";
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height; 
@@ -26,13 +25,7 @@ export default class FoodMenu extends Component {
       data: [],
       currentDataDisplayed: [],
       error: null,
-      modalVisible: false,
     };
-  }
-
-  setModalVisible(visible, item) {
-    this.setState({modalVisible: visible});
-    this.currentItem = item;
   }
 
   _storeData = async (item) => {
@@ -57,7 +50,6 @@ export default class FoodMenu extends Component {
   }
 
   makeRemoteRequest = () => {
-    //TODO: Change to correct url when endpoints for all food is added to API:
     const url = 'https:10.0.2.2:5001/FoodItems';
     this.setState({ loading: true });
 
@@ -80,10 +72,6 @@ export default class FoodMenu extends Component {
         alert("Request could not be handled.")
     })
   };
-
-  addToOrder(){
-    alert("TODO: Add navigation to popup to look at nutrition and add to order.")
-  }
 
   searchFilterFunction = text => {
     this.setState({
@@ -138,31 +126,6 @@ export default class FoodMenu extends Component {
     }
 		return (
       <SafeAreaView>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          this.setModalVisible(false);
-        }}>
-        <View style={styles.modal}>
-          <Text style={styles.modalNutritionalText}>Fat: 0g</Text>
-          <Text style={styles.modalNutritionalText}>Carbs: 0g</Text>
-          <Text style={styles.modalNutritionalText}>Protein: 0g</Text>
-          <Text style={styles.modalNutritionalText}>Calories: 0g</Text>
-
-          <TouchableHighlight
-            style={styles.modalButtons}
-            onPress={() => {
-              this._storeData(new Item(this.currentItem.item_id, this.currentItem.item_name, this.currentItem.price, "1"));
-              this.setModalVisible(!this.state.modalVisible);
-            }}>
-            <Text style={styles.modalButtonText}>Add To Order</Text>
-          </TouchableHighlight>
-        </View>
-      </Modal>
-
         <FlatList
           data={this.state.currentDataDisplayed}
           renderItem={({ item }) => (
@@ -171,12 +134,18 @@ export default class FoodMenu extends Component {
                 source: require("./img/comingSoon.png"),
                 size: "large"
               }}
+              rightAvatar={{ 
+                source: require("./img/plus.png"),
+                size: "medium",
+                onPress: () => {
+                  this._storeData(new Item(item.item_id, item.item_name, item.price, "1"));
+                }
+              }}
               title={`${item.item_name}`}
               subtitle={`$${item.price}`}
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
               subtitleStyle={styles.itemText}
-              onPress={() => {this.setModalVisible(true, item);}}
             />
           )}
           keyExtractor={item => item.item_name + ""}
@@ -202,38 +171,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center", 
     justifyContent: "center" 
-  },
-  modal:{
-    alignItems: "center",
-    backgroundColor:"#181818", 
-    width: viewWidth * 0.6, 
-    height: viewHeight * 0.4,
-    justifyContent: "center",
-    marginLeft: viewWidth * 0.2,
-    marginTop: viewHeight * 0.3,
-    borderRadius: 10,
-    borderColor: '#404040',
-    borderWidth: 1,
-  },
-  modalButtons: {
-    width: viewWidth * 0.3,
-    height: viewWidth * 0.15,
-    justifyContent: "center",
-    backgroundColor: '#fbba37',
-    alignContent: 'center',
-    borderWidth: 1,
-    borderColor: '#404040',
-    borderRadius: 6,
-    marginTop: viewHeight * 0.05,
-    marginBottom: viewHeight * 0.05
-  },
-  modalButtonText: {
-    fontSize: 18,
-    textAlign: "center"
-  },
-  modalNutritionalText: {
-    fontSize: 20,
-    color: 'white'
   },
   separator:{
     height: 2,
