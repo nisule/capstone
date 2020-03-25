@@ -5,7 +5,6 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
-var currentItem =[];
 
 class Item{
   constructor(id, name, price, qty){
@@ -88,7 +87,25 @@ export default class DrinkMenu extends Component {
       if (storedData !== null) { //Data already stored
         tempData = JSON.parse(storedData);
       }
-      tempData.push(item);
+
+      var itemExists = false;
+      var arrayLength = tempData.length;
+
+      // Scan through the items currently in the cart and if the item being added already exists, increase its
+      // quantity by one.
+      for (var i = 0; i < arrayLength; i++){
+        if(tempData[i]["id"] == item.id){
+          var quantity = parseInt(tempData[i]["qty"]) + 1;
+          tempData[i]["qty"] = quantity.toString();
+          itemExists = true;
+          break;
+        }
+      }
+
+      // If item wasn't found in list, append it to the tempData.
+      if(!Boolean(itemExists))
+        tempData.push(item);
+
       await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
       alert(item.name + " added to cart!");
     } catch (error) {
