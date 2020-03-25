@@ -128,6 +128,10 @@ export default class menuView extends Component {
   }
 
   submitOrder = () => {
+    if(this.state.cartItems.length ==0){
+      alert("Please add items to the cart.")
+      return;
+    }
     let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
