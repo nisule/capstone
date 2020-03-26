@@ -148,7 +148,7 @@ export default class menuView extends Component {
         //TODO clear cart of items so the modal is empty
         this.setModalVisible(false);
       }else{
-        alert("Error, order not submitted.")
+        alert("Server error, order not submitted.")
         this.setModalVisible(false);
       }
     })

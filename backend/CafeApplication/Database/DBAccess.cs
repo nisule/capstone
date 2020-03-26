@@ -30,9 +30,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in item price query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static void insertNewOrder(string userID, double total) {
@@ -104,9 +101,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in latest order query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static DataTable getUserBalance(string userID) {
@@ -130,9 +124,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
         
     public static string getSalt(string email) {
@@ -156,9 +147,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database user get salt query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static bool isEmployee(string email) {
@@ -182,9 +170,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database user isEmployee query: " + e.StackTrace);
             return false;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static DataTable getAllAccountCredentials(string email, string password) {
@@ -209,9 +194,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database user balance query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static DataTable getUserInfo(string email) {
@@ -234,9 +216,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database user info query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static DataTable getPastTenOrders(string userID) {
@@ -259,9 +238,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database past order query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static DataTable getOrderItems(string orderID) {
@@ -284,9 +260,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database past order query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static void updateBalance(string userID, double newBalance) {
@@ -307,9 +280,6 @@ public static class DBAccess {
         catch (Exception e) {
             Debug.WriteLine("Error in database query: " + e.Message);
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
     public static bool InsertNewUser(string userID, string fName, string lName, string email, string password, string salt) {
@@ -335,9 +305,11 @@ public static class DBAccess {
             Debug.WriteLine("Error in database query: " + e.Message);
             return false;
         }
-/*        finally {
-            connection.Close();
-        }*/
+    }
+
+    public static DataTable getAllOrderIDs() {
+        string sql = "SELECT order_id FROM Orders";
+        return issueQuery(sql);
     }
 
     public static DataTable getAllFood() {
@@ -368,9 +340,6 @@ public static class DBAccess {
             Debug.WriteLine("Error in database query: " + e.Message);
             return null;
         }
-/*        finally {
-            connection.Close();
-        }*/
     }
 
 }

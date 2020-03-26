@@ -122,7 +122,15 @@ namespace API.Controllers {
         [Route("SubmitOrder")]
         public StatusCodeResult SubmitOrder([FromBody]OrderInfoDTO data) {
             //TODO: populate and create order id
-            EmployeeOrderQueue.addOrder(new Order(data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
+            string orderID = EmployeeOrderQueue.generateOrderID();
+
+            if (orderID is null)
+                return StatusCode(500);
+            
+
+            EmployeeOrderQueue.addOrder(new Order(orderID, 
+                data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
+
             return StatusCode(200);
         }
 
