@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image} from 'react-native';
+import { Button, TouchableOpacity, Text, StyleSheet, View, SafeAreaView, FlatList, AsyncStorage, Modal, Dimensions, Image} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { ListItem} from "react-native-elements";
-import RNFetchBlob from 'rn-fetch-blob'
+import { ListItem } from "react-native-elements";
+import RNFetchBlob from 'rn-fetch-blob';
 
 import DrinkMenu from './DrinkMenu.js';
 import FoodMenu from './FoodMenu.js';
@@ -25,14 +25,10 @@ class cartItem{
   }
 }
 
-
 export default class menuView extends Component {
   constructor(props) {
     super(props);
 
-    // TODO: when this page loads, make a call to the API to get all the user's information, including orderHistory,
-    // user_id, first_name, balance, etc.
-    // A better solution would be to somehow have this information available globally once a user logs in.
     this.state = {
       user_id: 12345678,
       first_name: "",
@@ -108,25 +104,6 @@ export default class menuView extends Component {
     this.setState({modalVisible: visible});
   };
 
-  renderItem = item => {
-    return (
-        <ListItem
-          leftAvatar={{
-          source: require("./img/comingSoon.png"),
-          size: "medium",
-          borderWidth: 1
-        }}
-        title={`${item.item.item_name} x ${item.item.quantity}`}
-        subtitle={`Price: $${item.item.price}`}
-        containerStyle={styles.itemContainer}
-        titleStyle={styles.itemText}
-        subtitleStyle={styles.itemText}
-        onPress={() => {alert("TODO: Remove item from cart.");}}
-        ></ListItem>
-
-    );
-  }
-
   submitOrder = () => {
     if(this.state.cartItems.length ==0){
       alert("Please add items to the cart.")
@@ -170,6 +147,36 @@ export default class menuView extends Component {
     return total.toFixed(2);
   }
 
+  _removeCartItem = async (item_id, item_name) => {
+    try {
+      let storedData = await AsyncStorage.getItem('Cart');
+      let tempData = JSON.parse(storedData);
+      var arrayLength = tempData.length;
+
+      // Scan through the items currently in the cart and if the item being removed has only 1 quantity, then remove
+      // the item from the cart. Otherwise lower the quantity by one.
+      for (var i = 0; i < arrayLength; i++){
+        if(tempData[i]["id"] == item_id){
+          var quantity = parseInt(tempData[i]["qty"]);
+          if(quantity > 1){
+            quantity--;
+            tempData[i]["qty"] = quantity.toString();
+          } else{
+              // Remove the item from the cart if the quantity will be lowered to zero.
+              tempData.splice(i, 1);
+          }
+          break;
+        }
+      }
+    
+      await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
+      alert(item_name + " removed from cart!");
+      this.setModalVisible(false);
+    } catch (error) {
+        alert("Error removing item from cart: " + error);
+    }
+  };
+
   render() {
     this.retrieveUserData();
     return (
@@ -208,7 +215,25 @@ export default class menuView extends Component {
               <FlatList
                 style= {{flex: 0.7, backgroundColor: "white"}}
                 data={this.state.cartItems}
-                renderItem={item => this.renderItem(item)} 
+                renderItem={({ item }) => (
+                  <ListItem
+                    leftElement={
+                      <Image style={{width:75, height:75}} source={require("./img/comingSoon.png")}/>
+                    }
+                    rightElement={
+                      <Button
+                        onPress={() => {this._removeCartItem(item.item_id, item.item_name)}}
+                        title="--"
+                        color="red"
+                      />
+                    }
+                    title={`${item.item_name} x ${item.quantity}`}
+                    subtitle={`$${item.price}`}
+                    containerStyle={styles.itemContainer}
+                    titleStyle={styles.itemText}
+                    subtitleStyle={styles.itemText}
+                  />
+                )}
                 keyExtractor={item => item.item_name + ""}
                 ItemSeparatorComponent={this.renderSeparator}
               />
@@ -217,8 +242,7 @@ export default class menuView extends Component {
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
               </TouchableOpacity>
             </View>
-            
-          </Modal>  
+          </Modal> 
 
           <View style={styles.orderHistoryView}>
             <Text style={styles.orderHistoryTitle}>Order History</Text>
