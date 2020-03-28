@@ -150,11 +150,18 @@ namespace API.Controllers {
         [HttpPost]
         [Route("ApproveOrder")]
         public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
-            if (EmployeeOrderQueue.approveOrder(data.orderID))
+            int result = EmployeeOrderQueue.approveOrder(data.orderID);  
+            if (result == 1)
                 return StatusCode(200);
+            else if (result == 0) {
+                return StatusCode(403);
+            }
+            else {
+                //Internal Server Error
+                return StatusCode(500);
+            }
 
-            //Internal Server Error
-            return StatusCode(500);
+            
         }
 
         [HttpPost]

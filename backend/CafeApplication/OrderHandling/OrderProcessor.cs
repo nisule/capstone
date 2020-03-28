@@ -54,7 +54,6 @@ namespace OrderHandling {
             }
             else {
                 Console.WriteLine("Could not complete order");
-                Console.Read();
                 return false;
             }
 

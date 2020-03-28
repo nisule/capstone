@@ -67,18 +67,21 @@ namespace OrderHandling {
             return orderIDstring;
         }
 
-        public static bool approveOrder(string id) {
+        public static int approveOrder(string id) {
             foreach (var order in orders) {
                 if (order.orderID.Equals(id)) {
                     OrderProcessor oc = new OrderProcessor();
                     if (oc.ProcessOrder(order)) {
                         order.approved = 1;
                         orders.Remove(order);
-                        return true;
+                        return 1;
+                    }
+                    else {
+                        return 0;
                     }
                 }
             }
-            return false;
+            return -1;
         }
 
         public static bool denyOrder(string id) {

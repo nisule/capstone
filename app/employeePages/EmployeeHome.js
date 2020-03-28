@@ -82,14 +82,16 @@ export default class EmployeeHome extends Component {
       let status = response.info().status;
       if(status == 200){
         this.removeOrderFromQueue(orderID);
-        alert("Order successfully approved! \nPlease have the items ready for pickup.");    
+        alert("Order successfully approved! \nPlease have the items ready for pickup.");   
+      }else if(status == 403){
+        alert("Insufficient funds.");
       }else{
         alert("Server error, order.")
       }
     })
     .catch((error) => {
       console.error(error);
-      alert("Request could not be handled.");
+      alert("Server Error: Request could not be handled.");
     })
   }
 
