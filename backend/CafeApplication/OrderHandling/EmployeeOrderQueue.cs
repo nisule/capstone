@@ -67,21 +67,28 @@ namespace OrderHandling {
             return orderIDstring;
         }
 
-        public static bool approveOrder(Order o) {
-            if (orders.Contains(o)) {
-                OrderProcessor oc = new OrderProcessor();
-                if (oc.ProcessOrder(o)) {
-                    o.approved = 1;
-                    return true;
+        public static bool approveOrder(string id) {
+            foreach (var order in orders) {
+                if (order.orderID.Equals(id)) {
+                    OrderProcessor oc = new OrderProcessor();
+                    if (oc.ProcessOrder(order)) {
+                        order.approved = 1;
+                        orders.Remove(order);
+                        return true;
+                    }
                 }
             }
-            o.approved = 0;
             return false;
         }
 
-        public static bool denyOrder(Order o) {
-            o.approved = -1;
-            orders.Remove(o);
+        public static bool denyOrder(string id) {
+            foreach (var order in orders) {
+                if (order.orderID.Equals(id)) {
+                    order.approved = -1;
+                    orders.Remove(order);
+                    return true;
+                }
+            }
             return false;
         }
 

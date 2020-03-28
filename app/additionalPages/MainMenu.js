@@ -119,7 +119,6 @@ export default class menuView extends Component {
     }))
     .then( (response) => {
       let status = response.info().status;
-      console.log(status);
       if(status == 200){
         alert("Order successfully submitted! An employee will review your order shortly.")
         //TODO clear cart of items so the modal is empty
@@ -133,8 +132,6 @@ export default class menuView extends Component {
       console.error(error);
       alert("Request could not be handled.")
     })
-
-
   }
 
   calcTotal = () => {

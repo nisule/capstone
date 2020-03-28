@@ -149,18 +149,22 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("ApproveOrder")]
-        public string ApproveOrder([FromBody]OrderInfoDTO data) {
-            //TODO: Figure out our order ID situation
-            //EmployeeOrderQueue.approveOrder(order ID??);
-            return null;
+        public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
+            if (EmployeeOrderQueue.approveOrder(data.orderID))
+                return StatusCode(200);
+
+            //Internal Server Error
+            return StatusCode(500);
         }
 
         [HttpPost]
         [Route("DenyOrder")]
-        public string DenyOrder() {
-            //TODO: Figure out our order ID situation
-            //EmployeeOrderQueue.denyOrder(order ID??);
-            return null;
+        public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
+            if (EmployeeOrderQueue.denyOrder(data.orderID))
+                return StatusCode(200);
+
+            //Internal Server Error
+            return StatusCode(500);
         }
     }
 

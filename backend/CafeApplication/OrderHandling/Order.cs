@@ -6,6 +6,7 @@ namespace OrderHandling {
     public class Order {
         public string orderID { get; set; }
         public int userID { get; set; }
+        //TODO revamp this dictionary and make item its own class
         public Dictionary<int, string[]> items;
         private float total;
         private DateTime date;
