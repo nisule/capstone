@@ -179,8 +179,7 @@ export default class EmployeeHome extends Component {
                   this.denyOrder(item.orderID);
                 }
               }}
-              // TODO: replace userID here with name for order once it is included in the json list.
-              title={`Name: ${item.userID} \nTotal: $${item.total}`}
+              title={`Name: ${item.firstName} ${item.lastName} \nTotal: $${item.total}`}
               subtitle={`${this.convertItemsJsonToString(item.items)} \n\n${item.date}`}
               containerStyle={styles.itemContainer}
               titleStyle={styles.itemText}
