@@ -65,6 +65,27 @@ namespace API.Controllers {
         }
 
         [HttpPost]
+        [Route("ChangePassword")]
+        public StatusCodeResult ChangePassword([FromBody]UserInfoDTO data) {
+            // make sure user is authenticated 
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                AccountCreator c = new AccountCreator();
+
+                // check that passwords match and length is 8 or more
+                if (data.password.Equals(data.password2) && data.password.Length > 7) {
+                    c.changePassword(data.password, data.email);
+                    return StatusCode(200);
+                } else {
+                    return StatusCode(400);
+                }
+
+            } else {
+                return StatusCode(401);
+            }
+            
+        }
+
+        [HttpPost]
         [Route("AuthToken")]
         public StatusCodeResult AuthToken([FromBody]UserInfoDTO data) {
 
