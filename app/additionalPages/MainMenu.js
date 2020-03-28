@@ -30,9 +30,9 @@ export default class menuView extends Component {
     super(props);
 
     this.state = {
-      user_id: 12345678,
+      user_id: 0,
       first_name: "",
-      balance: 500.14,
+      balance: 0,
       orderHistory: [
         {order_id: 1, total: 10.22, date: "2019-11-23"},
         {order_id: 2, total: 13.52, date: "2019-11-28"},
@@ -41,12 +41,7 @@ export default class menuView extends Component {
         {order_id: 5, total: 2.25, date: "2019-12-16"},
         {order_id: 6, total: 5.41, date: "2020-01-15"}
       ],
-      cartItems: [
-        //{key:1, item_name:"Apples", image:require("./img/apple_slices.jpg"), price: "2.50", quantity: 5},
-        //{key:2, item_name:"Carrots", image:require("./img/carrots.jpg"), price: "1.50", quantity: 3},
-        //{key:3, item_name:"Chocolate Milk", image:require("./img/Chocolate_Milk.jpg"), price: "4.50", quantity: 9},
-        //{key:4, item_name:"Gatorade", image:require("./img/gatorade.jpg"), price: "1.89", quantity: 1},
-      ],
+      cartItems: [],
       modalVisible: false,
     };
   }
@@ -93,6 +88,15 @@ export default class menuView extends Component {
     //this.retrieveUserData();
   }
 
+  clearCart = async () => {
+    let tempData = [];
+    try {
+      await AsyncStorage.setItem('Cart', JSON.stringify(tempData))
+    } catch (error) {
+        console.error("Error clearing cart. " + error);
+      }
+  };
+
   loadAndViewCart = async () => {
     // Retrieve the cart items in async storage and update the local list of items.
     this.setState({cartItems: []});
@@ -120,8 +124,8 @@ export default class menuView extends Component {
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
-        alert("Order successfully submitted! An employee will review your order shortly.")
-        //TODO clear cart of items so the modal is empty
+        this.clearCart();
+        alert("Order successfully submitted! An employee will review your order shortly.");
         this.setModalVisible(false);
       }else{
         alert("Server error, order not submitted.")
@@ -130,7 +134,7 @@ export default class menuView extends Component {
     })
     .catch((error) => {
       console.error(error);
-      alert("Request could not be handled.")
+      alert("Request could not be handled.");
     })
   }
 
@@ -177,7 +181,6 @@ export default class menuView extends Component {
   render() {
     this.retrieveUserData();
     return (
-       // TODO: Somehow be able to access the current user's information to retrieve their first name and balance.
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818', justifyContent: 'space-between'}}>
           <View style={styles.titleStyle}>
             <Text style={styles.titleText}>Cunning Coders' Cafe</Text>
