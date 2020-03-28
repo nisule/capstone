@@ -8,8 +8,9 @@ namespace DTOs {
     public class OrderQueueDTO {
         public List<OrderInfoDTO> orders { get; set; } = new List<OrderInfoDTO>();
 
-        public void populateOrder(string userID, string total, string date, Dictionary<int, string[]> items) {
+        public void populateOrder(string orderID, string userID, string total, string date, Dictionary<int, string[]> items) {
             OrderInfoDTO o = new OrderInfoDTO();
+            o.orderID = orderID;
             o.userID = userID;
             o.total = total;
             o.date = date;

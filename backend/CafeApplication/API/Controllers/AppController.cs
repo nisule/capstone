@@ -127,7 +127,6 @@ namespace API.Controllers {
             if (orderID is null)
                 return StatusCode(500);
             
-
             EmployeeOrderQueue.addOrder(new Order(orderID, 
                 data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
 
@@ -140,7 +139,8 @@ namespace API.Controllers {
             var DTO = new OrderQueueDTO();
             List<Order> queue = EmployeeOrderQueue.getOrderQueue();
             foreach(var order in queue) {
-                DTO.populateOrder(order.userID.ToString(), order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
+                DTO.populateOrder(order.orderID, order.userID.ToString(), 
+                    order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
             }
 
             string output = JsonConvert.SerializeObject(DTO);
