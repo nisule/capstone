@@ -9,6 +9,8 @@ namespace DTOs {
     public class OrderInfoDTO {
         public string orderID { get; set; }
         public string userID { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
         public string total { get; set; }
         public string date { get; set; }
         public List<ItemOrderInfoDTO> items { get; set; } = new List<ItemOrderInfoDTO>();

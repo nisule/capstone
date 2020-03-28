@@ -32,6 +32,7 @@ export default class menuView extends Component {
     this.state = {
       user_id: 0,
       first_name: "",
+      last_name: "",
       balance: 0,
       orderHistory: [
         {order_id: 1, total: 10.22, date: "2019-11-23"},
@@ -52,7 +53,7 @@ export default class menuView extends Component {
       if (info !== null) {
         const infoJson = JSON.parse(info);
 
-        this.setState({first_name: infoJson.firstName, balance: infoJson.balance, user_id: infoJson.userID});
+        this.setState({first_name: infoJson.firstName, last_name: infoJson.lastName, balance: infoJson.balance, user_id: infoJson.userID});
       }
     } catch (error) {
       alert("Error retrieving user data: " + error);
@@ -119,6 +120,8 @@ export default class menuView extends Component {
     }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
       Items: this.state.cartItems,
       userID: this.state.user_id,
+      firstName: this.state.first_name,
+      lastName: this.state.last_name,
       total: orderTotal
     }))
     .then( (response) => {

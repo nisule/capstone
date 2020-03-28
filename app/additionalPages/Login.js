@@ -78,7 +78,6 @@ export default class loginView extends Component {
                     .then( (responseJson) => {  
                       let status = responseJson.status;
 
-                      global.firstName = responseJson.firstName;
                       // if status is 200 then login was succesful
                       if(status == 200) {
                         this.storeUserInfo(responseJson);

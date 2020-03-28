@@ -127,8 +127,8 @@ namespace API.Controllers {
             if (orderID is null)
                 return StatusCode(500);
             
-            EmployeeOrderQueue.addOrder(new Order(orderID, 
-                data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
+            EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
+                data.returnItemsAsDictionary(), data.total, DateTime.Now));
 
             return StatusCode(200);
         }
@@ -139,7 +139,7 @@ namespace API.Controllers {
             var DTO = new OrderQueueDTO();
             List<Order> queue = EmployeeOrderQueue.getOrderQueue();
             foreach(var order in queue) {
-                DTO.populateOrder(order.orderID, order.userID.ToString(), 
+                DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
                     order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
             }
 

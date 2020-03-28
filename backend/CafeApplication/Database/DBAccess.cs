@@ -199,7 +199,7 @@ public static class DBAccess {
     }
 
     public static DataTable getUserInfo(string email) {
-        string sql = "SELECT user_id, first_name, email, balance, is_employee FROM User WHERE email = @email";
+        string sql = "SELECT user_id, first_name, last_name, email, balance, is_employee FROM User WHERE email = @email";
         try {
             using (MySqlConnection connection = new MySqlConnection(connString)) {
                 connection.Open();
