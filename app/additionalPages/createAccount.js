@@ -141,7 +141,6 @@ export default class signupView extends Component{
                    
                     if(status == 200){
                       // account creation was successful
-                      // TODO: dont just automatically go to menu yet, need to get authToken and shit
                       alert("Account successfully created!");
                       navigate("Login");
                     } else{

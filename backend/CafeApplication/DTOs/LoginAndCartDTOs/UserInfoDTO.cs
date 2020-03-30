@@ -11,6 +11,7 @@ namespace DTOs {
         public string email { get; set; }
         public string password { get; set; }
         public string password2 { get; set; }
+        public string currentPassword { get; set; }
         public bool isEmployee { get; set; }
         public string authToken { get; set; }
         public string balance { get; set; }
