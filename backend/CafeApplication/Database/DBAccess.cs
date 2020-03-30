@@ -32,16 +32,18 @@ public static class DBAccess {
         }
     }
 
-    public static void insertNewOrder(string userID, double total) {
-        string sql = "INSERT INTO Orders(user_id, total) " +
-                                 "VALUES(@userID, @total)";
+    public static void insertNewOrder(string orderID, string userID, double total, DateTime date) {
+        string sql = "INSERT INTO Orders(order_id, user_id, total, date) " +
+                                 "VALUES(@orderID, @userID, @total, @date)";
         try {
             using (MySqlConnection connection = new MySqlConnection(connString)) {
                 connection.Open();
                 using (MySqlCommand command = new MySqlCommand(sql, connection)) {
                     command.CommandTimeout = 10000;
+                    command.Parameters.AddWithValue("@orderID", orderID);
                     command.Parameters.AddWithValue("@userID", userID);
                     command.Parameters.AddWithValue("@total", total);
+                    command.Parameters.AddWithValue("@date", date);
                     command.ExecuteReader();
                 }
             }
@@ -197,7 +199,7 @@ public static class DBAccess {
     }
 
     public static DataTable getUserInfo(string email) {
-        string sql = "SELECT user_id, first_name, email, balance, is_employee FROM User WHERE email = @email";
+        string sql = "SELECT user_id, first_name, last_name, email, balance, is_employee FROM User WHERE email = @email";
         try {
             using (MySqlConnection connection = new MySqlConnection(connString)) {
                 connection.Open();

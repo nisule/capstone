@@ -23,10 +23,10 @@ namespace DTOs {
             if (!(itemTable is null)) {
                 this.userID = itemTable.Rows[0].ItemArray[0].ToString();
                 this.firstName = itemTable.Rows[0].ItemArray[1].ToString();
-                this.email = itemTable.Rows[0].ItemArray[2].ToString();
-                this.balance = itemTable.Rows[0].ItemArray[3].ToString();
-
-                string isEmpStr = itemTable.Rows[0].ItemArray[4].ToString();
+                this.lastName = itemTable.Rows[0].ItemArray[2].ToString();
+                this.email = itemTable.Rows[0].ItemArray[3].ToString();
+                this.balance = itemTable.Rows[0].ItemArray[4].ToString();
+                string isEmpStr = itemTable.Rows[0].ItemArray[5].ToString();
 
                 if (string.Equals(isEmpStr, "True"))
                     this.isEmployee = true;

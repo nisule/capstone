@@ -40,21 +40,20 @@ namespace OrderHandling {
             //Computer the total and insert it into the database
             double orderTotal = computeTotal(o.getItems(), .102);
             if (hasFunds(orderTotal, user_id)) {
-                DBAccess.insertNewOrder(user_id, orderTotal);
+                DBAccess.insertNewOrder(o.orderID, user_id, orderTotal, o.getDate());
 
                 //Get the ID of the user's order they just placed
-                var table = DBAccess.getUserLatestOrder(user_id);
-                string orderID = table.Rows[0].ItemArray[0].ToString();
+                //var table = DBAccess.getUserLatestOrder(user_id);
+                //string orderID = table.Rows[0].ItemArray[0].ToString();
 
                 //Insert each item in the order into the database
                 foreach (KeyValuePair<int, string[]> entry in o.getItems()) {
-                    DBAccess.insertOrderWithItem(orderID, entry.Key, Int32.Parse(entry.Value[1]));
+                    DBAccess.insertOrderWithItem(o.orderID, entry.Key, Int32.Parse(entry.Value[1]));
                 }
                 return true;
             }
             else {
                 Console.WriteLine("Could not complete order");
-                Console.Read();
                 return false;
             }
 

@@ -169,9 +169,8 @@ namespace API.Controllers {
             if (orderID is null)
                 return StatusCode(500);
             
-
-            EmployeeOrderQueue.addOrder(new Order(orderID, 
-                data.userID, data.returnItemsAsDictionary(), data.total, DateTime.Now));
+            EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
+                data.returnItemsAsDictionary(), data.total, DateTime.Now));
 
             return StatusCode(200);
         }
@@ -182,7 +181,8 @@ namespace API.Controllers {
             var DTO = new OrderQueueDTO();
             List<Order> queue = EmployeeOrderQueue.getOrderQueue();
             foreach(var order in queue) {
-                DTO.populateOrder(order.userID.ToString(), order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
+                DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
+                    order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
             }
 
             string output = JsonConvert.SerializeObject(DTO);
@@ -191,18 +191,29 @@ namespace API.Controllers {
 
         [HttpPost]
         [Route("ApproveOrder")]
-        public string ApproveOrder([FromBody]OrderInfoDTO data) {
-            //TODO: Figure out our order ID situation
-            //EmployeeOrderQueue.approveOrder(order ID??);
-            return null;
+        public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
+            int result = EmployeeOrderQueue.approveOrder(data.orderID);  
+            if (result == 1)
+                return StatusCode(200);
+            else if (result == 0) {
+                return StatusCode(403);
+            }
+            else {
+                //Internal Server Error
+                return StatusCode(500);
+            }
+
+            
         }
 
         [HttpPost]
         [Route("DenyOrder")]
-        public string DenyOrder() {
-            //TODO: Figure out our order ID situation
-            //EmployeeOrderQueue.denyOrder(order ID??);
-            return null;
+        public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
+            if (EmployeeOrderQueue.denyOrder(data.orderID))
+                return StatusCode(200);
+
+            //Internal Server Error
+            return StatusCode(500);
         }
     }
 
