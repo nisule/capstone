@@ -67,13 +67,6 @@ namespace API.Controllers {
         [HttpPost]
         [Route("ChangePassword")]
         public StatusCodeResult ChangePassword([FromBody]UserInfoDTO data) {
-            Debug.WriteLine("START");
-            Debug.WriteLine(data.currentPassword);
-            Debug.WriteLine(data.password);
-            Debug.WriteLine(data.password2);
-            Debug.WriteLine(data.authToken);
-            Debug.WriteLine("END"
-                );
             string email = "";
             // get users email from the token sent
             email = SessionController.sm.getEmail(data.authToken);
