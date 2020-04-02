@@ -66,7 +66,7 @@ class AccountSettings extends Component {
         // make api call
         RNFetchBlob.config({
           trusty: true
-      }).fetch( 'POST', 'https:10.0.2.2:5001/ChangePassword', 
+      }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/ChangePassword', 
         { 'Content-Type': 'application/json'}, 
         JSON.stringify({ 
           currentPassword: this.state.currentPassword,
