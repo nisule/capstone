@@ -433,4 +433,4 @@ MigrationBackup/
 /backend/CafeApplication/Database/DBCredentialsExample.cs 
 
 # aws config files
-/backend/CafeApplication/API/aws-beanstalk-tools-default.json
+/backend/CafeApplication/API/aws-beanstalk-tools-defaults.json
