@@ -98,6 +98,8 @@ export default class menuView extends Component {
       }
   };
 
+  //TODO add fetch to update balance
+
   loadAndViewCart = async () => {
     // Retrieve the cart items in async storage and update the local list of items.
     this.setState({cartItems: []});

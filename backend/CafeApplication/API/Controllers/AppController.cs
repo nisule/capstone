@@ -139,6 +139,7 @@ namespace API.Controllers {
             var DTO = new OrderQueueDTO();
             List<Order> queue = EmployeeOrderQueue.getOrderQueue();
             foreach(var order in queue) {
+                //TODO: don't pass in total from frontend
                 DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
                     order.getTotal().ToString(), order.getDate().ToString(), order.getItems());
             }
