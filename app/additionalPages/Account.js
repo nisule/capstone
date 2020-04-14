@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Alert, Button, Text, TextInput, View, StyleSheet, Dimensions, AsyncStorage, Modal, TouchableOpacity} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import { getURL } from '../URL.js';
 
 var viewWidth = Dimensions.get('window').width; 
 var viewHeight = Dimensions.get('window').height;
@@ -66,7 +67,7 @@ class AccountSettings extends Component {
         // make api call
         RNFetchBlob.config({
           trusty: true
-      }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/ChangePassword', 
+      }).fetch( 'POST',  getURL('local') + 'ChangePassword', 
         { 'Content-Type': 'application/json'}, 
         JSON.stringify({ 
           currentPassword: this.state.currentPassword,

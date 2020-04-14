@@ -11,6 +11,7 @@ import AccountSettings from './Account.js';
 import AppSettings from './AppSettings.js';
 import { FooterView } from './Footer.js';
 import EmployeeHome from '../employeePages/EmployeeHome.js';
+import { getURL } from '../URL.js';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -119,7 +120,7 @@ export default class menuView extends Component {
     let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+    }).fetch( 'POST',  getURL('local') + 'SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
       Items: this.state.cartItems,
       userID: this.state.user_id,
       firstName: this.state.first_name,

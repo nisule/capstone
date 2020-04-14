@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image, AsyncStorage} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import { getURL } from '../URL.js';
 
 
 export default class loginView extends Component {
@@ -25,7 +26,7 @@ export default class loginView extends Component {
           // call to API to try to log in
           RNFetchBlob.config({
               trusty: true
-          }).fetch( 'PUT', 'http://kc499.us-west-2.elasticbeanstalk.com/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
+          }).fetch( 'PUT', getURL('local') + 'Login', { 'Content-Type': 'application/json'},  JSON.stringify({
               email: this.state.email,
               password : this.state.password
             }))

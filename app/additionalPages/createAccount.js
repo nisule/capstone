@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob'
+import { getURL } from '../URL.js';
 
 export default class signupView extends Component{
   constructor(props) {
@@ -126,7 +127,7 @@ export default class signupView extends Component{
               if (this.state.password.length > 7) {
                   RNFetchBlob.config({
                     trusty: true
-                }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/CreateAccount', 
+                }).fetch( 'POST', getURL('local') + 'CreateAccount', 
                   { 'Content-Type': 'application/json'}, 
                   JSON.stringify({ 
                     userID: this.state.studentID,

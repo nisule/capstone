@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { FlatList, Dimensions, Text, StyleSheet, View, SafeAreaView, ActivityIndicator} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { ListItem } from "react-native-elements";
+import { getURL } from '../URL.js';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -30,7 +31,8 @@ export default class EmployeeHome extends Component {
   };
 
   retrieveOrderQueue(){
-    const url = 'http://kc499.us-west-2.elasticbeanstalk.com/GetOrderQueue';
+    //const url = 'http://kc499.us-west-2.elasticbeanstalk.com/GetOrderQueue';
+    const url = getURL('local') + 'GetOrderQueue';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
@@ -77,7 +79,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -103,7 +105,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){

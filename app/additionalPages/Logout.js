@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, SafeAreaView, View, Button, AsyncStorage, StyleSheet, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import RNFetchBlob from 'rn-fetch-blob';
+import { getURL } from '../URL.js';
 
 var viewWidth = Dimensions.get('window').width; 
 
@@ -56,7 +57,7 @@ export default class Logout extends Component {
     
     RNFetchBlob.config({
         trusty: true
-    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/Logout', { 'Content-Type': 'application/json'},  JSON.stringify({
+    }).fetch( 'POST', getURL('local') + 'Logout', { 'Content-Type': 'application/json'},  JSON.stringify({
       // TODO: figure out why for some reason doing an alert to see the auth token works perfectly fine, but this is just an empty string
         authToken: this.state.authToken
       }))

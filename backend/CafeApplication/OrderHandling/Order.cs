@@ -8,26 +8,51 @@ namespace OrderHandling {
         public int userID { get; set; }
         public string firstName;
         public string lastName;
-        //TODO revamp this dictionary and make item its own class
-        public Dictionary<int, string[]> items;
-        private float total;
+        private double total;
         private DateTime date;
         public int approved = 0;
+        public List<Item> items;
+        private Dictionary<int, string[]> itemD;
 
-        public Order(string orderID, string userID, string fname, string lname, Dictionary<int, string[]> items, string total, DateTime date) {
+        public Order(string orderID, string userID, string fname, string lname, Dictionary<int, 
+            string[]> items, string total, DateTime date) {
+
+            this.items = new List<Item>();
             this.orderID = orderID;
             this.userID = Int32.Parse(userID);
             this.firstName = fname;
             this.lastName = lname;
-            this.items = items;
-            this.total = float.Parse(total, CultureInfo.InvariantCulture);
             this.date = date;
+            this.itemD = items;
+
+            //Populate the list of items from the dictionary
+            foreach (KeyValuePair<int, string[]> entry in items) {
+                Item i = new Item(entry.Key, entry.Value[0], Int32.Parse(entry.Value[1]));
+                this.items.Add(i);
+            }
+
+            this.total = this.calculateTotal(.102);
         }
-        public Dictionary<int, string[]> getItems() {
+
+        private double calculateTotal(double taxRate) {
+            double total = 0;
+
+            foreach (var item in this.items) {
+                total += item.getPrice() * item.getQty();
+            }
+            total += total * taxRate;
+            return Math.Round(total, 2);
+        }
+
+        public List<Item> getItems() {
             return items;
         }
 
-        public float getTotal() {
+        public Dictionary<int, string[]> getItemsDictionary() {
+            return this.itemD;
+        }
+
+        public double getTotal() {
             return total;
         }
 

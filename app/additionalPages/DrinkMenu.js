@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {TouchableHighlight, Dimensions, Text, Alert, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from "react-native";
 import {SearchBar, ListItem} from "react-native-elements";
-import RNFetchBlob from 'rn-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob';
+import { getURL } from '../URL.js';
 
 var viewWidth = Dimensions.get('window').width;
 var viewHeight = Dimensions.get('window').height;
@@ -34,7 +35,8 @@ export default class DrinkMenu extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = 'http://kc499.us-west-2.elasticbeanstalk.com/DrinkItems';
+    //const url = 'http://kc499.us-west-2.elasticbeanstalk.com/DrinkItems';
+    const url = getURL('local') + 'DrinkItems';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
