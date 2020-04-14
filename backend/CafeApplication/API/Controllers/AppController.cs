@@ -65,6 +65,41 @@ namespace API.Controllers {
         }
 
         [HttpPost]
+        [Route("ChangePassword")]
+        public StatusCodeResult ChangePassword([FromBody]UserInfoDTO data) {
+            string email = "";
+            // get users email from the token sent
+            email = SessionController.sm.getEmail(data.authToken);
+
+            // make sure user is authenticated 
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                AccountCreator c = new AccountCreator();
+
+                // check that passwords match and length is 8 or more
+                if (data.password.Equals(data.password2) && data.password.Length > 7) {
+                    // check that old password was correct
+                    int status = AccountValidator.compareCredentials(email, data.currentPassword);
+
+                    // if current password was valid, go through with password change
+                    if (status == 1) {
+                        c.changePassword(data.password, email);
+                        return StatusCode(200);
+                    } else {
+                        return StatusCode(400);
+                    }
+
+
+                } else {
+                    return StatusCode(400);
+                }
+
+            } else {
+                return StatusCode(401);
+            }
+            
+        }
+
+        [HttpPost]
         [Route("AuthToken")]
         public StatusCodeResult AuthToken([FromBody]UserInfoDTO data) {
 

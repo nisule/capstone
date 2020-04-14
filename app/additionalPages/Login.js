@@ -13,6 +13,54 @@ export default class loginView extends Component {
       }
     }
 
+    login() {
+      // check if both email and password are blank
+      if (this.state.email === "" && this.state.password === "")
+      alert("Please fill out the fields and try again.")
+      else {
+      // check if email is blank
+      if (this.state.email != "") {
+        // check if password is blank
+        if (this.state.password != "") {
+          // call to API to try to log in
+          RNFetchBlob.config({
+              trusty: true
+          }).fetch( 'PUT', 'http://kc499.us-west-2.elasticbeanstalk.com/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
+              email: this.state.email,
+              password : this.state.password
+            }))
+            .then( (response) => response.json())
+            .then( (responseJson) => {  
+              let status = responseJson.status;
+
+              global.firstName = responseJson.firstName;
+              // if status is 200 then login was succesful
+              if(status == 200) {
+                this.storeUserInfo(responseJson);
+                this.storeToken(responseJson.authToken + "");
+                
+                // clear fields after logging in
+                this.Password.clear();
+                this.Email.clear();
+                this.state.email = "";
+                this.state.password = "";
+                this.props.navigation.navigate('Menu')
+              }else if (status == 400)
+                alert("Incorrect credentials, please try again.")   
+              else 
+                alert("Error Connecting...");
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("Request could not be handled.")
+          })
+        } else 
+          alert("Please enter your password and try again.")
+      } else 
+        alert("Please enter your email and try again.")    
+      }
+    }
+
     render() {
       const {navigate} = this.props.navigation;
       this.resetCartItems();
@@ -52,57 +100,14 @@ export default class loginView extends Component {
               secureTextEntry
               ref={(input) => { this.Password = input; }}
 
-              onSubmitEditing={() => { this._touchable.touchableHandlePress() }}
+              onSubmitEditing={() => { this.login(); }}
             />
         </View>
 
 
         <View style={styles.bottom}>
           <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            // check if both email and password are blank
-            if (this.state.email === "" && this.state.password === "")
-              alert("Please fill out the fields and try again.")
-            else {
-              // check if email is blank
-              if (this.state.email != "") {
-                // check if password is blank
-                if (this.state.password != "") {
-                  // call to API to try to log in
-                  RNFetchBlob.config({
-                      trusty: true
-                  }).fetch( 'PUT', 'https:10.0.2.2:5001/Login', { 'Content-Type': 'application/json'},  JSON.stringify({
-                      email: this.state.email,
-                      password : this.state.password
-                    }))
-                    .then( (response) => response.json())
-                    .then( (responseJson) => {  
-                      let status = responseJson.status;
-
-                      // if status is 200 then login was succesful
-                      if(status == 200) {
-                        this.storeUserInfo(responseJson);
-                        this.storeToken(responseJson.authToken + "");
-                        
-                        // clear fields after logging in
-                        this.Password.clear();
-                        this.Email.clear();
-                        this.state.email = "";
-                        this.state.password = "";
-                        navigate('Menu')
-                      }else if (status == 400)
-                        alert("Incorrect credentials, please try again.")   
-                      else 
-                        alert("Error Connecting...");
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                      alert("Request could not be handled.")
-                  })
-                } else 
-                  alert("Please enter your password and try again.")
-              } else 
-                alert("Please enter your email and try again.")    
-            }
+            this.login();
           }}
           ref={(touchable) => this._touchable = touchable}
           >
@@ -134,7 +139,7 @@ export default class loginView extends Component {
 
     //     RNFetchBlob.config({
     //         trusty: true
-    //       }).fetch('POST', 'https:10.0.2.2:5001/AuthToken', {
+    //       }).fetch('POST', 'http://kc499.us-west-2.elasticbeanstalk.com/AuthToken', {
     //           'Content-Type': 'application/json'
     //         },
     //         JSON.stringify({

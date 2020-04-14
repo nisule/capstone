@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace API {
     public class SessionManager {
+        // key = email, value = token
         Dictionary<string, string> usersAuthTokens;
 
         public SessionManager()     {
@@ -68,6 +69,19 @@ namespace API {
             }
 
             return usersAuthTokens.Remove(email);
+        }
+
+        // return email asssociated with token
+        public string getEmail(string token) {
+            // this is broken, not removing properly. no change before and after
+            string email = "";
+            foreach (KeyValuePair<string, string> dict in usersAuthTokens) {
+                if (dict.Value.Equals(token))
+                    email = dict.Key;
+                break;
+            }
+
+            return email;
         }
 
         // check if user already in dict

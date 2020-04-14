@@ -30,7 +30,7 @@ export default class EmployeeHome extends Component {
   };
 
   retrieveOrderQueue(){
-    const url = 'https:10.0.2.2:5001/GetOrderQueue';
+    const url = 'http://kc499.us-west-2.elasticbeanstalk.com/GetOrderQueue';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
@@ -77,7 +77,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'https:10.0.2.2:5001/ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -103,7 +103,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'https:10.0.2.2:5001/DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){

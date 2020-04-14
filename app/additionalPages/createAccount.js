@@ -126,7 +126,7 @@ export default class signupView extends Component{
               if (this.state.password.length > 7) {
                   RNFetchBlob.config({
                     trusty: true
-                }).fetch( 'POST', 'https:10.0.2.2:5001/CreateAccount', 
+                }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/CreateAccount', 
                   { 'Content-Type': 'application/json'}, 
                   JSON.stringify({ 
                     userID: this.state.studentID,
@@ -141,7 +141,6 @@ export default class signupView extends Component{
                    
                     if(status == 200){
                       // account creation was successful
-                      // TODO: dont just automatically go to menu yet, need to get authToken and shit
                       alert("Account successfully created!");
                       navigate("Login");
                     } else{

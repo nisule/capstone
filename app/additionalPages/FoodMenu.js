@@ -66,7 +66,7 @@ export default class FoodMenu extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = 'https:10.0.2.2:5001/FoodItems';
+    const url = 'http://kc499.us-west-2.elasticbeanstalk.com/FoodItems';
     this.setState({ loading: true });
 
     RNFetchBlob.config({

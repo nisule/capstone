@@ -344,4 +344,26 @@ public static class DBAccess {
         }
     }
 
+    public static bool UpdatePassword(string email, string hashedPassword, string salt) {
+        string sql = "UPDATE User SET password = @hashedPassword, salt = @salt WHERE email = @email";
+
+        try {
+            using (MySqlConnection connection = new MySqlConnection(connString)) {
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(sql, connection)) {
+                    command.CommandTimeout = 10000;
+                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@hashedPassword", hashedPassword);
+                    command.Parameters.AddWithValue("@salt", salt);
+                    command.ExecuteReader();
+                    return true;
+                }
+            }
+        }
+        catch (Exception e) {
+            Debug.WriteLine("Error in database query: " + e.Message);
+            return false;
+        }
+    }
+
 }

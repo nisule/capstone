@@ -21,5 +21,12 @@ namespace Account {
             return DBAccess.InsertNewUser(id, firstName, lastName, email, hashedPassword, _salt);
         }
 
+        public bool changePassword(string password, string email) {
+            string saltedPassword = password + _salt;
+            string hashedPassword = Security.hashPassword(saltedPassword);
+
+            return DBAccess.UpdatePassword(email, hashedPassword, _salt);
+        }
+
     }
 }

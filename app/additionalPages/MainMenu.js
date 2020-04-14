@@ -119,7 +119,7 @@ export default class menuView extends Component {
     let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', 'https:10.0.2.2:5001/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+    }).fetch( 'POST', 'http://kc499.us-west-2.elasticbeanstalk.com/SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
       Items: this.state.cartItems,
       userID: this.state.user_id,
       firstName: this.state.first_name,
