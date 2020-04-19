@@ -173,26 +173,32 @@ namespace API.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetOrderQueue")]
-        public string GetOrderQueue() {
-            var DTO = new OrderQueueDTO();
-            List<Order> queue = EmployeeOrderQueue.getOrderQueue();
-            foreach(var order in queue) {
-                //TODO: don't pass in total from frontend
-                DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
-                    order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
-            }
+        public string GetOrderQueue([FromBody]OrderInfoDTO data) {
+            // validate that they are an employee and have valid token
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
+                
+                var DTO = new OrderQueueDTO();
+                List<Order> queue = EmployeeOrderQueue.getOrderQueue();
+                foreach (var order in queue) {
+                    //TODO: don't pass in total from frontend
+                    DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
+                        order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
+                }
 
-            Debug.WriteLine("ORDER WAS GOT");
-            string output = JsonConvert.SerializeObject(DTO);
-            return output;
+                Debug.WriteLine("ORDER WAS GOT");
+                string output = JsonConvert.SerializeObject(DTO);
+                return output;
+            } else {
+                return "";
+            }
         }
 
         [HttpPost]
         [Route("ApproveOrder")]
         public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
-            if (SessionController.sm.ifTokenValid(data.authToken)) {
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
                 int result = EmployeeOrderQueue.approveOrder(data.orderID);
                 if (result == 1) {
                     Debug.WriteLine("ORDER WAS APPROVED");
@@ -215,7 +221,7 @@ namespace API.Controllers {
         [HttpPost]
         [Route("DenyOrder")]
         public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
-            if (SessionController.sm.ifTokenValid(data.authToken)) {
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
                 if (EmployeeOrderQueue.denyOrder(data.orderID)) {
                     Debug.WriteLine("ORDER WAS DENIED");
                     return StatusCode(200);

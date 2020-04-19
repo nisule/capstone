@@ -32,8 +32,12 @@ export default class EmployeeHome extends Component {
   }
 
   componentDidMount(){
-    this.retrieveAuthToken();
-    this.retrieveOrderQueue();
+    this.retrieveAuthToken().then(() => {
+      this.retrieveOrderQueue();
+    })
+    .catch(error => {
+      alert("An error occurred in componentDidMount")
+    })
   }
 
   renderSeparator = () => {
@@ -50,8 +54,8 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'GET', url, 
-      { 'Content-Type': 'application/json'})
+    }).fetch( 'POST', url, 
+      { 'Content-Type': 'application/json'}, JSON.stringify({authToken: this.state.authToken}))
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
