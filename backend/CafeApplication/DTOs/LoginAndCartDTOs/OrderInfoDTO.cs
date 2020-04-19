@@ -13,6 +13,7 @@ namespace DTOs {
         public string lastName { get; set; }
         public string total { get; set; }
         public string date { get; set; }
+        public string authToken { get; set; }
         public List<ItemOrderInfoDTO> items { get; set; } = new List<ItemOrderInfoDTO>();
 
         public void populateItems(string orderID) {

@@ -156,16 +156,21 @@ namespace API.Controllers {
         [HttpPost]
         [Route("SubmitOrder")]
         public StatusCodeResult SubmitOrder([FromBody]OrderInfoDTO data) {
-            //TODO: populate and create order id
-            string orderID = EmployeeOrderQueue.generateOrderID();
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                //TODO: populate and create order id
+                string orderID = EmployeeOrderQueue.generateOrderID();
 
-            if (orderID is null)
-                return StatusCode(500);
-            
-            EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
-                data.returnItemsAsDictionary(), data.total, DateTime.Now));
+                if (orderID is null)
+                    return StatusCode(500);
 
-            return StatusCode(200);
+                EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
+                    data.returnItemsAsDictionary(), data.total, DateTime.Now));
+
+                Debug.WriteLine("ORDER WAS SUBMITTED");
+                return StatusCode(200);
+            } else {
+                return StatusCode(401);
+            }
         }
 
         [HttpGet]
@@ -179,6 +184,7 @@ namespace API.Controllers {
                     order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
             }
 
+            Debug.WriteLine("ORDER WAS GOT");
             string output = JsonConvert.SerializeObject(DTO);
             return output;
         }
@@ -186,15 +192,21 @@ namespace API.Controllers {
         [HttpPost]
         [Route("ApproveOrder")]
         public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
-            int result = EmployeeOrderQueue.approveOrder(data.orderID);  
-            if (result == 1)
-                return StatusCode(200);
-            else if (result == 0) {
-                return StatusCode(403);
-            }
-            else {
-                //Internal Server Error
-                return StatusCode(500);
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                int result = EmployeeOrderQueue.approveOrder(data.orderID);
+                if (result == 1) {
+                    Debug.WriteLine("ORDER WAS APPROVED");
+                    return StatusCode(200);
+                } 
+                else if (result == 0) {
+                    return StatusCode(403);
+                }
+                else {
+                    //Internal Server Error
+                    return StatusCode(500);
+                }
+            } else {
+                return StatusCode(401);
             }
 
             
@@ -203,11 +215,17 @@ namespace API.Controllers {
         [HttpPost]
         [Route("DenyOrder")]
         public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
-            if (EmployeeOrderQueue.denyOrder(data.orderID))
-                return StatusCode(200);
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                if (EmployeeOrderQueue.denyOrder(data.orderID)) {
+                    Debug.WriteLine("ORDER WAS DENIED");
+                    return StatusCode(200);
+                }
 
-            //Internal Server Error
-            return StatusCode(500);
+                //Internal Server Error
+                return StatusCode(500);
+            } else {
+                return StatusCode(401);
+            }
         }
     }
 

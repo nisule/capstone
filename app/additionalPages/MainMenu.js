@@ -45,6 +45,7 @@ export default class menuView extends Component {
       ],
       cartItems: [],
       modalVisible: false,
+      authToken: ""
     };
   }
 
@@ -54,7 +55,7 @@ export default class menuView extends Component {
       if (info !== null) {
         const infoJson = JSON.parse(info);
 
-        this.setState({first_name: infoJson.firstName, last_name: infoJson.lastName, balance: infoJson.balance, user_id: infoJson.userID});
+        this.setState({first_name: infoJson.firstName, last_name: infoJson.lastName, balance: infoJson.balance, user_id: infoJson.userID, authToken: infoJson.authToken});
       }
     } catch (error) {
       alert("Error retrieving user data: " + error);
@@ -125,7 +126,8 @@ export default class menuView extends Component {
       userID: this.state.user_id,
       firstName: this.state.first_name,
       lastName: this.state.last_name,
-      total: orderTotal
+      total: orderTotal,
+      authToken: this.state.authToken
     }))
     .then( (response) => {
       let status = response.info().status;

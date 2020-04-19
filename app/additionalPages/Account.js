@@ -58,7 +58,6 @@ class AccountSettings extends Component {
   }
 
   changePassword() {
-    //this.retrieveAuthToken();
 
     // check if new passwords entered are the same
     if (this.state.newPassword === this.state.newPassword2) {

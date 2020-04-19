@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FlatList, Dimensions, Text, StyleSheet, View, SafeAreaView, ActivityIndicator} from 'react-native';
+import { FlatList, Dimensions, Text, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { ListItem } from "react-native-elements";
 import { getURL } from '../URL.js';
@@ -15,10 +15,24 @@ export default class EmployeeHome extends Component {
     this.state = {
       loading: false,
       orderQueue: [],
+      authToken: ""
+    }
+  }
+
+  retrieveAuthToken = async () => {
+    try {
+      const info = await AsyncStorage.getItem('user_info');
+      if (info !== null) {
+        const infoJson = JSON.parse(info);
+        this.setState({authToken: infoJson.authToken});
+      }
+    } catch (error) {
+      alert("Error retrieving user data: " + error);
     }
   }
 
   componentDidMount(){
+    this.retrieveAuthToken();
     this.retrieveOrderQueue();
   }
 
@@ -31,7 +45,6 @@ export default class EmployeeHome extends Component {
   };
 
   retrieveOrderQueue(){
-    //const url = 'http://kc499.us-west-2.elasticbeanstalk.com/GetOrderQueue';
     const url = getURL('local') + 'GetOrderQueue';
     this.setState({ loading: true });
 
@@ -79,7 +92,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('local') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -105,7 +118,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('local') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -137,6 +150,7 @@ export default class EmployeeHome extends Component {
   }
 
   render() {
+    //this.retrieveAuthToken();
 
     if (this.state.loading) {
       return (
