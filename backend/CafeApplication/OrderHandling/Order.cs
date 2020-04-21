@@ -22,7 +22,7 @@ namespace OrderHandling {
             this.userID = Int32.Parse(userID);
             this.firstName = fname;
             this.lastName = lname;
-            this.date = date;
+            this.date = date.ToLocalTime();
             this.itemD = items;
 
             //Populate the list of items from the dictionary
@@ -57,7 +57,7 @@ namespace OrderHandling {
         }
 
         public DateTime getDate() {
-            return date;
+            return date.ToLocalTime();
         }
     }
 }

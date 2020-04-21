@@ -166,7 +166,6 @@ namespace API.Controllers {
                 EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
                     data.returnItemsAsDictionary(), data.total, DateTime.Now));
 
-                Debug.WriteLine("ORDER WAS SUBMITTED");
                 return StatusCode(200);
             } else {
                 return StatusCode(401);
@@ -187,7 +186,6 @@ namespace API.Controllers {
                         order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
                 }
 
-                Debug.WriteLine("ORDER WAS GOT");
                 string output = JsonConvert.SerializeObject(DTO);
                 return output;
             } else {
@@ -201,7 +199,6 @@ namespace API.Controllers {
             if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
                 int result = EmployeeOrderQueue.approveOrder(data.orderID);
                 if (result == 1) {
-                    Debug.WriteLine("ORDER WAS APPROVED");
                     return StatusCode(200);
                 } 
                 else if (result == 0) {
@@ -223,7 +220,6 @@ namespace API.Controllers {
         public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
             if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
                 if (EmployeeOrderQueue.denyOrder(data.orderID)) {
-                    Debug.WriteLine("ORDER WAS DENIED");
                     return StatusCode(200);
                 }
 
