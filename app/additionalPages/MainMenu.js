@@ -35,14 +35,7 @@ export default class menuView extends Component {
       first_name: "",
       last_name: "",
       balance: 0,
-      orderHistory: [
-        {order_id: 1, total: 10.22, date: "2019-11-23"},
-        {order_id: 2, total: 13.52, date: "2019-11-28"},
-        {order_id: 3, total: 5.21, date: "2019-12-05"},
-        {order_id: 4, total: 13.37, date: "2019-12-15"},
-        {order_id: 5, total: 2.25, date: "2019-12-16"},
-        {order_id: 6, total: 5.41, date: "2020-01-15"}
-      ],
+      orderHistory: [],
       cartItems: [],
       modalVisible: false,
       authToken: ""
@@ -55,7 +48,7 @@ export default class menuView extends Component {
       if (info !== null) {
         const infoJson = JSON.parse(info);
 
-        this.setState({first_name: infoJson.firstName, last_name: infoJson.lastName, balance: infoJson.balance, user_id: infoJson.userID, authToken: infoJson.authToken});
+        this.setState({first_name: infoJson.firstName, last_name: infoJson.lastName, balance: infoJson.balance, user_id: infoJson.userID, authToken: infoJson.authToken, orderHistory: infoJson.orders});
       }
     } catch (error) {
       alert("Error retrieving user data: " + error);
@@ -262,7 +255,7 @@ export default class menuView extends Component {
               renderItem={({ item }) => (
 
                 <ListItem
-                  title={`Total: ${item.total}`}
+                  title={`Total: $${item.total}`}
                   rightTitle={item.date}
                   containerStyle={styles.itemContainer}
                   titleStyle={styles.itemText}
@@ -270,7 +263,7 @@ export default class menuView extends Component {
                   onPress={() => { alert("Add popup to show items in order."); }}
                 />
               )}
-              keyExtractor={item => item.order_id + ""}
+              keyExtractor={item => item.orderID + ""}
               ItemSeparatorComponent={this.renderSeparator}
             />
           </View>
