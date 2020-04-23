@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, ScrollView, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image, AsyncStorage, Dimensions, Keyboard, Animated} from 'react-native';
+import { Text, ScrollView, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, AsyncStorage, Dimensions, Keyboard, Animated} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { getURL } from '../URL.js';
 import cup from './img/saucer.png';
@@ -100,48 +100,48 @@ export default class loginView extends Component {
         <Text style={{color:'white', fontSize: 30}}>Cunning Coders' Cafe</Text>
         <Animated.Image source={cup} style={[styles.cup, {height: this.imageHeight}]} />
         <ScrollView style={{flex:1}}>
-        <KeyboardAvoidingView 
-          style={styles.container}
-          behavior="padding"
-        >
-        
-          <TextInput
-            style={styles.loginBoxes}
-            placeholder="Email"
-            placeholderTextColor='white'
-            onChangeText={(text) => this.setState({email: text})}
-            emailInput={this.state.text}
-            keyboardType={"email-address"}
-            returnKeyType = { "next" }
-            onSubmitEditing={() => { this.Password.focus(); }}
-            blurOnSubmit={false}
-            ref={(input) => { this.Email = input; }}
-          />
-          
-          <TextInput
-            style={styles.loginBoxes}
-            placeholder="Password"
-            placeholderTextColor='white'
-            onChangeText={(text) => this.setState({password: text})}
-            passwordInput={this.state.text}
-            secureTextEntry
-            ref={(input) => { this.Password = input; }}
-            onSubmitEditing={() => { this.login(); }}
-          />
-
-          <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            this.login();
-          }}
-          ref={(touchable) => this._touchable = touchable}
+          <KeyboardAvoidingView 
+            style={styles.container}
+            behavior="padding"
           >
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginButtons} onPress={() => navigate('Signup')}>
-            <Text style={styles.loginButtonText}>Signup</Text>
-          </TouchableOpacity>
           
-        </KeyboardAvoidingView>
+            <TextInput
+              style={styles.loginBoxes}
+              placeholder="Email"
+              placeholderTextColor='white'
+              onChangeText={(text) => this.setState({email: text})}
+              emailInput={this.state.text}
+              keyboardType={"email-address"}
+              returnKeyType = { "next" }
+              onSubmitEditing={() => { this.Password.focus(); }}
+              blurOnSubmit={false}
+              ref={(input) => { this.Email = input; }}
+            />
+            
+            <TextInput
+              style={styles.loginBoxes}
+              placeholder="Password"
+              placeholderTextColor='white'
+              onChangeText={(text) => this.setState({password: text})}
+              passwordInput={this.state.text}
+              secureTextEntry
+              ref={(input) => { this.Password = input; }}
+              onSubmitEditing={() => { this.login(); }}
+            />
+
+            <TouchableOpacity style={styles.loginButtons} onPress={() => {
+              this.login();
+            }}
+            ref={(touchable) => this._touchable = touchable}
+            >
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButtons} onPress={() => navigate('Signup')}>
+              <Text style={styles.loginButtonText}>Signup</Text>
+            </TouchableOpacity>
+            
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
       );
