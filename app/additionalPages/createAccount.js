@@ -113,62 +113,6 @@ export default class signupView extends Component{
                 onChangeText={(text) => this.setState({firstName: text})}
                 firstNameInput={this.state.text}
 
-<<<<<<< HEAD
-      <View style={styles.bottom}>
-        <TouchableOpacity style={styles.signupButton} onPress={() => {
-          // checks to make sure no field is an empty string
-          if (this.state.firstName != "" && this.state.lastName != "" && this.state.userID != "" 
-          && this.state.email != "" && this.state.password != "" && this.state.password2 != "") {
-            // checks if both password inputs match, send data to create account
-            if (this.state.password === this.state.password2) {
-              // checks if password is long enough
-              if (this.state.password.length > 7) {
-                  RNFetchBlob.config({
-                    trusty: true
-                }).fetch( 'POST', getURL('aws') + 'CreateAccount', 
-                  { 'Content-Type': 'application/json'}, 
-                  JSON.stringify({ 
-                    userID: this.state.studentID,
-                    firstName: this.state.firstName,
-                    lastName: this.state.lastName,
-                    email: this.state.email,
-                    password: this.state.password,
-                    password2: this.state.password2
-                  }))
-                  .then((response) => {
-                    let status = response.info().status;
-                   
-                    if(status == 200){
-                      // account creation was successful
-                      alert("Account successfully created!");
-                      navigate("Login");
-                    } else{
-                      // account creation failed
-                      alert("Account creation failed, please try again.");
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    alert("Request could not be handled.");
-                })
-              } else {
-                alert("Password must be at least 8 characters, please try again.")
-              }
-            } else {
-              // if passwords do not match
-              alert("Passwords didn't match, please try again.")
-            }
-          } else {
-            alert("Please fill out all the forms.")
-          }
-        }}
-        ref={(touchable) => this._touchable = touchable}
-        >
-         
-          <Text style={styles.loginButtonText}>Create Account</Text>
-        </TouchableOpacity>
-      </View>
-=======
                 returnKeyType = { "next" }
                 onSubmitEditing={() => { this.lastName.focus(); }}
                 blurOnSubmit={false}
@@ -180,7 +124,6 @@ export default class signupView extends Component{
                 placeholderTextColor='white'
                 onChangeText={(text) => this.setState({lastName: text})}
                 lastNameInput={this.state.text}
->>>>>>> 6a1162229a09ba82642ee66ff712c75d4fe96efe
 
                 returnKeyType = { "next" }
                 onSubmitEditing={() => { this.studentID.focus(); }}

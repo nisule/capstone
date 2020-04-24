@@ -36,8 +36,10 @@ export default class menuView extends Component {
       last_name: "",
       balance: 0,
       orderHistory: [],
+      orderHistoryItems: [],
       cartItems: [],
       modalVisible: false,
+      historyVisible: false,
       authToken: ""
     };
   }
@@ -81,7 +83,7 @@ export default class menuView extends Component {
   };
 
   componentDidMount = () => {
-    //this.retrieveUserData();
+    this.retrieveUserData();
   }
 
   clearCart = async () => {
@@ -106,15 +108,20 @@ export default class menuView extends Component {
     this.setState({modalVisible: visible});
   };
 
+  setHistoryModalVisible(visible) {
+    this.setState({historyVisible: visible});
+  };
+
   submitOrder = () => {
-    if(this.state.cartItems.length ==0){
+    if(this.state.cartItems.length == 0){
       alert("Please add items to the cart.")
       return;
     }
+    console.log(this.state.cartItems);
     let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST',  getURL('aws') + 'SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+    }).fetch( 'POST',  getURL('local') + 'SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
       Items: this.state.cartItems,
       userID: this.state.user_id,
       firstName: this.state.first_name,
@@ -137,6 +144,7 @@ export default class menuView extends Component {
       console.error(error);
       alert("Request could not be handled.");
     })
+    this.state.cartItems = [];
   }
 
   calcTotal = () => {
@@ -180,7 +188,7 @@ export default class menuView extends Component {
   };
 
   render() {
-    this.retrieveUserData();
+    //this.retrieveUserData();
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#181818', justifyContent: 'space-between'}}>
           <View style={styles.titleStyle}>
@@ -260,13 +268,58 @@ export default class menuView extends Component {
                   containerStyle={styles.itemContainer}
                   titleStyle={styles.itemText}
                   subtitleStyle={styles.itemText}
-                  onPress={() => { alert("Add popup to show items in order."); }}
+                  onPress={() => {
+                    this.setState({orderHistoryItems: item.items})
+                    this.setHistoryModalVisible(true)
+                  }}
                 />
               )}
               keyExtractor={item => item.orderID + ""}
               ItemSeparatorComponent={this.renderSeparator}
             />
           </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.historyVisible}
+            onRequestClose={() => {
+              this.setHistoryModalVisible(false);
+            }}>
+
+            <View style={styles.currentOrder}>
+              <FlatList
+                style= {{flex: 0.7, backgroundColor: "white"}}
+                data={this.state.orderHistoryItems}
+                renderItem={({ item }) => (
+                  <ListItem
+                    leftElement={
+                      <Image style={{width:75, height:75}} source={require("./img/comingSoon.png")}/>
+                    }
+                    title={`${item.item_name}\n`}
+                    subtitle={`Quantity: ${item.quantity}\nPrice: $${item.price}`}
+                    containerStyle={styles.itemContainer}
+                    titleStyle={styles.itemText}
+                    subtitleStyle={styles.itemText}
+                  />
+                )}
+                keyExtractor={item => item.item_name + ""}
+                ItemSeparatorComponent={this.renderSeparator}
+              />
+              <View style={{height: 3, backgroundColor: "black",}}/>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => {
+                  let key = 0;
+                  for (var item of this.state.orderHistoryItems){
+                    this.state.cartItems.push(new cartItem(key, item.item_id, item.item_name, item.price, item.quantity));
+                    key++;
+                  }
+                  this.submitOrder();
+                }} >
+                <Text style={styles.checkoutButtonText}>Order Again</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal> 
+          
           
         </SafeAreaView>
     );
@@ -389,16 +442,17 @@ const styles = StyleSheet.create({
   },
   orderHistoryTitle: {
     fontSize: 20,
-    color:"black",
+    color:"white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor: "#363636",
   },
   orderHistoryView: {
     marginBottom: 5,
     borderRadius: 10,
     borderColor: 'grey',
+    backgroundColor: "#363636",
     borderWidth: 3,
-    backgroundColor: 'white',
     flex: .3
   },
   separator:{

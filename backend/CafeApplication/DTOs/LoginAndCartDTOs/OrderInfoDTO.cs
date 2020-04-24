@@ -25,7 +25,8 @@ namespace DTOs {
                     item = new ItemOrderInfoDTO();
                     item.item_id = row.ItemArray[0].ToString();
                     item.item_name = row.ItemArray[1].ToString();
-                    item.quantity = row.ItemArray[2].ToString();
+                    item.price = row.ItemArray[2].ToString();
+                    item.quantity = row.ItemArray[3].ToString();
                     items.Add(item);
                 }
             }

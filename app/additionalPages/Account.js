@@ -66,7 +66,7 @@ class AccountSettings extends Component {
         // make api call
         RNFetchBlob.config({
           trusty: true
-      }).fetch( 'POST',  getURL('aws') + 'ChangePassword', 
+      }).fetch( 'POST',  getURL('local') + 'ChangePassword', 
         { 'Content-Type': 'application/json'}, 
         JSON.stringify({ 
           currentPassword: this.state.currentPassword,

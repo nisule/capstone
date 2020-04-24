@@ -221,7 +221,7 @@ public static class DBAccess {
     }
 
     public static DataTable getPastTenOrders(string userID) {
-        string sql = "SELECT order_id, total, date FROM Orders WHERE user_id = @userID ORDER BY order_id DESC LIMIT 10";
+        string sql = "SELECT order_id, total, date FROM Orders WHERE user_id = @userID ORDER BY date DESC LIMIT 10";
         try {
             using (MySqlConnection connection = new MySqlConnection(connString)) {
                 connection.Open();
@@ -243,7 +243,9 @@ public static class DBAccess {
     }
 
     public static DataTable getOrderItems(string orderID) {
-        string sql = "SELECT Order_Items.item_id, item_name, quantity FROM Order_Items, Item WHERE Order_Items.item_id = Item.item_id AND Order_Items.order_id = @orderID";
+        string sql = "SELECT Order_Items.item_id, Item.item_name, Item.price, Order_Items.quantity " +
+                     "FROM Order_Items, Item " + 
+                     "Where Order_Items.order_id = @orderID And Item.item_id = Order_Items.item_id";
         try {
             using (MySqlConnection connection = new MySqlConnection(connString)) {
                 connection.Open();
