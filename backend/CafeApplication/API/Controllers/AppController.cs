@@ -156,45 +156,60 @@ namespace API.Controllers {
         [HttpPost]
         [Route("SubmitOrder")]
         public StatusCodeResult SubmitOrder([FromBody]OrderInfoDTO data) {
-            //TODO: populate and create order id
-            string orderID = EmployeeOrderQueue.generateOrderID();
+            if (SessionController.sm.ifTokenValid(data.authToken)) {
+                //TODO: populate and create order id
+                string orderID = EmployeeOrderQueue.generateOrderID();
 
-            if (orderID is null)
-                return StatusCode(500);
-            
-            EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
-                data.returnItemsAsDictionary(), data.total, DateTime.Now));
+                if (orderID is null)
+                    return StatusCode(500);
 
-            return StatusCode(200);
+                EmployeeOrderQueue.addOrder(new Order(orderID, data.userID, data.firstName, data.lastName,
+                    data.returnItemsAsDictionary(), data.total, DateTime.Now));
+
+                return StatusCode(200);
+            } else {
+                return StatusCode(401);
+            }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetOrderQueue")]
-        public string GetOrderQueue() {
-            var DTO = new OrderQueueDTO();
-            List<Order> queue = EmployeeOrderQueue.getOrderQueue();
-            foreach(var order in queue) {
-                //TODO: don't pass in total from frontend
-                DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
-                    order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
-            }
+        public string GetOrderQueue([FromBody]OrderInfoDTO data) {
+            // validate that they are an employee and have valid token
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
+                
+                var DTO = new OrderQueueDTO();
+                List<Order> queue = EmployeeOrderQueue.getOrderQueue();
+                foreach (var order in queue) {
+                    //TODO: don't pass in total from frontend
+                    DTO.populateOrder(order.orderID, order.userID.ToString(), order.firstName, order.lastName,
+                        order.getTotal().ToString(), order.getDate().ToString(), order.getItemsDictionary());
+                }
 
-            string output = JsonConvert.SerializeObject(DTO);
-            return output;
+                string output = JsonConvert.SerializeObject(DTO);
+                return output;
+            } else {
+                return "";
+            }
         }
 
         [HttpPost]
         [Route("ApproveOrder")]
         public StatusCodeResult ApproveOrder([FromBody]OrderInfoDTO data) {
-            int result = EmployeeOrderQueue.approveOrder(data.orderID);  
-            if (result == 1)
-                return StatusCode(200);
-            else if (result == 0) {
-                return StatusCode(403);
-            }
-            else {
-                //Internal Server Error
-                return StatusCode(500);
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
+                int result = EmployeeOrderQueue.approveOrder(data.orderID);
+                if (result == 1) {
+                    return StatusCode(200);
+                } 
+                else if (result == 0) {
+                    return StatusCode(403);
+                }
+                else {
+                    //Internal Server Error
+                    return StatusCode(500);
+                }
+            } else {
+                return StatusCode(401);
             }
 
             
@@ -203,11 +218,16 @@ namespace API.Controllers {
         [HttpPost]
         [Route("DenyOrder")]
         public StatusCodeResult DenyOrder([FromBody]OrderInfoDTO data) {
-            if (EmployeeOrderQueue.denyOrder(data.orderID))
-                return StatusCode(200);
+            if (SessionController.sm.ifTokenValidForEmployee(data.authToken)) {
+                if (EmployeeOrderQueue.denyOrder(data.orderID)) {
+                    return StatusCode(200);
+                }
 
-            //Internal Server Error
-            return StatusCode(500);
+                //Internal Server Error
+                return StatusCode(500);
+            } else {
+                return StatusCode(401);
+            }
         }
     }
 

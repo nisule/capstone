@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FlatList, Dimensions, Text, StyleSheet, View, SafeAreaView, ActivityIndicator} from 'react-native';
+import { FlatList, Dimensions, Text, StyleSheet, View, SafeAreaView, ActivityIndicator, AsyncStorage} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { ListItem } from "react-native-elements";
 import { getURL } from '../URL.js';
@@ -15,11 +15,29 @@ export default class EmployeeHome extends Component {
     this.state = {
       loading: false,
       orderQueue: [],
+      authToken: ""
+    }
+  }
+
+  retrieveAuthToken = async () => {
+    try {
+      const info = await AsyncStorage.getItem('user_info');
+      if (info !== null) {
+        const infoJson = JSON.parse(info);
+        this.setState({authToken: infoJson.authToken});
+      }
+    } catch (error) {
+      alert("Error retrieving user data: " + error);
     }
   }
 
   componentDidMount(){
-    this.retrieveOrderQueue();
+    this.retrieveAuthToken().then(() => {
+      this.retrieveOrderQueue();
+    })
+    .catch(error => {
+      alert("An error occurred in componentDidMount")
+    })
   }
 
   renderSeparator = () => {
@@ -31,14 +49,13 @@ export default class EmployeeHome extends Component {
   };
 
   retrieveOrderQueue(){
-    //const url = 'http://kc499.us-west-2.elasticbeanstalk.com/GetOrderQueue';
-    const url = getURL('aws') + 'GetOrderQueue';
+    const url = getURL('local') + 'GetOrderQueue';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'GET', url, 
-      { 'Content-Type': 'application/json'})
+    }).fetch( 'POST', url, 
+      { 'Content-Type': 'application/json'}, JSON.stringify({authToken: this.state.authToken}))
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
@@ -79,7 +96,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('aws') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -105,7 +122,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('aws') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID }))
+    }).fetch( 'POST', getURL('local') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -137,6 +154,7 @@ export default class EmployeeHome extends Component {
   }
 
   render() {
+    //this.retrieveAuthToken();
 
     if (this.state.loading) {
       return (

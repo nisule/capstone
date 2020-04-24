@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
-import { Text, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, Image, AsyncStorage} from 'react-native';
+import { Text, ScrollView, StyleSheet, TextInput, View , TouchableOpacity, KeyboardAvoidingView, AsyncStorage, Dimensions, Keyboard, Animated} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { getURL } from '../URL.js';
+import cup from './img/saucer.png';
+
+const window = Dimensions.get('window');
+const IMAGE_HEIGHT = window.width / 2;
+const IMAGE_HEIGHT_SMALL = window.width /7;
+const viewHeight = window.height;
 
 
 export default class loginView extends Component {
@@ -12,7 +18,30 @@ export default class loginView extends Component {
         email: '',
         password: '',
       }
+      this.imageHeight = new Animated.Value(IMAGE_HEIGHT);
     }
+
+    componentWillMount () {
+      this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+      this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    }
+  
+    componentWillUnmount() {
+      this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub.remove();
+    }
+
+    keyboardDidShow = (event) => {
+      Animated.timing(this.imageHeight, {
+        toValue: IMAGE_HEIGHT_SMALL,
+      }).start();
+    };
+  
+    keyboardDidHide = (event) => {
+      Animated.timing(this.imageHeight, {
+        toValue: IMAGE_HEIGHT,
+      }).start();
+    };
 
     login() {
       // check if both email and password are blank
@@ -67,17 +96,15 @@ export default class loginView extends Component {
       this.resetCartItems();
 
       return (
-      <KeyboardAvoidingView keyboardVerticalOffset = '-600' style = {{flex: 1, backgroundColor: '#181818'}} behavior="height" >
-
-        <View style={{padding: '5%', flex: 1, justifyContent: 'flex-end'}}>
-
-          <View style={{flex: .5, alignItems:'center', justifyContent: 'center'}}>
-            <Image
-              style={{flex: 1, resizeMode: 'stretch', width: '100%'}}
-              source={require('./img/saucer.png')} />
-          </View>
-          <View style={{flex:0.025}}/>
-
+      <View style={{flex:1,backgroundColor:'#181818',alignItems:'center'}}>
+        <Text style={{color:'white', fontSize: 30}}>Cunning Coders' Cafe</Text>
+        <Animated.Image source={cup} style={[styles.cup, {height: this.imageHeight}]} />
+        <ScrollView style={{flex:1}}>
+          <KeyboardAvoidingView 
+            style={styles.container}
+            behavior="padding"
+          >
+          
             <TextInput
               style={styles.loginBoxes}
               placeholder="Email"
@@ -91,7 +118,6 @@ export default class loginView extends Component {
               ref={(input) => { this.Email = input; }}
             />
             
-            <View style={{flex:0.025}}/>
             <TextInput
               style={styles.loginBoxes}
               placeholder="Password"
@@ -100,31 +126,24 @@ export default class loginView extends Component {
               passwordInput={this.state.text}
               secureTextEntry
               ref={(input) => { this.Password = input; }}
-
               onSubmitEditing={() => { this.login(); }}
             />
-        </View>
 
+            <TouchableOpacity style={styles.loginButtons} onPress={() => {
+              this.login();
+            }}
+            ref={(touchable) => this._touchable = touchable}
+            >
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
 
-        <View style={styles.bottom}>
-          <TouchableOpacity style={styles.loginButtons} onPress={() => {
-            this.login();
-          }}
-          ref={(touchable) => this._touchable = touchable}
-          >
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginButtons} onPress={() => navigate('Signup')}>
-            <Text style={styles.loginButtonText}>Signup</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{justifyContent:'center', alignItems:'center', alignSelf:'center',position: 'absolute', top: '5%'}}>
-          <Text style={{color:'white', fontSize: 30}}>Cunning Coders' Cafe</Text>
-        </View>
-
-       </KeyboardAvoidingView>
+            <TouchableOpacity style={styles.loginButtons} onPress={() => navigate('Signup')}>
+              <Text style={styles.loginButtonText}>Signup</Text>
+            </TouchableOpacity>
+            
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </View>
       );
     }
 
@@ -218,19 +237,18 @@ export default class loginView extends Component {
   }
 
   const styles = StyleSheet.create({
-      bottom: {
-        flex: 0.27,
-        justifyContent: 'flex-end',
-        marginBottom: 0,
-      },
       loginBoxes: {
-        flex: 0.09,
+        flex: 0.2,
         fontSize: 18,
         backgroundColor: '#303030',
         color:'white',
         borderRadius: 6,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 10,
+        marginVertical: 5,
+        width: window.width - 30,
+        height: viewHeight/10
       },
       loginButtons: {
         flex: 1,
@@ -241,9 +259,25 @@ export default class loginView extends Component {
         borderWidth: 1,
         borderColor: '#404040',
         borderRadius: 6,
+        marginHorizontal: 10,
+        marginVertical: 5,
+        width: window.width - 30,
+        height: viewHeight/10
       },
       loginButtonText: {
         color: 'white',
         fontSize: 29
+      },
+      container: {
+        backgroundColor: '#181818',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      cup: {
+        resizeMode: 'contain',
+        marginBottom: 20,
+        padding:10,
+        marginTop:20
       },
   });

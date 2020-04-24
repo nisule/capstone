@@ -53,6 +53,17 @@ namespace API {
             return false;
         }
 
+        // returns true if token is in dict and if user is an employee
+        public bool ifTokenValidForEmployee(string token) {
+            foreach (KeyValuePair<string, string> dict in usersAuthTokens) {
+                if (dict.Value.Equals(token)) {
+                    string email = dict.Key;
+                    return DBAccess.isEmployee(email);
+                }
+            }
+            return false;
+        }
+
         // Used whenever someone logs in, generates a new token
         public void updateToken(string email) {
             usersAuthTokens.Add(email, generateAuthToken());
