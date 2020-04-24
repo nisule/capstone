@@ -36,7 +36,7 @@ export default class DrinkMenu extends Component {
 
   makeRemoteRequest = () => {
     //const url = 'http://kc499.us-west-2.elasticbeanstalk.com/DrinkItems';
-    const url = getURL('local') + 'DrinkItems';
+    const url = getURL('aws') + 'DrinkItems';
     this.setState({ loading: true });
 
     RNFetchBlob.config({

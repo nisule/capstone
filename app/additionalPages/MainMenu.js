@@ -120,7 +120,7 @@ export default class menuView extends Component {
     let orderTotal = this.calcTotal();
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST',  getURL('local') + 'SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
+    }).fetch( 'POST',  getURL('aws') + 'SubmitOrder', { 'Content-Type': 'application/json'},  JSON.stringify({
       Items: this.state.cartItems,
       userID: this.state.user_id,
       firstName: this.state.first_name,

@@ -17,7 +17,7 @@ export default class loginView extends Component {
     login() {
       // check if both email and password are blank
       if (this.state.email === "" && this.state.password === "")
-      alert("Please fill out the fields and try again.")
+        alert("Please fill out the fields and try again.")
       else {
       // check if email is blank
       if (this.state.email != "") {
@@ -26,7 +26,7 @@ export default class loginView extends Component {
           // call to API to try to log in
           RNFetchBlob.config({
               trusty: true
-          }).fetch( 'PUT', getURL('local') + 'Login', { 'Content-Type': 'application/json'},  JSON.stringify({
+          }).fetch( 'PUT', getURL('aws') + 'Login', { 'Content-Type': 'application/json'},  JSON.stringify({
               email: this.state.email,
               password : this.state.password
             }))

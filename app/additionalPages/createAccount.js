@@ -127,7 +127,7 @@ export default class signupView extends Component{
               if (this.state.password.length > 7) {
                   RNFetchBlob.config({
                     trusty: true
-                }).fetch( 'POST', getURL('local') + 'CreateAccount', 
+                }).fetch( 'POST', getURL('aws') + 'CreateAccount', 
                   { 'Content-Type': 'application/json'}, 
                   JSON.stringify({ 
                     userID: this.state.studentID,

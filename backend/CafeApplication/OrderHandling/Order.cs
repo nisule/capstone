@@ -11,7 +11,7 @@ namespace OrderHandling {
         private double total;
         private DateTime date;
         public int approved = 0;
-        public List<Item> items;
+        private List<Item> items;
         private Dictionary<int, string[]> itemD;
 
         public Order(string orderID, string userID, string fname, string lname, Dictionary<int, 
