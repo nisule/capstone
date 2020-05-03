@@ -49,7 +49,7 @@ export default class EmployeeHome extends Component {
   };
 
   retrieveOrderQueue(){
-    const url = getURL('local') + 'GetOrderQueue';
+    const url = getURL('aws') + 'GetOrderQueue';
     this.setState({ loading: true });
 
     RNFetchBlob.config({
@@ -96,7 +96,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('local') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
+    }).fetch( 'POST', getURL('aws') + 'ApproveOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
@@ -122,7 +122,7 @@ export default class EmployeeHome extends Component {
 
     RNFetchBlob.config({
       trusty: true
-    }).fetch( 'POST', getURL('local') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
+    }).fetch( 'POST', getURL('aws') + 'DenyOrder', { 'Content-Type': 'application/json'},  JSON.stringify({ orderID: orderID, authToken: this.state.authToken }))
     .then( (response) => {
       let status = response.info().status;
       if(status == 200){
